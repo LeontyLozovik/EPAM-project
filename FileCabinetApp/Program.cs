@@ -114,15 +114,33 @@ namespace FileCabinetApp
 
         private static void Create(string parameters)
         {
+            bool flag = true;
             Console.Write("First name: ");
             var firstName = Console.ReadLine();
             Console.Write("Last name: ");
             var lastName = Console.ReadLine();
             Console.Write("Date of birth: ");
-            DateTime birthday;
-            if (DateTime.TryParse(Console.ReadLine(), CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out birthday) && !string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName))
+            var posibleBirthday = Console.ReadLine();
+            Console.Write("Number of children: ");
+            short children;
+            if (!short.TryParse(Console.ReadLine(), out children))
             {
-                var id = Program.fileCabinetService.CreateRecord(firstName, lastName, birthday);
+                flag = false;
+            }
+
+            Console.Write("Averege salary: ");
+            decimal salary;
+            if (!decimal.TryParse(Console.ReadLine(), out salary))
+            {
+                flag = false;
+            }
+
+            Console.Write("Sex (m - men, w - women): ");
+            char sex = (char)Console.Read();
+            DateTime birthday;
+            if (DateTime.TryParse(posibleBirthday, CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out birthday) && !string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName) && flag)
+            {
+                var id = Program.fileCabinetService.CreateRecord(firstName, lastName, birthday, children, salary, sex);
                 Console.WriteLine($"Record #{id} is created.");
             }
             else
@@ -136,7 +154,7 @@ namespace FileCabinetApp
             var listOfRecords = Program.fileCabinetService.GetRecords();
             foreach (var record in listOfRecords)
             {
-                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}");
+                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
             }
         }
     }

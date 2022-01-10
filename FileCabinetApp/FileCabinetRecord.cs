@@ -9,6 +9,9 @@
             this.FirstName = string.Empty;
             this.LastName = string.Empty;
             this.DateOfBirth = default(DateTime);
+            this.Children = 0;
+            this.AverageSalary = 0;
+            this.Sex = ' ';
         }
 
         public int Id { get; set; }
@@ -18,5 +21,11 @@
         public string LastName { get; set; }
 
         public DateTime DateOfBirth { get; set; }
+
+        public short Children { get; set; }
+
+        public decimal AverageSalary { get; set; }
+
+        public char Sex { get; set; }
     }
 }
