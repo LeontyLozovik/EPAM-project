@@ -2,7 +2,7 @@
 {
   public class FileCabinetRecord
     {
-        // To avoid CS 8618 warning in "FirstName" and "LastName" properties
+        // A constructor is needed to avoid CS 8618 warning in "FirstName" and "LastName" properties
         public FileCabinetRecord()
         {
             this.Id = 0;

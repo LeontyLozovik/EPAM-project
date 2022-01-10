@@ -18,6 +18,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("exit", Exit),
             new Tuple<string, Action<string>>("stat", Stat),
             new Tuple<string, Action<string>>("create", Create),
+            new Tuple<string, Action<string>>("list", List),
         };
 
         private static string[][] helpMessages = new string[][]
@@ -26,6 +27,7 @@ namespace FileCabinetApp
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
             new string[] { "stat", "prints records statistics", "The 'stat' command prints records statistics." },
             new string[] { "create", "create record whith information about you", "The 'create' command create record whith information about you." },
+            new string[] { "list", "prints all existing records", "The 'list' command prints all existing records" },
         };
 
         private static FileCabinetService fileCabinetService = new FileCabinetService();
@@ -112,11 +114,11 @@ namespace FileCabinetApp
 
         private static void Create(string parameters)
         {
-            Console.WriteLine("First name: ");
+            Console.Write("First name: ");
             var firstName = Console.ReadLine();
-            Console.WriteLine("Last name: ");
+            Console.Write("Last name: ");
             var lastName = Console.ReadLine();
-            Console.WriteLine("Date of birth: ");
+            Console.Write("Date of birth: ");
             DateTime birthday;
             if (DateTime.TryParse(Console.ReadLine(), CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out birthday) && !string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName))
             {
@@ -126,6 +128,15 @@ namespace FileCabinetApp
             else
             {
                 Console.WriteLine("Error! Please check your input parameters");
+            }
+        }
+
+        private static void List(string parameters)
+        {
+            var listOfRecords = Program.fileCabinetService.GetRecords();
+            foreach (var record in listOfRecords)
+            {
+                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}");
             }
         }
     }

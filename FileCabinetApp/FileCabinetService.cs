@@ -21,8 +21,14 @@
 
         public FileCabinetRecord[] GetRecords()
         {
-            // TODO: добавьте реализацию метода
-            return Array.Empty<FileCabinetRecord>();
+            FileCabinetRecord[] results = Array.Empty<FileCabinetRecord>();
+            foreach (var record in this.list)
+            {
+                Array.Resize<FileCabinetRecord>(ref results, results.Length + 1);
+                results[results.Length - 1] = record;
+            }
+
+            return results;
         }
 
         public int GetStat()
