@@ -1,4 +1,6 @@
-﻿namespace FileCabinetApp
+﻿using System.Globalization;
+
+namespace FileCabinetApp
 {
     public static class Program
     {
@@ -15,13 +17,15 @@
             new Tuple<string, Action<string>>("help", PrintHelp),
             new Tuple<string, Action<string>>("exit", Exit),
             new Tuple<string, Action<string>>("stat", Stat),
+            new Tuple<string, Action<string>>("create", Create),
         };
 
         private static string[][] helpMessages = new string[][]
         {
             new string[] { "help", "prints the help screen", "The 'help' command prints the help screen." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
-            new string[] { "stat", "prints records statistics", "The 'stat' command prints records statistics" },
+            new string[] { "stat", "prints records statistics", "The 'stat' command prints records statistics." },
+            new string[] { "create", "create record whith information about you", "The 'create' command create record whith information about you." },
         };
 
         private static FileCabinetService fileCabinetService = new FileCabinetService();
@@ -104,6 +108,25 @@
         {
             var recordsCount = Program.fileCabinetService.GetStat();
             Console.WriteLine($"{recordsCount} record(s).");
+        }
+
+        private static void Create(string parameters)
+        {
+            Console.WriteLine("First name: ");
+            var firstName = Console.ReadLine();
+            Console.WriteLine("Last name: ");
+            var lastName = Console.ReadLine();
+            Console.WriteLine("Date of birth: ");
+            DateTime birthday;
+            if (DateTime.TryParse(Console.ReadLine(), CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out birthday) && !string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName))
+            {
+                var id = Program.fileCabinetService.CreateRecord(firstName, lastName, birthday);
+                Console.WriteLine($"Record #{id} is created.");
+            }
+            else
+            {
+                Console.WriteLine("Error! Please check your input parameters");
+            }
         }
     }
 }
