@@ -1,4 +1,6 @@
-﻿namespace FileCabinetApp
+﻿using System.Globalization;
+
+namespace FileCabinetApp
 {
     public static class Program
     {
@@ -14,13 +16,21 @@
         {
             new Tuple<string, Action<string>>("help", PrintHelp),
             new Tuple<string, Action<string>>("exit", Exit),
+            new Tuple<string, Action<string>>("stat", Stat),
+            new Tuple<string, Action<string>>("create", Create),
+            new Tuple<string, Action<string>>("list", List),
         };
 
         private static string[][] helpMessages = new string[][]
         {
             new string[] { "help", "prints the help screen", "The 'help' command prints the help screen." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
+            new string[] { "stat", "prints records statistics", "The 'stat' command prints records statistics." },
+            new string[] { "create", "create record whith information about you", "The 'create' command create record whith information about you." },
+            new string[] { "list", "prints all existing records", "The 'list' command prints all existing records" },
         };
+
+        private static FileCabinetService fileCabinetService = new FileCabinetService();
 
         public static void Main(string[] args)
         {
@@ -94,6 +104,58 @@
         {
             Console.WriteLine("Exiting an application...");
             isRunning = false;
+        }
+
+        private static void Stat(string parameters)
+        {
+            var recordsCount = Program.fileCabinetService.GetStat();
+            Console.WriteLine($"{recordsCount} record(s).");
+        }
+
+        private static void Create(string parameters)
+        {
+            bool flag = true;
+            Console.Write("First name: ");
+            var firstName = Console.ReadLine();
+            Console.Write("Last name: ");
+            var lastName = Console.ReadLine();
+            Console.Write("Date of birth: ");
+            var posibleBirthday = Console.ReadLine();
+            Console.Write("Number of children: ");
+            short children;
+            if (!short.TryParse(Console.ReadLine(), out children))
+            {
+                flag = false;
+            }
+
+            Console.Write("Averege salary: ");
+            decimal salary;
+            if (!decimal.TryParse(Console.ReadLine(), out salary))
+            {
+                flag = false;
+            }
+
+            Console.Write("Sex (m - men, w - women): ");
+            char sex = (char)Console.Read();
+            DateTime birthday;
+            if (DateTime.TryParse(posibleBirthday, CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out birthday) && !string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName) && flag)
+            {
+                var id = Program.fileCabinetService.CreateRecord(firstName, lastName, birthday, children, salary, sex);
+                Console.WriteLine($"Record #{id} is created.");
+            }
+            else
+            {
+                Console.WriteLine("Error! Please check your input parameters");
+            }
+        }
+
+        private static void List(string parameters)
+        {
+            var listOfRecords = Program.fileCabinetService.GetRecords();
+            foreach (var record in listOfRecords)
+            {
+                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
+            }
         }
     }
 }
