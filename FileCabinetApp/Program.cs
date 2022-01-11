@@ -123,14 +123,14 @@ namespace FileCabinetApp
             var posibleBirthday = Console.ReadLine();
             Console.Write("Number of children: ");
             short children;
-            if (!short.TryParse(Console.ReadLine(), out children))
+            if (short.TryParse(Console.ReadLine(), out children))
             {
                 flag = false;
             }
 
             Console.Write("Averege salary: ");
             decimal salary;
-            if (!decimal.TryParse(Console.ReadLine(), out salary))
+            if (decimal.TryParse(Console.ReadLine(), out salary))
             {
                 flag = false;
             }
@@ -138,14 +138,14 @@ namespace FileCabinetApp
             Console.Write("Sex (m - men, w - women): ");
             char sex = (char)Console.Read();
             DateTime birthday;
-            if (DateTime.TryParse(posibleBirthday, CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out birthday) && !string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName) && flag)
+            if (!DateTime.TryParse(posibleBirthday, CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out birthday) || flag || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
             {
-                var id = Program.fileCabinetService.CreateRecord(firstName, lastName, birthday, children, salary, sex);
-                Console.WriteLine($"Record #{id} is created.");
+                Console.WriteLine("Error! Please check your input parameters");
             }
             else
             {
-                Console.WriteLine("Error! Please check your input parameters");
+                var id = Program.fileCabinetService.CreateRecord(firstName, lastName, birthday, children, salary, sex);
+                Console.WriteLine($"Record #{id} is created.");
             }
         }
 
