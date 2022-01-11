@@ -78,5 +78,27 @@
         {
             return this.list.Count;
         }
+
+        public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, short children, decimal salary, char sex)
+        {
+            if (id > this.list.Count)
+            {
+                throw new ArgumentException("There is no record whith this Id.");
+            }
+
+            var newRecord = new FileCabinetRecord
+            {
+                Id = id,
+                FirstName = firstName,
+                LastName = lastName,
+                DateOfBirth = dateOfBirth,
+                Children = children,
+                AverageSalary = salary,
+                Sex = sex,
+            };
+
+            this.list.RemoveAt(id - 1);
+            this.list.Insert(id - 1, newRecord);
+        }
     }
 }
