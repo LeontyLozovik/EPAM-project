@@ -4,7 +4,7 @@
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
 
-        public int CreateRecord(string? firstName, string? lastName, DateTime dateOfBirth, short children, decimal salary, char sex)
+        public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, short children, decimal salary, char sex)
         {
             if (firstName is null)
             {

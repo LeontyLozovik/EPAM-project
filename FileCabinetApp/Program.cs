@@ -114,38 +114,78 @@ namespace FileCabinetApp
 
         private static void Create(string parameters)
         {
-            bool flag = true;
-            Console.Write("First name: ");
-            var firstName = Console.ReadLine();
-            Console.Write("Last name: ");
-            var lastName = Console.ReadLine();
-            Console.Write("Date of birth: ");
-            var posibleBirthday = Console.ReadLine();
-            Console.Write("Number of children: ");
-            short children;
-            if (short.TryParse(Console.ReadLine(), out children))
+            bool flagNotEnd = true;
+            while (flagNotEnd)
             {
-                flag = false;
-            }
+                Console.Write("First name: ");
+                var firstName = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
+                {
+                    Console.WriteLine("Incorrect first name! First name should be grater then 2, less then 60 and can't be null or white space.");
+                    continue;
+                }
 
-            Console.Write("Averege salary: ");
-            decimal salary;
-            if (decimal.TryParse(Console.ReadLine(), out salary))
-            {
-                flag = false;
-            }
+                Console.Write("Last name: ");
+                var lastName = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
+                {
+                    Console.WriteLine("Incorrect last name! Last name should be grater then 2, less then 60 and can't be null or white space.");
+                    continue;
+                }
 
-            Console.Write("Sex (m - men, w - women): ");
-            char sex = (char)Console.Read();
-            DateTime birthday;
-            if (!DateTime.TryParse(posibleBirthday, CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out birthday) || flag || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
-            {
-                Console.WriteLine("Error! Please check your input parameters");
-            }
-            else
-            {
+                Console.Write("Date of birth: ");
+                DateTime birthday;
+                if (!DateTime.TryParse(Console.ReadLine(), CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out birthday))
+                {
+                    Console.WriteLine("Error! Please check your date of birth input.");
+                    continue;
+                }
+
+                DateTime oldest = new DateTime(1950, 1, 1);
+                DateTime now = DateTime.Now;
+                if (birthday < oldest || birthday > now)
+                {
+                    Console.WriteLine("Sorry but minimal date of birth - 01-Jan-1950 and maxsimum - current date");
+                    continue;
+                }
+
+                Console.Write("Number of children: ");
+                short children;
+                if (!short.TryParse(Console.ReadLine(), out children))
+                {
+                    Console.WriteLine("Error! Please check your number of children input");
+                    continue;
+                }
+                else if (children < 0)
+                {
+                    Console.WriteLine("Number of children can't be less then 0.");
+                    continue;
+                }
+
+                Console.Write("Averege salary: ");
+                decimal salary;
+                if (!decimal.TryParse(Console.ReadLine(), out salary))
+                {
+                    Console.WriteLine("Error! Please check your salary input");
+                    continue;
+                }
+                else if (salary < 0 || salary > 1000000000)
+                {
+                    Console.WriteLine("Average salary can't be less then 0 or grater then 1 billion.");
+                    continue;
+                }
+
+                Console.Write("Sex (m - men, w - women): ");
+                char sex = (char)Console.Read();
+                if (sex != 'm' && sex != 'w')
+                {
+                    Console.WriteLine("Sorry, but your sex can be m - men or w - women only.");
+                    continue;
+                }
+
                 var id = Program.fileCabinetService.CreateRecord(firstName, lastName, birthday, children, salary, sex);
                 Console.WriteLine($"Record #{id} is created.");
+                flagNotEnd = false;
             }
         }
 
