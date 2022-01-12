@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 
 namespace FileCabinetApp
 {
@@ -115,6 +116,19 @@ namespace FileCabinetApp
         {
             string nameToFind = lastName.ToLowerInvariant();
             var selectedRecords = this.list.FindAll(record => string.Equals(record.LastName.ToLower(), nameToFind, StringComparison.Ordinal));
+            FileCabinetRecord[] result = selectedRecords.ToArray();
+            return result;
+        }
+
+        public FileCabinetRecord[] FindByBirthday(string birthday)
+        {
+            DateTime dateToFind;
+            if (!DateTime.TryParse(birthday, CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out dateToFind))
+            {
+                Console.WriteLine("Please check your input.");
+            }
+
+            var selectedRecords = this.list.FindAll(record => DateTime.Equals(record.DateOfBirth, dateToFind));
             FileCabinetRecord[] result = selectedRecords.ToArray();
             return result;
         }

@@ -337,6 +337,14 @@ namespace FileCabinetApp
                             }
 
                             break;
+                        case "dateofbirth":
+                            var birthdayReturnedRecords = fileCabinetService.FindByBirthday(textToFind);
+                            foreach (var record in birthdayReturnedRecords)
+                            {
+                                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
+                            }
+
+                            break;
                         default:
                             Console.WriteLine("Unknown property.");
                             break;
