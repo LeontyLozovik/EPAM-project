@@ -110,5 +110,13 @@ namespace FileCabinetApp
             FileCabinetRecord[] result = selectedRecords.ToArray();
             return result;
         }
+
+        public FileCabinetRecord[] FindByLastName(string lastName)
+        {
+            string nameToFind = lastName.ToLowerInvariant();
+            var selectedRecords = this.list.FindAll(record => string.Equals(record.LastName.ToLower(), nameToFind, StringComparison.Ordinal));
+            FileCabinetRecord[] result = selectedRecords.ToArray();
+            return result;
+        }
     }
 }

@@ -322,8 +322,16 @@ namespace FileCabinetApp
                     switch (propName)
                     {
                         case "firstname":
-                            var returnedRecords = fileCabinetService.FindByFirstName(textToFind);
-                            foreach (var record in returnedRecords)
+                            var firstNameReturnedRecords = fileCabinetService.FindByFirstName(textToFind);
+                            foreach (var record in firstNameReturnedRecords)
+                            {
+                                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
+                            }
+
+                            break;
+                        case "lastname":
+                            var lastNameReturnedRecords = fileCabinetService.FindByLastName(textToFind);
+                            foreach (var record in lastNameReturnedRecords)
                             {
                                 Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
                             }
