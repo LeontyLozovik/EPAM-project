@@ -6,6 +6,7 @@ namespace FileCabinetApp
     public class FileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
+        private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
 
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, short children, decimal salary, char sex)
         {
@@ -61,6 +62,19 @@ namespace FileCabinetApp
             };
 
             this.list.Add(record);
+            string keyName = firstName.ToLowerInvariant();
+            if (this.firstNameDictionary.ContainsKey(keyName))
+            {
+                List<FileCabinetRecord> dictionaryList = this.firstNameDictionary[keyName];
+                dictionaryList.Add(record);
+                this.firstNameDictionary[keyName] = dictionaryList;
+            }
+            else
+            {
+                List<FileCabinetRecord> dictionaryList = new List<FileCabinetRecord>();
+                dictionaryList.Add(record);
+                this.firstNameDictionary.Add(keyName, dictionaryList);
+            }
 
             return record.Id;
         }
@@ -100,14 +114,30 @@ namespace FileCabinetApp
                 Sex = sex,
             };
 
+            FileCabinetRecord incorrectRecord = this.list[id - 1];
             this.list.RemoveAt(id - 1);
             this.list.Insert(id - 1, newRecord);
+            List<FileCabinetRecord> recordToRemove = this.firstNameDictionary[incorrectRecord.FirstName.ToLowerInvariant()];
+            int removeIndex = recordToRemove.FindIndex(0, recordToRemove.Count, record => record.Id == incorrectRecord.Id);
+            recordToRemove.RemoveAt(removeIndex);
+            string keyName = firstName.ToLowerInvariant();
+            if (this.firstNameDictionary.ContainsKey(keyName))
+            {
+                List<FileCabinetRecord> dictionaryList = this.firstNameDictionary[keyName];
+                dictionaryList.Add(newRecord);
+                this.firstNameDictionary[keyName] = dictionaryList;
+            }
+            else
+            {
+                List<FileCabinetRecord> dictionaryList = new List<FileCabinetRecord>();
+                dictionaryList.Add(newRecord);
+                this.firstNameDictionary.Add(keyName, dictionaryList);
+            }
         }
 
         public FileCabinetRecord[] FindByFirstName(string firstName)
         {
-            string nameToFind = firstName.ToLowerInvariant();
-            var selectedRecords = this.list.FindAll(record => string.Equals(record.FirstName.ToLower(), nameToFind, StringComparison.Ordinal));
+            var selectedRecords = this.firstNameDictionary[firstName.ToLower()];
             FileCabinetRecord[] result = selectedRecords.ToArray();
             return result;
         }
