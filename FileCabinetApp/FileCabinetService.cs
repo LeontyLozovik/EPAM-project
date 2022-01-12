@@ -66,6 +66,7 @@ namespace FileCabinetApp
             this.list.Add(record);
             this.AddNamesToDictionary(firstName, record, this.firstNameDictionary);
             this.AddNamesToDictionary(lastName, record, this.lastNameDictionary);
+            this.AddDateToDictionary(dateOfBirth, record, this.dateofbirthDictionary);
             return record.Id;
         }
 
@@ -83,6 +84,22 @@ namespace FileCabinetApp
                 List<FileCabinetRecord> dictionaryList = new List<FileCabinetRecord>();
                 dictionaryList.Add(record);
                 dictionary.Add(keyName, dictionaryList);
+            }
+        }
+
+        public void AddDateToDictionary(DateTime date, FileCabinetRecord record, Dictionary<DateTime, List<FileCabinetRecord>> dictionary)
+        {
+            if (dictionary.ContainsKey(date))
+            {
+                List<FileCabinetRecord> dictionaryList = dictionary[date];
+                dictionaryList.Add(record);
+                dictionary[date] = dictionaryList;
+            }
+            else
+            {
+                List<FileCabinetRecord> dictionaryList = new List<FileCabinetRecord>();
+                dictionaryList.Add(record);
+                dictionary.Add(date, dictionaryList);
             }
         }
 
@@ -132,6 +149,10 @@ namespace FileCabinetApp
             removeIndex = recordToRemove.FindIndex(0, recordToRemove.Count, record => record.Id == incorrectRecord.Id);
             recordToRemove.RemoveAt(removeIndex);
             this.AddNamesToDictionary(lastName, newRecord, this.lastNameDictionary);
+            recordToRemove = this.dateofbirthDictionary[incorrectRecord.DateOfBirth];
+            removeIndex = recordToRemove.FindIndex(0, recordToRemove.Count, record => record.Id == incorrectRecord.Id);
+            recordToRemove.RemoveAt(removeIndex);
+            this.AddDateToDictionary(dateOfBirth, newRecord, this.dateofbirthDictionary);
         }
 
         public FileCabinetRecord[] FindByFirstName(string firstName)
@@ -156,7 +177,7 @@ namespace FileCabinetApp
                 Console.WriteLine("Please check your input.");
             }
 
-            var selectedRecords = this.list.FindAll(record => DateTime.Equals(record.DateOfBirth, dateToFind));
+            var selectedRecords = this.dateofbirthDictionary[dateToFind];
             FileCabinetRecord[] result = selectedRecords.ToArray();
             return result;
         }
