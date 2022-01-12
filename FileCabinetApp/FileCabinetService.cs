@@ -1,4 +1,6 @@
-﻿namespace FileCabinetApp
+﻿using System.Linq;
+
+namespace FileCabinetApp
 {
     public class FileCabinetService
     {
@@ -99,6 +101,14 @@
 
             this.list.RemoveAt(id - 1);
             this.list.Insert(id - 1, newRecord);
+        }
+
+        public FileCabinetRecord[] FindByFirstName(string firstName)
+        {
+            string nameToFind = firstName.ToLowerInvariant();
+            var selectedRecords = this.list.FindAll(record => string.Equals(record.FirstName.ToLower(), nameToFind, StringComparison.Ordinal));
+            FileCabinetRecord[] result = selectedRecords.ToArray();
+            return result;
         }
     }
 }

@@ -20,6 +20,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("create", Create),
             new Tuple<string, Action<string>>("list", List),
             new Tuple<string, Action<string>>("edit", Edit),
+            new Tuple<string, Action<string>>("find", Find),
         };
 
         private static string[][] helpMessages = new string[][]
@@ -30,6 +31,7 @@ namespace FileCabinetApp
             new string[] { "create", "create record whith information about you", "The 'create' command create record whith information about you." },
             new string[] { "list", "prints all existing records", "The 'list' command prints all existing records" },
             new string[] { "edit", "edit your record by Id", "The 'edit' command edit your record by Id" },
+            new string[] { "find", "find records by one parameter", "The 'find' command find records by one parameter" },
         };
 
         private static FileCabinetService fileCabinetService = new FileCabinetService();
@@ -295,6 +297,42 @@ namespace FileCabinetApp
                     }
 
                     flagNotEnd = false;
+                }
+            }
+        }
+
+        private static void Find(string parameters)
+        {
+            if (string.IsNullOrEmpty(parameters))
+            {
+                Console.WriteLine("Command 'find' should contain name of property and text to find.");
+            }
+            else
+            {
+                string[] input = parameters.Split(' ', 2);
+                string propName = input[0].ToLowerInvariant();
+                if (input.Length != 2)
+                {
+                    Console.WriteLine("Please check you input.");
+                }
+                else
+                {
+                    string textToFind = input[1].Trim('\"');
+
+                    switch (propName)
+                    {
+                        case "firstname":
+                            var returnedRecords = fileCabinetService.FindByFirstName(textToFind);
+                            foreach (var record in returnedRecords)
+                            {
+                                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
+                            }
+
+                            break;
+                        default:
+                            Console.WriteLine("Unknown property.");
+                            break;
+                    }
                 }
             }
         }
