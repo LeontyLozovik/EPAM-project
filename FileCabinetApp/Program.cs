@@ -71,6 +71,14 @@ namespace FileCabinetApp
             while (isRunning);
         }
 
+        private static void PrintListOfRecords(FileCabinetRecord[] recordToPrint)
+        {
+            foreach (var record in recordToPrint)
+            {
+                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
+            }
+        }
+
         private static void PrintMissedCommandInfo(string command)
         {
             Console.WriteLine($"There is no '{command}' command.");
@@ -196,107 +204,110 @@ namespace FileCabinetApp
         private static void List(string parameters)
         {
             var listOfRecords = Program.fileCabinetService.GetRecords();
-            foreach (var record in listOfRecords)
-            {
-                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
-            }
+            PrintListOfRecords(listOfRecords);
         }
 
         private static void Edit(string parameters)
         {
-            bool flagNotEnd = true;
-            while (flagNotEnd)
+            int enteredId;
+            if (!int.TryParse(parameters, out enteredId))
             {
-                int enteredId;
-                if (!int.TryParse(parameters, out enteredId))
-                {
-                    Console.WriteLine("Error! Please check Id that you input.");
-                    break;
-                }
+                Console.WriteLine("Error! Please check inputed Id.");
+            }
 
-                var recordsCount = Program.fileCabinetService.GetStat();
-                if (recordsCount < enteredId)
+            var recordsCount = Program.fileCabinetService.GetStat();
+            if (enteredId <= 0)
+            {
+                Console.WriteLine("Id should be grater then 0");
+            }
+            else if (recordsCount < enteredId)
+            {
+                Console.WriteLine($"#{enteredId} record is not found.");
+            }
+            else
+            {
+                bool flagNotEnd = true;
+                while (flagNotEnd)
                 {
-                    Console.WriteLine($"#{enteredId} record is not found.");
-                    flagNotEnd = false;
-                }
-                else
-                {
-                    bool notEnd = true;
-                    while (notEnd)
+                    Console.Write("First name: ");
+                    var firstName = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
                     {
-                        Console.Write("First name: ");
-                        var firstName = Console.ReadLine();
-                        if (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
-                        {
-                            Console.WriteLine("Incorrect first name! First name should be grater then 2, less then 60 and can't be null or white space.");
-                            continue;
-                        }
-
-                        Console.Write("Last name: ");
-                        var lastName = Console.ReadLine();
-                        if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
-                        {
-                            Console.WriteLine("Incorrect last name! Last name should be grater then 2, less then 60 and can't be null or white space.");
-                            continue;
-                        }
-
-                        Console.Write("Date of birth: ");
-                        DateTime birthday;
-                        if (!DateTime.TryParse(Console.ReadLine(), CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out birthday))
-                        {
-                            Console.WriteLine("Error! Please check your date of birth input.");
-                            continue;
-                        }
-
-                        DateTime oldest = new DateTime(1950, 1, 1);
-                        DateTime now = DateTime.Now;
-                        if (birthday < oldest || birthday > now)
-                        {
-                            Console.WriteLine("Sorry but minimal date of birth - 01-Jan-1950 and maxsimum - current date");
-                            continue;
-                        }
-
-                        Console.Write("Number of children: ");
-                        short children;
-                        if (!short.TryParse(Console.ReadLine(), out children))
-                        {
-                            Console.WriteLine("Error! Please check your number of children input");
-                            continue;
-                        }
-                        else if (children < 0)
-                        {
-                            Console.WriteLine("Number of children can't be less then 0.");
-                            continue;
-                        }
-
-                        Console.Write("Averege salary: ");
-                        decimal salary;
-                        if (!decimal.TryParse(Console.ReadLine(), out salary))
-                        {
-                            Console.WriteLine("Error! Please check your salary input");
-                            continue;
-                        }
-                        else if (salary < 0 || salary > 1000000000)
-                        {
-                            Console.WriteLine("Average salary can't be less then 0 or grater then 1 billion.");
-                            continue;
-                        }
-
-                        Console.Write("Sex (m - men, w - women): ");
-                        char sex = (char)Console.Read();
-                        if (sex != 'm' && sex != 'w')
-                        {
-                            Console.WriteLine("Sorry, but your sex can be m - men or w - women only.");
-                            continue;
-                        }
-
-                        Program.fileCabinetService.EditRecord(enteredId, firstName, lastName, birthday, children, salary, sex);
-                        Console.WriteLine($"Record #{enteredId} is updated.");
-                        notEnd = false;
+                        Console.WriteLine("Incorrect first name! First name should be grater then 2, less then 60 and can't be null or white space.");
+                        continue;
                     }
 
-                    flagNotEnd = false;
+                    Console.Write("Last name: ");
+                    var lastName = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
+                    {
+                        Console.WriteLine("Incorrect last name! Last name should be grater then 2, less then 60 and can't be null or white space.");
+                        continue;
+                    }
+
+                    Console.Write("Date of birth: ");
+                    DateTime birthday;
+                    if (!DateTime.TryParse(Console.ReadLine(), CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out birthday))
+                    {
+                        Console.WriteLine("Error! Please check your date of birth input.");
+                        continue;
+                    }
+
+                    DateTime oldest = new DateTime(1950, 1, 1);
+                    DateTime now = DateTime.Now;
+                    if (birthday < oldest || birthday > now)
+                    {
+                        Console.WriteLine("Sorry but minimal date of birth - 01-Jan-1950 and maxsimum - current date");
+                        continue;
+                    }
+
+                    Console.Write("Number of children: ");
+                    short children;
+                    if (!short.TryParse(Console.ReadLine(), out children))
+                    {
+                        Console.WriteLine("Error! Please check your number of children input");
+                        continue;
+                    }
+                    else if (children < 0)
+                    {
+                        Console.WriteLine("Number of children can't be less then 0.");
+                        continue;
+                    }
+
+                    Console.Write("Averege salary: ");
+                    decimal salary;
+                    if (!decimal.TryParse(Console.ReadLine(), out salary))
+                    {
+                        Console.WriteLine("Error! Please check your salary input");
+                        continue;
+                    }
+                    else if (salary < 0 || salary > 1000000000)
+                    {
+                        Console.WriteLine("Average salary can't be less then 0 or grater then 1 billion.");
+                        continue;
+                    }
+
+                    Console.Write("Sex (m - men, w - women): ");
+                    char sex = (char)Console.Read();
+                    if (sex != 'm' && sex != 'w')
+                    {
+                        Console.WriteLine("Sorry, but your sex can be m - men or w - women only.");
+                        continue;
+                    }
+
+                    try
+                    {
+                        Program.fileCabinetService.EditRecord(enteredId, firstName, lastName, birthday, children, salary, sex);
+                    }
+                    catch (ArgumentException exeption)
+                    {
+                        Console.WriteLine(exeption.Message);
+                    }
+                    finally
+                    {
+                        Console.WriteLine($"Record #{enteredId} is updated.");
+                        flagNotEnd = false;
+                    }
                 }
             }
         }
@@ -318,35 +329,22 @@ namespace FileCabinetApp
                 else
                 {
                     string textToFind = input[1].Trim('\"');
-
                     switch (propName)
                     {
                         case "firstname":
                             var firstNameReturnedRecords = fileCabinetService.FindByFirstName(textToFind);
-                            foreach (var record in firstNameReturnedRecords)
-                            {
-                                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
-                            }
-
+                            PrintListOfRecords(firstNameReturnedRecords);
                             break;
                         case "lastname":
                             var lastNameReturnedRecords = fileCabinetService.FindByLastName(textToFind);
-                            foreach (var record in lastNameReturnedRecords)
-                            {
-                                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
-                            }
-
+                            PrintListOfRecords(lastNameReturnedRecords);
                             break;
                         case "dateofbirth":
                             var birthdayReturnedRecords = fileCabinetService.FindByBirthday(textToFind);
-                            foreach (var record in birthdayReturnedRecords)
-                            {
-                                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
-                            }
-
+                            PrintListOfRecords(birthdayReturnedRecords);
                             break;
                         default:
-                            Console.WriteLine("Unknown property.");
+                            Console.WriteLine($"Unknown property - {propName}");
                             break;
                     }
                 }
