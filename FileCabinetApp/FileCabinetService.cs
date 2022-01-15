@@ -15,70 +15,56 @@ namespace FileCabinetApp
         /// <summary>
         /// Create a new record with inputed parameters.
         /// </summary>
-        /// <param name="firstName">firstname to record.</param>
-        /// <param name="lastName">lastname to record.</param>
-        /// <param name="dateOfBirth">dateofbirth to record.</param>
-        /// <param name="children">number of children to record.</param>
-        /// <param name="salary">average salary to record.</param>
-        /// <param name="sex">sex to record.</param>
+        /// <param name="record">Record to create.</param>
         /// <returns>Id of created record.</returns>
-        public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, short children, decimal salary, char sex)
+        public int CreateRecord(FileCabinetRecord record)
         {
-            if (firstName is null)
+            if (record.FirstName is null)
             {
-                throw new ArgumentNullException(firstName, "First name can't be null.");
+                throw new ArgumentNullException(record.FirstName, "First name can't be null.");
             }
-            else if (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
+            else if (string.IsNullOrWhiteSpace(record.FirstName) || record.FirstName.Length < 2 || record.FirstName.Length > 60)
             {
-                throw new ArgumentException("Incorrect first name! First name should be grater then 2, less then 60 and can't be white space.", firstName);
-            }
-
-            if (lastName is null)
-            {
-                throw new ArgumentNullException(lastName, "Last name can't be null.");
-            }
-            else if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
-            {
-                throw new ArgumentException("Incorrect last name! Last name should be grater then 2, less then 60 and can't be white space.", lastName);
+                throw new ArgumentException("Incorrect first name! First name should be grater then 2, less then 60 and can't be white space.", record.FirstName);
             }
 
-            if (children < 0)
+            if (record.LastName is null)
+            {
+                throw new ArgumentNullException(record.LastName, "Last name can't be null.");
+            }
+            else if (string.IsNullOrWhiteSpace(record.LastName) || record.LastName.Length < 2 || record.LastName.Length > 60)
+            {
+                throw new ArgumentException("Incorrect last name! Last name should be grater then 2, less then 60 and can't be white space.", record.LastName);
+            }
+
+            if (record.Children < 0)
             {
                 throw new ArgumentException("Number of children can't be less then 0.");
             }
 
-            if (salary < 0 || salary > 1000000000)
+            if (record.AverageSalary < 0 || record.AverageSalary > 1000000000)
             {
                 throw new ArgumentException("Average salary can't be less then 0 or grater then 1 billion.");
             }
 
-            if (sex != 'm' && sex != 'w')
+            if (record.Sex != 'm' && record.Sex != 'w')
             {
                 throw new ArgumentException("Sorry, but your sex can be m - men or w - women only.");
             }
 
             DateTime oldest = new DateTime(1950, 1, 1);
             DateTime now = DateTime.Now;
-            if (dateOfBirth < oldest || dateOfBirth > now)
+            if (record.DateOfBirth < oldest || record.DateOfBirth > now)
             {
                 throw new ArgumentException("Sorry but minimal date of birth - 01-Jan-1950 and maxsimum - current date");
             }
 
-            var record = new FileCabinetRecord
-            {
-                Id = this.list.Count + 1,
-                FirstName = firstName,
-                LastName = lastName,
-                DateOfBirth = dateOfBirth,
-                Children = children,
-                AverageSalary = salary,
-                Sex = sex,
-            };
+            record.Id = this.list.Count + 1;
 
             this.list.Add(record);
-            this.AddNamesToDictionary(firstName, record, this.firstNameDictionary);
-            this.AddNamesToDictionary(lastName, record, this.lastNameDictionary);
-            this.AddDateToDictionary(dateOfBirth, record, this.dateofbirthDictionary);
+            this.AddNamesToDictionary(record.FirstName, record, this.firstNameDictionary);
+            this.AddNamesToDictionary(record.LastName, record, this.lastNameDictionary);
+            this.AddDateToDictionary(record.DateOfBirth, record, this.dateofbirthDictionary);
             return record.Id;
         }
 
@@ -104,76 +90,59 @@ namespace FileCabinetApp
         /// <summary>
         /// Edit record by entered Id.
         /// </summary>
-        /// <param name="id">Id of record to edit.</param>
-        /// <param name="firstName">New firstname.</param>
-        /// <param name="lastName">New lastname.</param>
-        /// <param name="dateOfBirth">New dateofbirth.</param>
-        /// <param name="children">New number of children.</param>
-        /// <param name="salary">New average salary.</param>
-        /// <param name="sex">New sex.</param>
-        public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, short children, decimal salary, char sex)
+        /// <param name="newRecord">New record that replace old record.</param>
+        public void EditRecord(FileCabinetRecord newRecord)
         {
-            if (firstName is null)
+            if (newRecord.FirstName is null)
             {
-                throw new ArgumentNullException(firstName, "First name can't be null.");
+                throw new ArgumentNullException(newRecord.FirstName, "First name can't be null.");
             }
-            else if (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
+            else if (string.IsNullOrWhiteSpace(newRecord.FirstName) || newRecord.FirstName.Length < 2 || newRecord.FirstName.Length > 60)
             {
-                throw new ArgumentException("Incorrect first name! First name should be grater then 2, less then 60 and can't be white space.", firstName);
-            }
-
-            if (lastName is null)
-            {
-                throw new ArgumentNullException(lastName, "Last name can't be null.");
-            }
-            else if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
-            {
-                throw new ArgumentException("Incorrect last name! Last name should be grater then 2, less then 60 and can't be white space.", lastName);
+                throw new ArgumentException("Incorrect first name! First name should be grater then 2, less then 60 and can't be white space.", newRecord.FirstName);
             }
 
-            if (children < 0)
+            if (newRecord.LastName is null)
+            {
+                throw new ArgumentNullException(newRecord.LastName, "Last name can't be null.");
+            }
+            else if (string.IsNullOrWhiteSpace(newRecord.LastName) || newRecord.LastName.Length < 2 || newRecord.LastName.Length > 60)
+            {
+                throw new ArgumentException("Incorrect last name! Last name should be grater then 2, less then 60 and can't be white space.", newRecord.LastName);
+            }
+
+            if (newRecord.Children < 0)
             {
                 throw new ArgumentException("Number of children can't be less then 0.");
             }
 
-            if (salary < 0 || salary > 1000000000)
+            if (newRecord.AverageSalary < 0 || newRecord.AverageSalary > 1000000000)
             {
                 throw new ArgumentException("Average salary can't be less then 0 or grater then 1 billion.");
             }
 
-            if (sex != 'm' && sex != 'w')
+            if (newRecord.Sex != 'm' && newRecord.Sex != 'w')
             {
                 throw new ArgumentException("Sorry, but your sex can be m - men or w - women only.");
             }
 
             DateTime oldest = new DateTime(1950, 1, 1);
             DateTime now = DateTime.Now;
-            if (dateOfBirth < oldest || dateOfBirth > now)
+            if (newRecord.DateOfBirth < oldest || newRecord.DateOfBirth > now)
             {
                 throw new ArgumentException("Sorry but minimal date of birth - 01-Jan-1950 and maxsimum - current date");
             }
 
-            if (id > this.list.Count)
+            if (newRecord.Id > this.list.Count)
             {
                 throw new ArgumentException("There is no record with this Id.");
             }
 
-            var newRecord = new FileCabinetRecord
-            {
-                Id = id,
-                FirstName = firstName,
-                LastName = lastName,
-                DateOfBirth = dateOfBirth,
-                Children = children,
-                AverageSalary = salary,
-                Sex = sex,
-            };
+            FileCabinetRecord incorrectRecord = this.list[newRecord.Id - 1];
 
-            FileCabinetRecord incorrectRecord = this.list[id - 1];
-
-            this.list.RemoveAt(id - 1);
-            this.list.Insert(id - 1, newRecord);
-            this.EditDictionaries(firstName, lastName, dateOfBirth, newRecord, incorrectRecord);
+            this.list.RemoveAt(newRecord.Id - 1);
+            this.list.Insert(newRecord.Id - 1, newRecord);
+            this.EditDictionaries(newRecord.FirstName, newRecord.LastName, newRecord.DateOfBirth, newRecord, incorrectRecord);
         }
 
         /// <summary>

@@ -4,5 +4,145 @@
         <name>FileCabinetApp</name>
     </assembly>
     <members>
+        <member name="T:FileCabinetApp.FileCabinetRecord">
+            <summary>
+            Represents records.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetRecord.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetRecord"/> class.
+            </summary>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Id">
+            <summary>
+            Gets or sets id of record.
+            </summary>
+            <value> Id of record.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.FirstName">
+            <summary>
+            Gets or sets firstname in record.
+            </summary>
+            <value>Firstname in record.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.LastName">
+            <summary>
+            Gets or sets lastname in record.
+            </summary>
+            <value>Lastname in record.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.DateOfBirth">
+            <summary>
+            Gets or sets dateofbirth in record.
+            </summary>
+            <value>Dateofbirth in record.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Children">
+            <summary>
+            Gets or sets number of childrens in record.
+            </summary>
+            <value>Number of childrens in record.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.AverageSalary">
+            <summary>
+            Gets or sets average salary in record.
+            </summary>
+            <value>Average salary in record.</value>
+        </member>
+        <member name="P:FileCabinetApp.FileCabinetRecord.Sex">
+            <summary>
+            Gets or sets sex in record.
+            </summary>
+            <value>Sex in record.</value>
+        </member>
+        <member name="T:FileCabinetApp.FileCabinetService">
+            <summary>
+            Do manipulations with records.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Create a new record with inputed parameters.
+            </summary>
+            <param name="record">Record to create.</param>
+            <returns>Id of created record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.GetRecords">
+            <summary>
+            Return all existing records.
+            </summary>
+            <returns>all existing records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.GetStat">
+            <summary>
+            Return number of existing records.
+            </summary>
+            <returns>number of existing records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Edit record by entered Id.
+            </summary>
+            <param name="newRecord">New record that replace old record.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
+            <summary>
+            Find all records with entered firstname.
+            </summary>
+            <param name="firstName">firstname to find.</param>
+            <returns>all records with entered firstname.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByLastName(System.String)">
+            <summary>
+            Find all records with entered lastname.
+            </summary>
+            <param name="lastName">lastname to find.</param>
+            <returns>all records with entered lastname.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.FindByBirthday(System.String)">
+            <summary>
+            Find all records with entered dateofbirth.
+            </summary>
+            <param name="birthday">dateofbirth to find.</param>
+            <returns>all records with entered dateofbirth.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
+            <summary>
+            Add records with firtname or lastname key to the dictionary.
+            </summary>
+            <param name="name">firstname or lastname key.</param>
+            <param name="record">record to add.</param>
+            <param name="dictionary">dictionary to add.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.AddDateToDictionary(System.DateTime,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.DateTime,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
+            <summary>
+            Add records with dateofbirth key to the dictionary.
+            </summary>
+            <param name="date">dateofbirth key.</param>
+            <param name="record">record to add.</param>
+            <param name="dictionary">dictionary to add.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.EditDictionaries(System.String,System.String,System.DateTime,FileCabinetApp.FileCabinetRecord,FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Edit values in all dictionaries after user edited record.
+            </summary>
+            <param name="firstName">New firstname.</param>
+            <param name="lastName">New lastname.</param>
+            <param name="dateOfBirth">New dateofbirth.</param>
+            <param name="newRecord">New record.</param>
+            <param name="incorrectRecord">This record before etion.</param>
+        </member>
+        <member name="T:FileCabinetApp.Program">
+            <summary>
+            Get user requests and calls the desired hendler.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Program.Main(System.String[])">
+            <summary>
+            Get user comand from cmd and call functions to process them.
+            </summary>
+            <param name="args">parameters of "Main" function.</param>
+        </member>
     </members>
 </doc>

@@ -202,7 +202,18 @@ namespace FileCabinetApp
                     continue;
                 }
 
-                var id = Program.fileCabinetService.CreateRecord(firstName, lastName, birthday, children, salary, sex);
+                var record = new FileCabinetRecord
+                {
+                    Id = 0,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    DateOfBirth = birthday,
+                    Children = children,
+                    AverageSalary = salary,
+                    Sex = sex,
+                };
+
+                var id = Program.fileCabinetService.CreateRecord(record);
                 Console.WriteLine($"Record #{id} is created.");
                 flagNotEnd = false;
             }
@@ -302,9 +313,20 @@ namespace FileCabinetApp
                         continue;
                     }
 
+                    var newRecord = new FileCabinetRecord
+                    {
+                        Id = enteredId,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        DateOfBirth = birthday,
+                        Children = children,
+                        AverageSalary = salary,
+                        Sex = sex,
+                    };
+
                     try
                     {
-                        Program.fileCabinetService.EditRecord(enteredId, firstName, lastName, birthday, children, salary, sex);
+                        Program.fileCabinetService.EditRecord(newRecord);
                     }
                     catch (ArgumentException exeption)
                     {
