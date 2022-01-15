@@ -2,6 +2,9 @@
 
 namespace FileCabinetApp
 {
+    /// <summary>
+    /// Get user requests and calls the desired hendler.
+    /// </summary>
     public static class Program
     {
         private const string DeveloperName = "Leontiy Lozovik";
@@ -28,7 +31,7 @@ namespace FileCabinetApp
             new string[] { "help", "prints the help screen", "The 'help' command prints the help screen." },
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
             new string[] { "stat", "prints records statistics", "The 'stat' command prints records statistics." },
-            new string[] { "create", "create record whith information about you", "The 'create' command create record whith information about you." },
+            new string[] { "create", "create record with information about you", "The 'create' command create record with information about you." },
             new string[] { "list", "prints all existing records", "The 'list' command prints all existing records" },
             new string[] { "edit", "edit your record by Id", "The 'edit' command edit your record by Id" },
             new string[] { "find", "find records by one parameter", "The 'find' command find records by one parameter" },
@@ -36,6 +39,10 @@ namespace FileCabinetApp
 
         private static FileCabinetService fileCabinetService = new FileCabinetService();
 
+        /// <summary>
+        /// Get user comand from cmd and call functions to process them.
+        /// </summary>
+        /// <param name="args">parameters of "Main" function.</param>
         public static void Main(string[] args)
         {
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");

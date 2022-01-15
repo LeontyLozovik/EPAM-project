@@ -2,6 +2,9 @@
 
 namespace FileCabinetApp
 {
+    /// <summary>
+    /// Do manipulations with records.
+    /// </summary>
     public class FileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
@@ -9,6 +12,16 @@ namespace FileCabinetApp
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateofbirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
 
+        /// <summary>
+        /// Create a new record with inputed parameters.
+        /// </summary>
+        /// <param name="firstName">firstname to record.</param>
+        /// <param name="lastName">lastname to record.</param>
+        /// <param name="dateOfBirth">dateofbirth to record.</param>
+        /// <param name="children">number of children to record.</param>
+        /// <param name="salary">average salary to record.</param>
+        /// <param name="sex">sex to record.</param>
+        /// <returns>Id of created record.</returns>
         public int CreateRecord(string firstName, string lastName, DateTime dateOfBirth, short children, decimal salary, char sex)
         {
             if (firstName is null)
@@ -69,17 +82,35 @@ namespace FileCabinetApp
             return record.Id;
         }
 
+        /// <summary>
+        /// Return all existing records.
+        /// </summary>
+        /// <returns>all existing records.</returns>
         public FileCabinetRecord[] GetRecords()
         {
             FileCabinetRecord[] allRecords = this.list.ToArray();
             return allRecords;
         }
 
+        /// <summary>
+        /// Return number of existing records.
+        /// </summary>
+        /// <returns>number of existing records.</returns>
         public int GetStat()
         {
             return this.list.Count;
         }
 
+        /// <summary>
+        /// Edit record by entered Id.
+        /// </summary>
+        /// <param name="id">Id of record to edit.</param>
+        /// <param name="firstName">New firstname.</param>
+        /// <param name="lastName">New lastname.</param>
+        /// <param name="dateOfBirth">New dateofbirth.</param>
+        /// <param name="children">New number of children.</param>
+        /// <param name="salary">New average salary.</param>
+        /// <param name="sex">New sex.</param>
         public void EditRecord(int id, string firstName, string lastName, DateTime dateOfBirth, short children, decimal salary, char sex)
         {
             if (firstName is null)
@@ -124,7 +155,7 @@ namespace FileCabinetApp
 
             if (id > this.list.Count)
             {
-                throw new ArgumentException("There is no record whith this Id.");
+                throw new ArgumentException("There is no record with this Id.");
             }
 
             var newRecord = new FileCabinetRecord
@@ -145,6 +176,11 @@ namespace FileCabinetApp
             this.EditDictionaries(firstName, lastName, dateOfBirth, newRecord, incorrectRecord);
         }
 
+        /// <summary>
+        /// Find all records with entered firstname.
+        /// </summary>
+        /// <param name="firstName">firstname to find.</param>
+        /// <returns>all records with entered firstname.</returns>
         public FileCabinetRecord[] FindByFirstName(string firstName)
         {
             FileCabinetRecord[] foundRecords = Array.Empty<FileCabinetRecord>();
@@ -158,6 +194,11 @@ namespace FileCabinetApp
             return foundRecords;
         }
 
+        /// <summary>
+        /// Find all records with entered lastname.
+        /// </summary>
+        /// <param name="lastName">lastname to find.</param>
+        /// <returns>all records with entered lastname.</returns>
         public FileCabinetRecord[] FindByLastName(string lastName)
         {
             FileCabinetRecord[] foundRecords = Array.Empty<FileCabinetRecord>();
@@ -171,6 +212,11 @@ namespace FileCabinetApp
             return foundRecords;
         }
 
+        /// <summary>
+        /// Find all records with entered dateofbirth.
+        /// </summary>
+        /// <param name="birthday">dateofbirth to find.</param>
+        /// <returns>all records with entered dateofbirth.</returns>
         public FileCabinetRecord[] FindByBirthday(string birthday)
         {
             DateTime dateToFind;
@@ -184,6 +230,12 @@ namespace FileCabinetApp
             return result;
         }
 
+        /// <summary>
+        /// Add records with firtname or lastname key to the dictionary.
+        /// </summary>
+        /// <param name="name">firstname or lastname key.</param>
+        /// <param name="record">record to add.</param>
+        /// <param name="dictionary">dictionary to add.</param>
         private void AddNamesToDictionary(string name, FileCabinetRecord record, Dictionary<string, List<FileCabinetRecord>> dictionary)
         {
             string keyName = name.ToLowerInvariant();
@@ -201,6 +253,12 @@ namespace FileCabinetApp
             }
         }
 
+        /// <summary>
+        /// Add records with dateofbirth key to the dictionary.
+        /// </summary>
+        /// <param name="date">dateofbirth key.</param>
+        /// <param name="record">record to add.</param>
+        /// <param name="dictionary">dictionary to add.</param>
         private void AddDateToDictionary(DateTime date, FileCabinetRecord record, Dictionary<DateTime, List<FileCabinetRecord>> dictionary)
         {
             if (dictionary.ContainsKey(date))
@@ -217,6 +275,14 @@ namespace FileCabinetApp
             }
         }
 
+        /// <summary>
+        /// Edit values in all dictionaries after user edited record.
+        /// </summary>
+        /// <param name="firstName">New firstname.</param>
+        /// <param name="lastName">New lastname.</param>
+        /// <param name="dateOfBirth">New dateofbirth.</param>
+        /// <param name="newRecord">New record.</param>
+        /// <param name="incorrectRecord">This record before etion.</param>
         private void EditDictionaries(string firstName, string lastName, DateTime dateOfBirth, FileCabinetRecord newRecord, FileCabinetRecord incorrectRecord)
         {
             List<FileCabinetRecord> recordToRemove = this.firstNameDictionary[incorrectRecord.FirstName.ToLowerInvariant()];
