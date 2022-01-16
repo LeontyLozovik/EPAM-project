@@ -37,7 +37,7 @@ namespace FileCabinetApp
             new string[] { "find", "find records by one parameter", "The 'find' command find records by one parameter" },
         };
 
-        private static FileCabinetService fileCabinetService = new FileCabinetService();
+        private static FileCabinetCustomService fileCabinetService = new FileCabinetCustomService();
 
         /// <summary>
         /// Get user comand from cmd and call functions to process them.

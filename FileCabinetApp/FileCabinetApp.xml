@@ -4,6 +4,28 @@
         <name>FileCabinetApp</name>
     </assembly>
     <members>
+        <member name="T:FileCabinetApp.FileCabinetCustomService">
+            <summary>
+            Custom validation parameters of record.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetCustomService.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Validate incoming parameters of record.
+            </summary>
+            <param name="record">record whose parametrs should be validate.</param>
+        </member>
+        <member name="T:FileCabinetApp.FileCabinetDefaultService">
+            <summary>
+            Default validation parameters of record.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetDefaultService.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Validate incoming parameters of record.
+            </summary>
+            <param name="record">record whose parametrs should be validate.</param>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetRecord">
             <summary>
             Represents records.
@@ -106,6 +128,12 @@
             </summary>
             <param name="birthday">dateofbirth to find.</param>
             <returns>all records with entered dateofbirth.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetService.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Validate incoming parameters of record.
+            </summary>
+            <param name="record">record whose parametrs should be validate.</param>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
             <summary>
