@@ -37,7 +37,7 @@ namespace FileCabinetApp
             new string[] { "find", "find records by one parameter", "The 'find' command find records by one parameter" },
         };
 
-        private static FileCabinetCustomService fileCabinetService = new FileCabinetCustomService();
+        private static FileCabinetService fileCabinetService = new FileCabinetService();
 
         /// <summary>
         /// Get user comand from cmd and call functions to process them.
@@ -45,6 +45,72 @@ namespace FileCabinetApp
         /// <param name="args">parameters of "Main" function.</param>
         public static void Main(string[] args)
         {
+            if (args is not null)
+            {
+                switch (args.Length)
+                {
+                    case 1:
+                        var inputLine = args[0] != null ? args[0].Split('=', 2) : new string[] { string.Empty, string.Empty };
+                        string comand = inputLine[0];
+                        if (string.Equals(comand, "--validation-rules", StringComparison.Ordinal))
+                        {
+                            string argument = inputLine[1].ToLowerInvariant();
+                            switch (argument)
+                            {
+                                case "default":
+                                    fileCabinetService = new FileCabinetDefaultService();
+                                    Console.WriteLine("Using default validation rules.");
+                                    break;
+                                case "custom":
+                                    fileCabinetService = new FileCabinetCustomService();
+                                    Console.WriteLine("Using custom validation rules.");
+                                    break;
+                                default:
+                                    Console.WriteLine("There is only default and custom validation. Default rules will be set.");
+                                    fileCabinetService = new FileCabinetDefaultService();
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Unknown comand. Default rules will be set.");
+                            fileCabinetService = new FileCabinetDefaultService();
+                        }
+
+                        break;
+                    case 2:
+                        if (string.Equals(args[0], "-v", StringComparison.Ordinal))
+                        {
+                            string argument = args[1].ToLowerInvariant();
+                            switch (argument)
+                            {
+                                case "default":
+                                    fileCabinetService = new FileCabinetDefaultService();
+                                    Console.WriteLine("Using default validation rules.");
+                                    break;
+                                case "custom":
+                                    fileCabinetService = new FileCabinetCustomService();
+                                    Console.WriteLine("Using custom validation rules.");
+                                    break;
+                                default:
+                                    Console.WriteLine("There is only default and custom validation.");
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Unknown comand. Default rules will be set.");
+                            fileCabinetService = new FileCabinetDefaultService();
+                        }
+
+                        break;
+                    default:
+                        Console.WriteLine("To much parameters. Default rules will be set.");
+                        fileCabinetService = new FileCabinetDefaultService();
+                        break;
+                }
+            }
+
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
             Console.WriteLine(Program.HintMessage);
             Console.WriteLine();
