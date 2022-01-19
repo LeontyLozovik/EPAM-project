@@ -45,75 +45,7 @@ namespace FileCabinetApp
         /// <param name="args">parameters of "Main" function.</param>
         public static void Main(string[] args)
         {
-            if (args.Length > 0)
-            {
-                switch (args.Length)
-                {
-                    case 1:
-                        var inputLine = args[0] != null ? args[0].Split('=', 2) : new string[] { string.Empty, string.Empty };
-                        string comand = inputLine[0];
-                        if (string.Equals(comand, "--validation-rules", StringComparison.Ordinal))
-                        {
-                            string argument = inputLine[1].ToLowerInvariant();
-                            switch (argument)
-                            {
-                                case "default":
-                                    fileCabinetService = new FileCabinetDefaultService();
-                                    Console.WriteLine("Using default validation rules.");
-                                    break;
-                                case "custom":
-                                    fileCabinetService = new FileCabinetCustomService();
-                                    Console.WriteLine("Using custom validation rules.");
-                                    break;
-                                default:
-                                    Console.WriteLine("There is only default and custom validation. Default rules will be set.");
-                                    fileCabinetService = new FileCabinetDefaultService();
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Unknown comand. Default rules will be set.");
-                            fileCabinetService = new FileCabinetDefaultService();
-                        }
-
-                        break;
-                    case 2:
-                        if (string.Equals(args[0], "-v", StringComparison.Ordinal))
-                        {
-                            string argument = args[1].ToLowerInvariant();
-                            switch (argument)
-                            {
-                                case "default":
-                                    fileCabinetService = new FileCabinetDefaultService();
-                                    Console.WriteLine("Using default validation rules.");
-                                    break;
-                                case "custom":
-                                    fileCabinetService = new FileCabinetCustomService();
-                                    Console.WriteLine("Using custom validation rules.");
-                                    break;
-                                default:
-                                    Console.WriteLine("There is only default and custom validation.");
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Unknown comand. Default rules will be set.");
-                            fileCabinetService = new FileCabinetDefaultService();
-                        }
-
-                        break;
-                    default:
-                        Console.WriteLine("To much parameters. Default rules will be set.");
-                        fileCabinetService = new FileCabinetDefaultService();
-                        break;
-                }
-            }
-            else
-            {
-                Console.WriteLine("Using default validation rules.");
-            }
+            ChooseValidationRules(args, ref fileCabinetService);
 
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
             Console.WriteLine(Program.HintMessage);
@@ -146,6 +78,73 @@ namespace FileCabinetApp
                 }
             }
             while (isRunning);
+        }
+
+        private static void ChooseValidationRules(string[] args, ref FileCabinetService fileCabinetService)
+        {
+            if (args.Length > 0)
+            {
+                switch (args.Length)
+                {
+                    case 1:
+                        var inputLine = args[0] != null ? args[0].Split('=', 2) : new string[] { string.Empty, string.Empty };
+                        string comand = inputLine[0];
+                        if (string.Equals(comand, "--validation-rules", StringComparison.Ordinal))
+                        {
+                            string argument = inputLine[1].ToLowerInvariant();
+                            switch (argument)
+                            {
+                                case "default":
+                                    Console.WriteLine("Using default validation rules.");
+                                    break;
+                                case "custom":
+                                    fileCabinetService = new FileCabinetService(new CustomValidator());
+                                    Console.WriteLine("Using custom validation rules.");
+                                    break;
+                                default:
+                                    Console.WriteLine("There is only default and custom validation. Default rules will be set.");
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Unknown comand. Default rules will be set.");
+                        }
+
+                        break;
+                    case 2:
+                        if (string.Equals(args[0], "-v", StringComparison.Ordinal))
+                        {
+                            string argument = args[1].ToLowerInvariant();
+                            switch (argument)
+                            {
+                                case "default":
+                                    Console.WriteLine("Using default validation rules.");
+                                    break;
+                                case "custom":
+                                    fileCabinetService = new FileCabinetService(new CustomValidator());
+                                    Console.WriteLine("Using custom validation rules.");
+                                    break;
+                                default:
+                                    Console.WriteLine("There is only default and custom validation. Default rules will be set.");
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Unknown comand. Default rules will be set.");
+                        }
+
+                        break;
+                    default:
+                        Console.WriteLine("To much parameters. Default rules will be set.");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Using default validation rules.");
+            }
         }
 
         private static void PrintListOfRecords(FileCabinetRecord[] recordToPrint)
@@ -292,6 +291,7 @@ namespace FileCabinetApp
                 catch (ArgumentException exeption)
                 {
                     Console.WriteLine(exeption.Message);
+                    flagNotEnd = false;
                 }
             }
         }

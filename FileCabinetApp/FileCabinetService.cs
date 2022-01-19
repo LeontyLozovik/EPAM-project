@@ -29,6 +29,7 @@ namespace FileCabinetApp
         /// <returns>Id of created record.</returns>
         public int CreateRecord(FileCabinetRecord record)
         {
+            this.validator.ValidateParameters(record);
             record.Id = this.list.Count + 1;
 
             this.list.Add(record);
@@ -63,6 +64,7 @@ namespace FileCabinetApp
         /// <param name="newRecord">New record that replace old record.</param>
         public void EditRecord(FileCabinetRecord newRecord)
         {
+            this.validator.ValidateParameters(newRecord);
             if (newRecord.Id > this.list.Count)
             {
                 throw new ArgumentException("There is no record with this Id.");
