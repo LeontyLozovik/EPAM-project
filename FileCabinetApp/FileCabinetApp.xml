@@ -161,6 +161,57 @@
             <param name="newRecord">New record.</param>
             <param name="incorrectRecord">This record before etion.</param>
         </member>
+        <member name="T:FileCabinetApp.IFileCabinetService">
+            <summary>
+            Represent rules for working with FileCabinetRecord.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Create a new record with inputed parameters.
+            </summary>
+            <param name="record">Record to create.</param>
+            <returns>Id of created record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.GetRecords">
+            <summary>
+            Return all existing records.
+            </summary>
+            <returns>all existing records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.GetStat">
+            <summary>
+            Return number of existing records.
+            </summary>
+            <returns>number of existing records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.EditRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Edit record by entered Id.
+            </summary>
+            <param name="newRecord">New record that replace old record.</param>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.FindByFirstName(System.String)">
+            <summary>
+            Find all records with entered firstname.
+            </summary>
+            <param name="firstName">firstname to find.</param>
+            <returns>all records with entered firstname.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.FindByLastName(System.String)">
+            <summary>
+            Find all records with entered lastname.
+            </summary>
+            <param name="lastName">lastname to find.</param>
+            <returns>all records with entered lastname.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.FindByBirthday(System.String)">
+            <summary>
+            Find all records with entered dateofbirth.
+            </summary>
+            <param name="birthday">dateofbirth to find.</param>
+            <returns>all records with entered dateofbirth.</returns>
+        </member>
         <member name="T:FileCabinetApp.IRecordValidator">
             <summary>
             Discribes the rules for creating validation classes.
