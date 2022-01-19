@@ -279,9 +279,16 @@ namespace FileCabinetApp
                     Sex = sex,
                 };
 
-                var id = Program.fileCabinetService.CreateRecord(record);
-                Console.WriteLine($"Record #{id} is created.");
-                flagNotEnd = false;
+                try
+                {
+                    var id = Program.fileCabinetService.CreateRecord(record);
+                    Console.WriteLine($"Record #{id} is created.");
+                    flagNotEnd = false;
+                }
+                catch (ArgumentException exeption)
+                {
+                    Console.WriteLine(exeption.Message);
+                }
             }
         }
 

@@ -19,7 +19,7 @@ namespace FileCabinetApp
         /// <returns>Id of created record.</returns>
         public int CreateRecord(FileCabinetRecord record)
         {
-            this.ValidateParameters(record);
+            this.CreateValidator().ValidateParameters(record);
 
             record.Id = this.list.Count + 1;
 
@@ -55,7 +55,7 @@ namespace FileCabinetApp
         /// <param name="newRecord">New record that replace old record.</param>
         public void EditRecord(FileCabinetRecord newRecord)
         {
-            this.ValidateParameters(newRecord);
+            this.CreateValidator().ValidateParameters(newRecord);
 
             if (newRecord.Id > this.list.Count)
             {
@@ -124,11 +124,12 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Validate incoming parameters of record.
+        /// Create Validator for parameters.
         /// </summary>
-        /// <param name="record">record whose parametrs should be validate.</param>
-        protected virtual void ValidateParameters(FileCabinetRecord record)
+        /// <returns>required validator.</returns>
+        protected virtual IRecordValidator CreateValidator()
         {
+            return new DefaultValidator();
         }
 
         /// <summary>

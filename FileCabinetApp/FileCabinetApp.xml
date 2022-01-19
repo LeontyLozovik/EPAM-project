@@ -4,27 +4,49 @@
         <name>FileCabinetApp</name>
     </assembly>
     <members>
+        <member name="T:FileCabinetApp.CustomValidator">
+            <summary>
+            Custom validation parameters of record.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CustomValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Validate incoming parameters of record.
+            </summary>
+            <param name="record">record whose parametrs should be validate.</param>
+        </member>
+        <member name="T:FileCabinetApp.DefaultValidator">
+            <summary>
+            Default validation parameters of record.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.DefaultValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Validate incoming parameters of record.
+            </summary>
+            <param name="record">record whose parametrs should be validate.</param>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetCustomService">
             <summary>
             Custom validation parameters of record.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetCustomService.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.FileCabinetCustomService.CreateValidator">
             <summary>
-            Validate incoming parameters of record.
+            Create instance of CustomValidator.
             </summary>
-            <param name="record">record whose parametrs should be validate.</param>
+            <returns>instance of CustomValidator.</returns>
         </member>
         <member name="T:FileCabinetApp.FileCabinetDefaultService">
             <summary>
             Default validation parameters of record.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetDefaultService.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.FileCabinetDefaultService.CreateValidator">
             <summary>
-            Validate incoming parameters of record.
+            Create instance of DefaultValidator.
             </summary>
-            <param name="record">record whose parametrs should be validate.</param>
+            <returns>instance of DefaultValidator.</returns>
         </member>
         <member name="T:FileCabinetApp.FileCabinetRecord">
             <summary>
@@ -129,11 +151,11 @@
             <param name="birthday">dateofbirth to find.</param>
             <returns>all records with entered dateofbirth.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetService.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.FileCabinetService.CreateValidator">
             <summary>
-            Validate incoming parameters of record.
+            Create Validator for parameters.
             </summary>
-            <param name="record">record whose parametrs should be validate.</param>
+            <returns>required validator.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
             <summary>
@@ -160,6 +182,17 @@
             <param name="dateOfBirth">New dateofbirth.</param>
             <param name="newRecord">New record.</param>
             <param name="incorrectRecord">This record before etion.</param>
+        </member>
+        <member name="T:FileCabinetApp.IRecordValidator">
+            <summary>
+            Discribes the rules for creating validation classes.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.IRecordValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Validate incoming parameters of record.
+            </summary>
+            <param name="record">record whose parametrs should be validate.</param>
         </member>
         <member name="T:FileCabinetApp.Program">
             <summary>
