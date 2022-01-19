@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace FileCabinetApp
 {
@@ -147,7 +148,7 @@ namespace FileCabinetApp
             }
         }
 
-        private static void PrintListOfRecords(FileCabinetRecord[] recordToPrint)
+        private static void PrintListOfRecords(ReadOnlyCollection<FileCabinetRecord> recordToPrint)
         {
             foreach (var record in recordToPrint)
             {
@@ -438,16 +439,40 @@ namespace FileCabinetApp
                     switch (propName)
                     {
                         case "firstname":
-                            var firstNameReturnedRecords = fileCabinetService.FindByFirstName(textToFind);
-                            PrintListOfRecords(firstNameReturnedRecords);
+                            try
+                            {
+                                var firstNameReturnedRecords = fileCabinetService.FindByFirstName(textToFind);
+                                PrintListOfRecords(firstNameReturnedRecords);
+                            }
+                            catch (ArgumentException ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+
                             break;
                         case "lastname":
-                            var lastNameReturnedRecords = fileCabinetService.FindByLastName(textToFind);
-                            PrintListOfRecords(lastNameReturnedRecords);
+                            try
+                            {
+                                var lastNameReturnedRecords = fileCabinetService.FindByLastName(textToFind);
+                                PrintListOfRecords(lastNameReturnedRecords);
+                            }
+                            catch (ArgumentException ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+
                             break;
                         case "dateofbirth":
-                            var birthdayReturnedRecords = fileCabinetService.FindByBirthday(textToFind);
-                            PrintListOfRecords(birthdayReturnedRecords);
+                            try
+                            {
+                                var birthdayReturnedRecords = fileCabinetService.FindByBirthday(textToFind);
+                                PrintListOfRecords(birthdayReturnedRecords);
+                            }
+                            catch (ArgumentException ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+
                             break;
                         default:
                             Console.WriteLine($"Unknown property - {propName}");

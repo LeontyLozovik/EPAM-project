@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace FileCabinetApp
 {
@@ -43,9 +44,9 @@ namespace FileCabinetApp
         /// Return all existing records.
         /// </summary>
         /// <returns>all existing records.</returns>
-        public FileCabinetRecord[] GetRecords()
+        public ReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            FileCabinetRecord[] allRecords = this.list.ToArray();
+            ReadOnlyCollection<FileCabinetRecord> allRecords = new ReadOnlyCollection<FileCabinetRecord>(this.list);
             return allRecords;
         }
 
@@ -82,16 +83,15 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">firstname to find.</param>
         /// <returns>all records with entered firstname.</returns>
-        public FileCabinetRecord[] FindByFirstName(string firstName)
+        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            FileCabinetRecord[] foundRecords = Array.Empty<FileCabinetRecord>();
-            if (!string.IsNullOrEmpty(firstName))
+            if (!this.firstNameDictionary.ContainsKey(firstName.ToLowerInvariant()))
             {
-                var selectedRecords = this.firstNameDictionary[firstName.ToLowerInvariant()];
-                foundRecords = selectedRecords.ToArray();
-                return foundRecords;
+                throw new ArgumentException("Nothing found for your request.");
             }
 
+            var selectedRecords = this.firstNameDictionary[firstName.ToLowerInvariant()];
+            ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(selectedRecords);
             return foundRecords;
         }
 
@@ -100,16 +100,15 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="lastName">lastname to find.</param>
         /// <returns>all records with entered lastname.</returns>
-        public FileCabinetRecord[] FindByLastName(string lastName)
+        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
         {
-            FileCabinetRecord[] foundRecords = Array.Empty<FileCabinetRecord>();
-            if (!string.IsNullOrEmpty(lastName))
+            if (!this.lastNameDictionary.ContainsKey(lastName.ToLowerInvariant()))
             {
-                var selectedRecords = this.lastNameDictionary[lastName.ToLowerInvariant()];
-                foundRecords = selectedRecords.ToArray();
-                return foundRecords;
+                throw new ArgumentException("Nothing found for your request.");
             }
 
+            var selectedRecords = this.lastNameDictionary[lastName.ToLowerInvariant()];
+            ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(selectedRecords);
             return foundRecords;
         }
 
@@ -118,17 +117,21 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="birthday">dateofbirth to find.</param>
         /// <returns>all records with entered dateofbirth.</returns>
-        public FileCabinetRecord[] FindByBirthday(string birthday)
+        public ReadOnlyCollection<FileCabinetRecord> FindByBirthday(string birthday)
         {
             DateTime dateToFind;
             if (!DateTime.TryParse(birthday, CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out dateToFind))
             {
                 Console.WriteLine("Please check your input.");
             }
+            else if (!this.dateofbirthDictionary.ContainsKey(dateToFind))
+            {
+                throw new ArgumentException("Nothing found for your request.");
+            }
 
             var selectedRecords = this.dateofbirthDictionary[dateToFind];
-            FileCabinetRecord[] result = selectedRecords.ToArray();
-            return result;
+            ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(selectedRecords);
+            return foundRecords;
         }
 
         /// <summary>
