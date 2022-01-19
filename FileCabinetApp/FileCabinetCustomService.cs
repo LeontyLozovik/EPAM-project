@@ -6,12 +6,11 @@
     public class FileCabinetCustomService : FileCabinetService
     {
         /// <summary>
-        /// Create instance of CustomValidator.
+        /// Initializes a new instance of the <see cref="FileCabinetCustomService"/> class.
         /// </summary>
-        /// <returns>instance of CustomValidator.</returns>
-        protected override IRecordValidator CreateValidator()
+        public FileCabinetCustomService()
+            : base(new CustomValidator())
         {
-            return new CustomValidator();
         }
     }
 }

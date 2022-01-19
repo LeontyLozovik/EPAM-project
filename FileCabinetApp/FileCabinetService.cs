@@ -11,6 +11,16 @@ namespace FileCabinetApp
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateofbirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
+        private IRecordValidator validator;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
+        /// </summary>
+        /// <param name="validator">required validator.</param>
+        public FileCabinetService(IRecordValidator validator)
+        {
+            this.validator = validator;
+        }
 
         /// <summary>
         /// Create a new record with inputed parameters.
@@ -19,8 +29,6 @@ namespace FileCabinetApp
         /// <returns>Id of created record.</returns>
         public int CreateRecord(FileCabinetRecord record)
         {
-            this.CreateValidator().ValidateParameters(record);
-
             record.Id = this.list.Count + 1;
 
             this.list.Add(record);
@@ -55,8 +63,6 @@ namespace FileCabinetApp
         /// <param name="newRecord">New record that replace old record.</param>
         public void EditRecord(FileCabinetRecord newRecord)
         {
-            this.CreateValidator().ValidateParameters(newRecord);
-
             if (newRecord.Id > this.list.Count)
             {
                 throw new ArgumentException("There is no record with this Id.");
@@ -121,15 +127,6 @@ namespace FileCabinetApp
             var selectedRecords = this.dateofbirthDictionary[dateToFind];
             FileCabinetRecord[] result = selectedRecords.ToArray();
             return result;
-        }
-
-        /// <summary>
-        /// Create Validator for parameters.
-        /// </summary>
-        /// <returns>required validator.</returns>
-        protected virtual IRecordValidator CreateValidator()
-        {
-            return new DefaultValidator();
         }
 
         /// <summary>

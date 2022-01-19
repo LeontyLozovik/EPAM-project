@@ -37,7 +37,7 @@ namespace FileCabinetApp
             new string[] { "find", "find records by one parameter", "The 'find' command find records by one parameter" },
         };
 
-        private static FileCabinetService fileCabinetService = new FileCabinetService();
+        private static FileCabinetService fileCabinetService = new FileCabinetService(new DefaultValidator());
 
         /// <summary>
         /// Get user comand from cmd and call functions to process them.
@@ -45,7 +45,7 @@ namespace FileCabinetApp
         /// <param name="args">parameters of "Main" function.</param>
         public static void Main(string[] args)
         {
-            if (args is not null)
+            if (args.Length > 0)
             {
                 switch (args.Length)
                 {
@@ -109,6 +109,10 @@ namespace FileCabinetApp
                         fileCabinetService = new FileCabinetDefaultService();
                         break;
                 }
+            }
+            else
+            {
+                Console.WriteLine("Using default validation rules.");
             }
 
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
