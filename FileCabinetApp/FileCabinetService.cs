@@ -24,6 +24,15 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Returns validator.
+        /// </summary>
+        /// <returns>type of validation.</returns>
+        public IRecordValidator GetValidationType()
+        {
+            return this.validator;
+        }
+
+        /// <summary>
         /// Create a new record with inputed parameters.
         /// </summary>
         /// <param name="record">Record to create.</param>

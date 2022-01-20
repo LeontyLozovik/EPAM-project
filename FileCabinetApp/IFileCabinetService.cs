@@ -8,6 +8,12 @@ namespace FileCabinetApp
     public interface IFileCabinetService
     {
         /// <summary>
+        /// Returns validator.
+        /// </summary>
+        /// <returns>type of validation.</returns>
+        public IRecordValidator GetValidationType();
+
+        /// <summary>
         /// Create a new record with inputed parameters.
         /// </summary>
         /// <param name="record">Record to create.</param>

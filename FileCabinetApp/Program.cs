@@ -13,7 +13,6 @@ namespace FileCabinetApp
         private const int CommandHelpIndex = 0;
         private const int DescriptionHelpIndex = 1;
         private const int ExplanationHelpIndex = 2;
-
         private static bool isRunning = true;
 
         private static Tuple<string, Action<string>>[] commands = new Tuple<string, Action<string>>[]
@@ -189,6 +188,237 @@ namespace FileCabinetApp
             Console.WriteLine();
         }
 
+        private static T ReadInput<T>(Func<string, Tuple<bool, string, T>> converter, Func<T, Tuple<bool, string>> validator)
+        {
+            do
+            {
+                T value;
+
+                var input = Console.ReadLine();
+                if (input is null)
+                {
+                    input = string.Empty;
+                }
+
+                var conversionResult = converter(input);
+
+                if (!conversionResult.Item1)
+                {
+                    Console.WriteLine($"Conversion failed: {conversionResult.Item2}. Please, correct your input.");
+                    continue;
+                }
+
+                value = conversionResult.Item3;
+
+                var validationResult = validator(value);
+                if (!validationResult.Item1)
+                {
+                    Console.WriteLine($"Validation failed: {validationResult.Item2}. Please, correct your input.");
+                    continue;
+                }
+
+                return value;
+            }
+            while (true);
+        }
+
+        private static Tuple<bool, string, string> StringConverter(string toConvert)
+        {
+            char[] separators = { ' ', '.', ',', '\'', '\"' };
+            string resultString = toConvert.Trim(separators);
+            return new Tuple<bool, string, string>(true, toConvert, resultString);
+        }
+
+        private static Tuple<bool, string, DateTime> DateConverter(string toConvert)
+        {
+            char[] separators = { ' ', '.', ',', '\'', '\"' };
+            string trimedString = toConvert.Trim(separators);
+            DateTime birthday;
+            bool goodDate = true;
+            if (!DateTime.TryParse(trimedString, CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out birthday))
+            {
+                goodDate = false;
+            }
+
+            return new Tuple<bool, string, DateTime>(goodDate, toConvert, birthday);
+        }
+
+        private static Tuple<bool, string, short> ShortConverter(string toConvert)
+        {
+            char[] separators = { ' ', '.', ',', '\'', '\"' };
+            string trimedString = toConvert.Trim(separators);
+            short numberOfChildren;
+            bool goodShort = true;
+            if (!short.TryParse(toConvert, out numberOfChildren))
+            {
+                goodShort = false;
+            }
+
+            return new Tuple<bool, string, short>(goodShort, toConvert, numberOfChildren);
+        }
+
+        private static Tuple<bool, string, decimal> DecimalConverter(string toConvert)
+        {
+            char[] separators = { ' ', '.', ',', '\'', '\"' };
+            string trimedString = toConvert.Trim(separators);
+            decimal averageSalary;
+            bool goodNumber = true;
+            if (!decimal.TryParse(toConvert, out averageSalary))
+            {
+                goodNumber = false;
+            }
+
+            return new Tuple<bool, string, decimal>(goodNumber, toConvert, averageSalary);
+        }
+
+        private static Tuple<bool, string, char> CharConverter(string toConvert)
+        {
+            char[] separators = { ' ', '.', ',', '\'', '\"' };
+            string trimedString = toConvert.Trim(separators);
+            bool isChar = true;
+            if (trimedString.Length > 1)
+            {
+                isChar = false;
+            }
+
+            return new Tuple<bool, string, char>(isChar, toConvert, trimedString[0]);
+        }
+
+        private static Tuple<bool, string> FirstNameValidator(string firstName)
+        {
+            bool validationSuccess = true;
+            switch (fileCabinetService.GetValidationType())
+            {
+                case DefaultValidator:
+                    if (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
+                    {
+                        validationSuccess = false;
+                    }
+
+                    break;
+                case CustomValidator:
+                    if (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 1 || firstName.Length > 20)
+                    {
+                        validationSuccess = false;
+                    }
+
+                    break;
+            }
+
+            return new Tuple<bool, string>(validationSuccess, firstName);
+        }
+
+        private static Tuple<bool, string> LastNameValidator(string lastName)
+        {
+            bool validationSuccess = true;
+            switch (fileCabinetService.GetValidationType())
+            {
+                case DefaultValidator:
+                    if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
+                    {
+                        validationSuccess = false;
+                    }
+
+                    break;
+                case CustomValidator:
+                    if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 1 || lastName.Length > 20)
+                    {
+                        validationSuccess = false;
+                    }
+
+                    break;
+            }
+
+            return new Tuple<bool, string>(validationSuccess, lastName);
+        }
+
+        private static Tuple<bool, string> DateOfBirthValidator(DateTime birthday)
+        {
+            bool validationSuccess = true;
+            switch (fileCabinetService.GetValidationType())
+            {
+                case DefaultValidator:
+                    DateTime oldest = new DateTime(1950, 1, 1);
+                    DateTime now = DateTime.Now;
+                    if (birthday < oldest || birthday > now)
+                    {
+                        validationSuccess = false;
+                    }
+
+                    break;
+                case CustomValidator:
+                    oldest = new DateTime(1900, 1, 1);
+                    now = DateTime.Now;
+                    if (birthday < oldest || birthday > now)
+                    {
+                        validationSuccess = false;
+                    }
+
+                    break;
+            }
+
+            return new Tuple<bool, string>(validationSuccess, birthday.ToString());
+        }
+
+        private static Tuple<bool, string> NumberOfChildrenValidator(short children)
+        {
+            bool validationSuccess = true;
+            switch (fileCabinetService.GetValidationType())
+            {
+                case DefaultValidator:
+                    if (children < 0)
+                    {
+                        validationSuccess = false;
+                    }
+
+                    break;
+                case CustomValidator:
+                    if (children < 1)
+                    {
+                        validationSuccess = false;
+                    }
+
+                    break;
+            }
+
+            return new Tuple<bool, string>(validationSuccess, children.ToString());
+        }
+
+        private static Tuple<bool, string> AverageSalaryValidator(decimal salary)
+        {
+            bool validationSuccess = true;
+            switch (fileCabinetService.GetValidationType())
+            {
+                case DefaultValidator:
+                    if (salary < 0 || salary > 1000000000)
+                    {
+                        validationSuccess = false;
+                    }
+
+                    break;
+                case CustomValidator:
+                    if (salary < 500 || salary > 1000000)
+                    {
+                        validationSuccess = false;
+                    }
+
+                    break;
+            }
+
+            return new Tuple<bool, string>(validationSuccess, salary.ToString());
+        }
+
+        private static Tuple<bool, string> SexValidator(char sex)
+        {
+            bool validationSuccess = true;
+            if (sex != 'm' && sex != 'w')
+            {
+                validationSuccess = false;
+            }
+
+            return new Tuple<bool, string>(validationSuccess, sex.ToString());
+        }
+
         private static void Exit(string parameters)
         {
             Console.WriteLine("Exiting an application...");
@@ -207,70 +437,22 @@ namespace FileCabinetApp
             while (flagNotEnd)
             {
                 Console.Write("First name: ");
-                var firstName = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
-                {
-                    Console.WriteLine("Incorrect first name! First name should be grater then 2, less then 60 and can't be null or white space.");
-                    continue;
-                }
+                var firstName = ReadInput(StringConverter, FirstNameValidator);
 
                 Console.Write("Last name: ");
-                var lastName = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
-                {
-                    Console.WriteLine("Incorrect last name! Last name should be grater then 2, less then 60 and can't be null or white space.");
-                    continue;
-                }
+                var lastName = ReadInput(StringConverter, LastNameValidator);
 
                 Console.Write("Date of birth: ");
-                DateTime birthday;
-                if (!DateTime.TryParse(Console.ReadLine(), CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out birthday))
-                {
-                    Console.WriteLine("Error! Please check your date of birth input.");
-                    continue;
-                }
-
-                DateTime oldest = new DateTime(1950, 1, 1);
-                DateTime now = DateTime.Now;
-                if (birthday < oldest || birthday > now)
-                {
-                    Console.WriteLine("Sorry but minimal date of birth - 01-Jan-1950 and maxsimum - current date");
-                    continue;
-                }
+                var birthday = ReadInput(DateConverter, DateOfBirthValidator);
 
                 Console.Write("Number of children: ");
-                short children;
-                if (!short.TryParse(Console.ReadLine(), out children))
-                {
-                    Console.WriteLine("Error! Please check your number of children input");
-                    continue;
-                }
-                else if (children < 0)
-                {
-                    Console.WriteLine("Number of children can't be less then 0.");
-                    continue;
-                }
+                short children = ReadInput(ShortConverter, NumberOfChildrenValidator);
 
                 Console.Write("Averege salary: ");
-                decimal salary;
-                if (!decimal.TryParse(Console.ReadLine(), out salary))
-                {
-                    Console.WriteLine("Error! Please check your salary input");
-                    continue;
-                }
-                else if (salary < 0 || salary > 1000000000)
-                {
-                    Console.WriteLine("Average salary can't be less then 0 or grater then 1 billion.");
-                    continue;
-                }
+                decimal salary = ReadInput(DecimalConverter, AverageSalaryValidator);
 
                 Console.Write("Sex (m - men, w - women): ");
-                char sex = (char)Console.Read();
-                if (sex != 'm' && sex != 'w')
-                {
-                    Console.WriteLine("Sorry, but your sex can be m - men or w - women only.");
-                    continue;
-                }
+                char sex = ReadInput(CharConverter, SexValidator);
 
                 var record = new FileCabinetRecord
                 {
@@ -326,70 +508,22 @@ namespace FileCabinetApp
                 while (flagNotEnd)
                 {
                     Console.Write("First name: ");
-                    var firstName = Console.ReadLine();
-                    if (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
-                    {
-                        Console.WriteLine("Incorrect first name! First name should be grater then 2, less then 60 and can't be null or white space.");
-                        continue;
-                    }
+                    var firstName = ReadInput(StringConverter, FirstNameValidator);
 
                     Console.Write("Last name: ");
-                    var lastName = Console.ReadLine();
-                    if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
-                    {
-                        Console.WriteLine("Incorrect last name! Last name should be grater then 2, less then 60 and can't be null or white space.");
-                        continue;
-                    }
+                    var lastName = ReadInput(StringConverter, LastNameValidator);
 
                     Console.Write("Date of birth: ");
-                    DateTime birthday;
-                    if (!DateTime.TryParse(Console.ReadLine(), CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out birthday))
-                    {
-                        Console.WriteLine("Error! Please check your date of birth input.");
-                        continue;
-                    }
-
-                    DateTime oldest = new DateTime(1950, 1, 1);
-                    DateTime now = DateTime.Now;
-                    if (birthday < oldest || birthday > now)
-                    {
-                        Console.WriteLine("Sorry but minimal date of birth - 01-Jan-1950 and maxsimum - current date");
-                        continue;
-                    }
+                    var birthday = ReadInput(DateConverter, DateOfBirthValidator);
 
                     Console.Write("Number of children: ");
-                    short children;
-                    if (!short.TryParse(Console.ReadLine(), out children))
-                    {
-                        Console.WriteLine("Error! Please check your number of children input");
-                        continue;
-                    }
-                    else if (children < 0)
-                    {
-                        Console.WriteLine("Number of children can't be less then 0.");
-                        continue;
-                    }
+                    short children = ReadInput(ShortConverter, NumberOfChildrenValidator);
 
                     Console.Write("Averege salary: ");
-                    decimal salary;
-                    if (!decimal.TryParse(Console.ReadLine(), out salary))
-                    {
-                        Console.WriteLine("Error! Please check your salary input");
-                        continue;
-                    }
-                    else if (salary < 0 || salary > 1000000000)
-                    {
-                        Console.WriteLine("Average salary can't be less then 0 or grater then 1 billion.");
-                        continue;
-                    }
+                    decimal salary = ReadInput(DecimalConverter, AverageSalaryValidator);
 
                     Console.Write("Sex (m - men, w - women): ");
-                    char sex = (char)Console.Read();
-                    if (sex != 'm' && sex != 'w')
-                    {
-                        Console.WriteLine("Sorry, but your sex can be m - men or w - women only.");
-                        continue;
-                    }
+                    char sex = ReadInput(CharConverter, SexValidator);
 
                     var newRecord = new FileCabinetRecord
                     {

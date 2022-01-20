@@ -89,6 +89,12 @@
             </summary>
             <param name="validator">required validator.</param>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetService.GetValidationType">
+            <summary>
+            Returns validator.
+            </summary>
+            <returns>type of validation.</returns>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Create a new record with inputed parameters.
@@ -165,6 +171,12 @@
             <summary>
             Represent rules for working with FileCabinetRecord.
             </summary>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.GetValidationType">
+            <summary>
+            Returns validator.
+            </summary>
+            <returns>type of validation.</returns>
         </member>
         <member name="M:FileCabinetApp.IFileCabinetService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
