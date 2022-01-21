@@ -144,6 +144,15 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Make a snapshot of current state.
+        /// </summary>
+        /// <returns>instance of FileCabinetServiceSnapshot class.</returns>
+        public FileCabinetServiceSnapshot MakeSnapshot()
+        {
+            return new FileCabinetServiceSnapshot(this.list.ToArray());
+        }
+
+        /// <summary>
         /// Add records with firtname or lastname key to the dictionary.
         /// </summary>
         /// <param name="name">firstname or lastname key.</param>

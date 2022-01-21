@@ -78,6 +78,33 @@
             </summary>
             <value>Sex in record.</value>
         </member>
+        <member name="T:FileCabinetApp.FileCabinetRecordCsvWriter">
+            <summary>
+            Write record to csv file.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.FileCabinetRecordCsvWriter.writer">
+            <summary>
+            Writer - write record to the file.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetRecordCsvWriter.#ctor(System.IO.TextWriter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetRecordCsvWriter"/> class.
+            </summary>
+            <param name="textWriter">param to initialize fild writer.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetRecordCsvWriter.Write(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Write record to csv file.
+            </summary>
+            <param name="record">record to write.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetRecordCsvWriter.WriteTemplate">
+            <summary>
+            Write name of all filds of record.
+            </summary>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetService">
             <summary>
             Do manipulations with records.
@@ -141,6 +168,12 @@
             <param name="birthday">dateofbirth to find.</param>
             <returns>all records with entered dateofbirth.</returns>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetService.MakeSnapshot">
+            <summary>
+            Make a snapshot of current state.
+            </summary>
+            <returns>instance of FileCabinetServiceSnapshot class.</returns>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
             <summary>
             Add records with firtname or lastname key to the dictionary.
@@ -166,6 +199,23 @@
             <param name="dateOfBirth">New dateofbirth.</param>
             <param name="newRecord">New record.</param>
             <param name="incorrectRecord">This record before etion.</param>
+        </member>
+        <member name="T:FileCabinetApp.FileCabinetServiceSnapshot">
+            <summary>
+            Service class for crating snapshots.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetServiceSnapshot.#ctor(FileCabinetApp.FileCabinetRecord[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetServiceSnapshot"/> class.
+            </summary>
+            <param name="records">records to initialize new istance of this class.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetServiceSnapshot.SaveToCsv(System.IO.StreamWriter)">
+            <summary>
+            Save all records to csv file.
+            </summary>
+            <param name="streamWriter">Stream Writer to write records to file.</param>
         </member>
         <member name="T:FileCabinetApp.IFileCabinetService">
             <summary>
@@ -223,6 +273,12 @@
             </summary>
             <param name="birthday">dateofbirth to find.</param>
             <returns>all records with entered dateofbirth.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.MakeSnapshot">
+            <summary>
+            Make a snapshot of current state.
+            </summary>
+            <returns>instance of FileCabinetServiceSnapshot class.</returns>
         </member>
         <member name="T:FileCabinetApp.IRecordValidator">
             <summary>

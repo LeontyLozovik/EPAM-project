@@ -24,6 +24,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("list", List),
             new Tuple<string, Action<string>>("edit", Edit),
             new Tuple<string, Action<string>>("find", Find),
+            new Tuple<string, Action<string>>("export", Export),
         };
 
         private static string[][] helpMessages = new string[][]
@@ -35,6 +36,7 @@ namespace FileCabinetApp
             new string[] { "list", "prints all existing records", "The 'list' command prints all existing records" },
             new string[] { "edit", "edit your record by Id", "The 'edit' command edit your record by Id" },
             new string[] { "find", "find records by one parameter", "The 'find' command find records by one parameter" },
+            new string[] { "export", "exporting service records to files of a certain type", "The 'export' command exporting service records to files of a certain type" },
         };
 
         private static IFileCabinetService fileCabinetService = new FileCabinetService(new DefaultValidator());
@@ -562,13 +564,13 @@ namespace FileCabinetApp
             else
             {
                 string[] input = parameters.Split(' ', 2);
-                string propName = input[0].ToLowerInvariant();
                 if (input.Length != 2)
                 {
                     Console.WriteLine("Please check you input.");
                 }
                 else
                 {
+                    string propName = input[0].ToLowerInvariant();
                     string textToFind = input[1].Trim('\"');
                     switch (propName)
                     {
@@ -610,6 +612,79 @@ namespace FileCabinetApp
                             break;
                         default:
                             Console.WriteLine($"Unknown property - {propName}");
+                            break;
+                    }
+                }
+            }
+        }
+
+        private static void Export(string parameters)
+        {
+            if (string.IsNullOrEmpty(parameters))
+            {
+                Console.WriteLine("Command 'export' should contain type and path of file to export.");
+            }
+            else
+            {
+                string[] input = parameters.Split(' ', 2);
+                if (input.Length != 2)
+                {
+                    Console.WriteLine("Please check you input.");
+                }
+                else
+                {
+                    string typeOfFile = input[0].ToLowerInvariant();
+                    string filePath = input[1];
+                    switch (typeOfFile)
+                    {
+                        case "csv":
+                            if (!filePath.EndsWith(".csv"))
+                            {
+                                filePath = string.Concat(filePath, ".csv");
+                            }
+
+                            if (File.Exists(filePath))
+                            {
+                                bool notEnd = true;
+                                do
+                                {
+                                    Console.Write($"File is exist - rewrite {filePath} [Y/n]");
+                                    var answer = Console.ReadLine();
+                                    if (string.IsNullOrEmpty(answer))
+                                    {
+                                        break;
+                                    }
+
+                                    if (string.Equals(answer.ToLowerInvariant(), "y"))
+                                    {
+                                        notEnd = false;
+                                    }
+                                    else if (answer.ToLowerInvariant() == "n")
+                                    {
+                                        break;
+                                    }
+                                }
+                                while (notEnd);
+                            }
+
+                            try
+                            {
+                                FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
+                                StreamWriter streamWriter = new StreamWriter(fileStream, System.Text.Encoding.Default);
+                                var snapshot = fileCabinetService.MakeSnapshot();
+                                snapshot.SaveToCsv(streamWriter);
+                                Console.WriteLine($"All records are exported to file {filePath}");
+                                streamWriter.Close();
+                                fileStream.Close();
+                            }
+                            catch (Exception)
+                            {
+                                Console.WriteLine($"Export failed: can't open file {filePath}");
+                            }
+
+                            break;
+                        default:
+                            Console.WriteLine($"Unknown or unsupported type of file - {typeOfFile}");
                             break;
                     }
                 }
