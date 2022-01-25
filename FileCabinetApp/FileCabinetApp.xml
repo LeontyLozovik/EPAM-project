@@ -80,7 +80,7 @@
         </member>
         <member name="T:FileCabinetApp.FileCabinetRecordCsvWriter">
             <summary>
-            Write record to csv file.
+            Write record to file in csv format.
             </summary>
         </member>
         <member name="F:FileCabinetApp.FileCabinetRecordCsvWriter.writer">
@@ -103,6 +103,38 @@
         <member name="M:FileCabinetApp.FileCabinetRecordCsvWriter.WriteTemplate">
             <summary>
             Write name of all filds of record.
+            </summary>
+        </member>
+        <member name="T:FileCabinetApp.FileCabinetRecordXmlWriter">
+            <summary>
+            Write record to file in xml format.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.FileCabinetRecordXmlWriter.writer">
+            <summary>
+            Writer - write record to the file.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetRecordXmlWriter.#ctor(System.Xml.XmlWriter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetRecordXmlWriter"/> class.
+            </summary>
+            <param name="xmlWriter">param to initialize fild writer.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetRecordXmlWriter.Write(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Write record to csv file.
+            </summary>
+            <param name="record">record to write.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetRecordXmlWriter.Start">
+            <summary>
+            Print start of the xml file.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetRecordXmlWriter.End">
+            <summary>
+            Close XmlWriter and due to settings write end of xml file.
             </summary>
         </member>
         <member name="T:FileCabinetApp.FileCabinetService">
@@ -214,6 +246,12 @@
         <member name="M:FileCabinetApp.FileCabinetServiceSnapshot.SaveToCsv(System.IO.StreamWriter)">
             <summary>
             Save all records to csv file.
+            </summary>
+            <param name="streamWriter">Stream Writer to write records to file.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetServiceSnapshot.SaveToXml(System.IO.StreamWriter)">
+            <summary>
+            Save all records to xml file.
             </summary>
             <param name="streamWriter">Stream Writer to write records to file.</param>
         </member>

@@ -3,7 +3,7 @@
 namespace FileCabinetApp
 {
     /// <summary>
-    /// Write record to csv file.
+    /// Write record to file in csv format.
     /// </summary>
     public class FileCabinetRecordCsvWriter
     {

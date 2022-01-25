@@ -657,6 +657,7 @@ namespace FileCabinetApp
 
                                     if (string.Equals(answer.ToLowerInvariant(), "y"))
                                     {
+                                        File.Delete(filePath);
                                         notEnd = false;
                                     }
                                     else if (answer.ToLowerInvariant() == "n")
@@ -679,6 +680,54 @@ namespace FileCabinetApp
                             }
                             catch (Exception)
                             {
+                                Console.WriteLine($"Export failed: can't open file {filePath}");
+                            }
+
+                            break;
+                        case "xml":
+                            if (!filePath.EndsWith(".xml"))
+                            {
+                                filePath = string.Concat(filePath, ".xml");
+                            }
+
+                            if (File.Exists(filePath))
+                            {
+                                bool notEnd = true;
+                                do
+                                {
+                                    Console.Write($"File is exist - rewrite {filePath} [Y/n]");
+                                    var answer = Console.ReadLine();
+                                    if (string.IsNullOrEmpty(answer))
+                                    {
+                                        break;
+                                    }
+
+                                    if (string.Equals(answer.ToLowerInvariant(), "y"))
+                                    {
+                                        File.Delete(filePath);
+                                        notEnd = false;
+                                    }
+                                    else if (answer.ToLowerInvariant() == "n")
+                                    {
+                                        break;
+                                    }
+                                }
+                                while (notEnd);
+                            }
+
+                            try
+                            {
+                                FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
+                                StreamWriter streamWriter = new StreamWriter(fileStream, System.Text.Encoding.Default);
+                                var snapshot = fileCabinetService.MakeSnapshot();
+                                snapshot.SaveToXml(streamWriter);
+                                Console.WriteLine($"All records are exported to file {filePath}");
+                                streamWriter.Close();
+                                fileStream.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
                                 Console.WriteLine($"Export failed: can't open file {filePath}");
                             }
 
