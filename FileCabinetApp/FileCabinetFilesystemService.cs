@@ -8,6 +8,7 @@ namespace FileCabinetApp
     public class FileCabinetFilesystemService : IFileCabinetService
     {
         private readonly FileStream fileStream;
+        private IRecordValidator validator = new DefaultValidator();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetFilesystemService"/> class.
@@ -16,6 +17,17 @@ namespace FileCabinetApp
         public FileCabinetFilesystemService(FileStream fileStream)
         {
             this.fileStream = fileStream;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileCabinetFilesystemService"/> class.
+        /// </summary>
+        /// <param name="fileStream">param to initialization fileStream fild.</param>
+        /// <param name="validator">param to initialization validator fild.</param>
+        public FileCabinetFilesystemService(FileStream fileStream, IRecordValidator validator)
+        {
+            this.fileStream = fileStream;
+            this.validator = validator;
         }
 
         /// <summary>

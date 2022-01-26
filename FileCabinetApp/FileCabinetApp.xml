@@ -37,6 +37,13 @@
             </summary>
             <param name="fileStream">param to initialization fileStream fild.</param>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.#ctor(System.IO.FileStream,FileCabinetApp.IRecordValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetFilesystemService"/> class.
+            </summary>
+            <param name="fileStream">param to initialization fileStream fild.</param>
+            <param name="validator">param to initialization validator fild.</param>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Create a new record with inputed parameters.
