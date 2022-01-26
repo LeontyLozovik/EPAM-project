@@ -4,9 +4,9 @@ using System.Globalization;
 namespace FileCabinetApp
 {
     /// <summary>
-    /// Do manipulations with records.
+    /// Do manipulations with records in memory.
     /// </summary>
-    public class FileCabinetService : IFileCabinetService
+    public class FileCabinetMemoryService : IFileCabinetService
     {
         private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
@@ -15,10 +15,10 @@ namespace FileCabinetApp
         private IRecordValidator validator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileCabinetService"/> class.
+        /// Initializes a new instance of the <see cref="FileCabinetMemoryService"/> class.
         /// </summary>
         /// <param name="validator">required validator.</param>
-        public FileCabinetService(IRecordValidator validator)
+        public FileCabinetMemoryService(IRecordValidator validator)
         {
             this.validator = validator;
         }

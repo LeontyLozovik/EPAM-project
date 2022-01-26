@@ -39,7 +39,7 @@ namespace FileCabinetApp
             new string[] { "export", "exporting service records to files of a certain type", "The 'export' command exporting service records to files of a certain type" },
         };
 
-        private static IFileCabinetService fileCabinetService = new FileCabinetService(new DefaultValidator());
+        private static IFileCabinetService fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
 
         /// <summary>
         /// Get user comand from cmd and call functions to process them.
@@ -100,7 +100,7 @@ namespace FileCabinetApp
                                     Console.WriteLine("Using default validation rules.");
                                     break;
                                 case "custom":
-                                    fileCabinetService = new FileCabinetService(new CustomValidator());
+                                    fileCabinetService = new FileCabinetMemoryService(new CustomValidator());
                                     Console.WriteLine("Using custom validation rules.");
                                     break;
                                 default:
@@ -124,7 +124,7 @@ namespace FileCabinetApp
                                     Console.WriteLine("Using default validation rules.");
                                     break;
                                 case "custom":
-                                    fileCabinetService = new FileCabinetService(new CustomValidator());
+                                    fileCabinetService = new FileCabinetMemoryService(new CustomValidator());
                                     Console.WriteLine("Using custom validation rules.");
                                     break;
                                 default:
