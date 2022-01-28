@@ -106,7 +106,18 @@ namespace FileCabinetApp
                     Console.WriteLine("Using memory service.");
                     return new FileCabinetMemoryService(validator);
                 case "file":
-                    FileStream fileStream = new FileStream("cabinet-records.db", FileMode.OpenOrCreate);
+                    FileMode mode;
+                    string path = "C:\\Epam-project\\FileCabinetApp\\cabinet-records.db";
+                    if (File.Exists(path))
+                    {
+                        mode = FileMode.Truncate;
+                    }
+                    else
+                    {
+                        mode = FileMode.Create;
+                    }
+
+                    FileStream fileStream = new FileStream(path, mode);
                     Console.WriteLine("Using file service.");
                     return new FileCabinetFilesystemService(fileStream, validator);
                 default:

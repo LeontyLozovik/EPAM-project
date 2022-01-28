@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 
 namespace FileCabinetApp
 {
@@ -37,7 +39,29 @@ namespace FileCabinetApp
         /// <returns>Id of created record.</returns>
         public int CreateRecord(FileCabinetRecord record)
         {
-            throw new NotImplementedException();
+            this.validator.ValidateParameters(record);
+            FileInfo fileInfo = new FileInfo(this.fileStream.Name);
+            short recordSize = 277;
+            record.Id = ((int)fileInfo.Length / recordSize) + 1;
+            short status = 1;
+            using (BinaryWriter binaryWriter = new BinaryWriter(this.fileStream, Encoding.Default, true))
+            {
+                binaryWriter.Seek((int)fileInfo.Length, SeekOrigin.Begin);
+                binaryWriter.Write(status);
+                binaryWriter.Write(record.Id);
+                binaryWriter.Write(record.FirstName);
+                binaryWriter.Seek(120 - (record.FirstName.Length + 1), SeekOrigin.Current);
+                binaryWriter.Write(record.LastName);
+                binaryWriter.Seek(120 - (record.LastName.Length + 1), SeekOrigin.Current);
+                binaryWriter.Write(record.DateOfBirth.Year);
+                binaryWriter.Write(record.DateOfBirth.Month);
+                binaryWriter.Write(record.DateOfBirth.Day);
+                binaryWriter.Write(record.Children);
+                binaryWriter.Write(record.AverageSalary);
+                binaryWriter.Write(record.Sex);
+            }
+
+            return record.Id;
         }
 
         /// <summary>
@@ -103,7 +127,7 @@ namespace FileCabinetApp
         /// <returns>type of validation.</returns>
         public IRecordValidator GetValidationType()
         {
-            throw new NotImplementedException();
+            return this.validator;
         }
 
         /// <summary>
