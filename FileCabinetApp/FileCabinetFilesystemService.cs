@@ -33,6 +33,15 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Returns validator.
+        /// </summary>
+        /// <returns>type of validation.</returns>
+        public IRecordValidator GetValidationType()
+        {
+            return this.validator;
+        }
+
+        /// <summary>
         /// Create a new record with inputed parameters.
         /// </summary>
         /// <param name="record">Record to create.</param>
@@ -62,6 +71,26 @@ namespace FileCabinetApp
             }
 
             return record.Id;
+        }
+
+        /// <summary>
+        /// Return all existing records.
+        /// </summary>
+        /// <returns>all existing records.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> GetRecords()
+        {
+            List<FileCabinetRecord> list = new List<FileCabinetRecord>();
+            FileInfo fileInfo = new FileInfo(this.fileStream.Name);
+            short recordSize = 277;
+            int numberOfRecords = (int)fileInfo.Length / recordSize;
+            this.fileStream.Seek(0, SeekOrigin.Begin);
+            for (int i = 0; i < numberOfRecords; i++)
+            {
+                list.Add(this.GetOneRecord());
+            }
+
+            ReadOnlyCollection<FileCabinetRecord> allRecords = new ReadOnlyCollection<FileCabinetRecord>(list);
+            return allRecords;
         }
 
         /// <summary>
@@ -104,15 +133,6 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Return all existing records.
-        /// </summary>
-        /// <returns>all existing records.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> GetRecords()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Return number of existing records.
         /// </summary>
         /// <returns>number of existing records.</returns>
@@ -122,21 +142,47 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Returns validator.
-        /// </summary>
-        /// <returns>type of validation.</returns>
-        public IRecordValidator GetValidationType()
-        {
-            return this.validator;
-        }
-
-        /// <summary>
         /// Make a snapshot of current state.
         /// </summary>
         /// <returns>instance of FileCabinetServiceSnapshot class.</returns>
         public FileCabinetServiceSnapshot MakeSnapshot()
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Get one record from the file starting from currient position.
+        /// </summary>
+        /// <returns>One record from file.</returns>
+        private FileCabinetRecord GetOneRecord()
+        {
+            using (BinaryReader binaryReader = new BinaryReader(this.fileStream, Encoding.Default, true))
+            {
+                short status = binaryReader.ReadInt16();
+                int id = binaryReader.ReadInt32();
+                string firstname = binaryReader.ReadString();
+                this.fileStream.Seek(120 - (firstname.Length + 1), SeekOrigin.Current);
+                string lastname = binaryReader.ReadString();
+                this.fileStream.Seek(120 - (lastname.Length + 1), SeekOrigin.Current);
+                int year = binaryReader.ReadInt32();
+                int month = binaryReader.ReadInt32();
+                int day = binaryReader.ReadInt32();
+                short children = binaryReader.ReadInt16();
+                decimal salary = binaryReader.ReadDecimal();
+                char sex = binaryReader.ReadChar();
+                DateTime birthday = new DateTime(year, month, day);
+                FileCabinetRecord record = new FileCabinetRecord
+                {
+                    Id = id,
+                    FirstName = firstname,
+                    LastName = lastname,
+                    DateOfBirth = birthday,
+                    Children = children,
+                    AverageSalary = salary,
+                    Sex = sex,
+                };
+                return record;
+            }
         }
     }
 }

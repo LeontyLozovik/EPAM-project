@@ -44,12 +44,24 @@
             <param name="fileStream">param to initialization fileStream fild.</param>
             <param name="validator">param to initialization validator fild.</param>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetValidationType">
+            <summary>
+            Returns validator.
+            </summary>
+            <returns>type of validation.</returns>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Create a new record with inputed parameters.
             </summary>
             <param name="record">Record to create.</param>
             <returns>Id of created record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetRecords">
+            <summary>
+            Return all existing records.
+            </summary>
+            <returns>all existing records.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.EditRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
@@ -78,23 +90,11 @@
             <param name="lastName">lastname to find.</param>
             <returns>all records with entered lastname.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetRecords">
-            <summary>
-            Return all existing records.
-            </summary>
-            <returns>all existing records.</returns>
-        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetStat">
             <summary>
             Return number of existing records.
             </summary>
             <returns>number of existing records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetValidationType">
-            <summary>
-            Returns validator.
-            </summary>
-            <returns>type of validation.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.MakeSnapshot">
             <summary>
