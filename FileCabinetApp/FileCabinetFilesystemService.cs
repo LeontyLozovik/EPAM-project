@@ -9,6 +9,7 @@ namespace FileCabinetApp
     /// </summary>
     public class FileCabinetFilesystemService : IFileCabinetService
     {
+        private const long RECORDSIZE = 277;
         private readonly FileStream fileStream;
         private IRecordValidator validator = new DefaultValidator();
 
@@ -50,8 +51,7 @@ namespace FileCabinetApp
         {
             this.validator.ValidateParameters(record);
             FileInfo fileInfo = new FileInfo(this.fileStream.Name);
-            short recordSize = 277;
-            record.Id = ((int)fileInfo.Length / recordSize) + 1;
+            record.Id = ((int)(fileInfo.Length / RECORDSIZE)) + 1;
             short status = 1;
             using (BinaryWriter binaryWriter = new BinaryWriter(this.fileStream, Encoding.Default, true))
             {
@@ -81,8 +81,7 @@ namespace FileCabinetApp
         {
             List<FileCabinetRecord> list = new List<FileCabinetRecord>();
             FileInfo fileInfo = new FileInfo(this.fileStream.Name);
-            short recordSize = 277;
-            int numberOfRecords = (int)fileInfo.Length / recordSize;
+            int numberOfRecords = (int)(fileInfo.Length / RECORDSIZE);
             this.fileStream.Seek(0, SeekOrigin.Begin);
             for (int i = 0; i < numberOfRecords; i++)
             {
@@ -91,6 +90,16 @@ namespace FileCabinetApp
 
             ReadOnlyCollection<FileCabinetRecord> allRecords = new ReadOnlyCollection<FileCabinetRecord>(list);
             return allRecords;
+        }
+
+        /// <summary>
+        /// Return number of existing records.
+        /// </summary>
+        /// <returns>number of existing records.</returns>
+        public int GetStat()
+        {
+            FileInfo fileInfo = new FileInfo(this.fileStream.Name);
+            return (int)(fileInfo.Length / RECORDSIZE);
         }
 
         /// <summary>
@@ -128,15 +137,6 @@ namespace FileCabinetApp
         /// <param name="lastName">lastname to find.</param>
         /// <returns>all records with entered lastname.</returns>
         public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Return number of existing records.
-        /// </summary>
-        /// <returns>number of existing records.</returns>
-        public int GetStat()
         {
             throw new NotImplementedException();
         }

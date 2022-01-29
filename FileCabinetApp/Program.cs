@@ -107,7 +107,7 @@ namespace FileCabinetApp
                     return new FileCabinetMemoryService(validator);
                 case "file":
                     FileMode mode;
-                    string path = "C:\\Epam-project\\FileCabinetApp\\cabinet-records.db";
+                    string path = "C:\\Epam-project\\FileCabinetApp\\FileDataBase\\cabinet-records.db";
                     if (File.Exists(path))
                     {
                         mode = FileMode.Truncate;

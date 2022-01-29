@@ -63,6 +63,12 @@
             </summary>
             <returns>all existing records.</returns>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetStat">
+            <summary>
+            Return number of existing records.
+            </summary>
+            <returns>number of existing records.</returns>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.EditRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Edit record by entered Id.
@@ -90,17 +96,17 @@
             <param name="lastName">lastname to find.</param>
             <returns>all records with entered lastname.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetStat">
-            <summary>
-            Return number of existing records.
-            </summary>
-            <returns>number of existing records.</returns>
-        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.MakeSnapshot">
             <summary>
             Make a snapshot of current state.
             </summary>
             <returns>instance of FileCabinetServiceSnapshot class.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetOneRecord">
+            <summary>
+            Get one record from the file starting from currient position.
+            </summary>
+            <returns>One record from file.</returns>
         </member>
         <member name="T:FileCabinetApp.FileCabinetMemoryService">
             <summary>
