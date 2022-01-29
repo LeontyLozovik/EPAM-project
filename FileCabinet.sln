@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileCabinetApp", "FileCabinetApp\FileCabinetApp.csproj", "{9CF5B2C1-A380-4BF7-A3CC-9B6A1FBA494E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileCabinetGenerator", "FileCabinetGenerator\FileCabinetGenerator.csproj", "{9483EA79-E0CC-434D-B0FB-7CC5327D1576}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{9CF5B2C1-A380-4BF7-A3CC-9B6A1FBA494E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CF5B2C1-A380-4BF7-A3CC-9B6A1FBA494E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CF5B2C1-A380-4BF7-A3CC-9B6A1FBA494E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9483EA79-E0CC-434D-B0FB-7CC5327D1576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9483EA79-E0CC-434D-B0FB-7CC5327D1576}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9483EA79-E0CC-434D-B0FB-7CC5327D1576}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9483EA79-E0CC-434D-B0FB-7CC5327D1576}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
