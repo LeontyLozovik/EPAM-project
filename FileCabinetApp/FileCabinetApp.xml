@@ -75,13 +75,6 @@
             </summary>
             <param name="newRecord">New record that replace old record.</param>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.FindByBirthday(System.String)">
-            <summary>
-            Find all records with entered dateofbirth.
-            </summary>
-            <param name="birthday">dateofbirth to find.</param>
-            <returns>all records with entered dateofbirth.</returns>
-        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.FindByFirstName(System.String)">
             <summary>
             Find all records with entered firstname.
@@ -95,6 +88,13 @@
             </summary>
             <param name="lastName">lastname to find.</param>
             <returns>all records with entered lastname.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.FindByBirthday(System.String)">
+            <summary>
+            Find all records with entered dateofbirth.
+            </summary>
+            <param name="birthday">dateofbirth to find.</param>
+            <returns>all records with entered dateofbirth.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.MakeSnapshot">
             <summary>

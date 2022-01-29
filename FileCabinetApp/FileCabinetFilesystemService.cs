@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Globalization;
 using System.Text;
 
 namespace FileCabinetApp
@@ -98,23 +98,34 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Find all records with entered dateofbirth.
-        /// </summary>
-        /// <param name="birthday">dateofbirth to find.</param>
-        /// <returns>all records with entered dateofbirth.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByBirthday(string birthday)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Find all records with entered firstname.
         /// </summary>
         /// <param name="firstName">firstname to find.</param>
         /// <returns>all records with entered firstname.</returns>
         public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            throw new NotImplementedException();
+            List<FileCabinetRecord> list = new List<FileCabinetRecord>();
+            FileInfo fileInfo = new FileInfo(this.fileStream.Name);
+            long offset = 6;
+            do
+            {
+                this.fileStream.Seek(offset, SeekOrigin.Begin);
+                using (BinaryReader reader = new BinaryReader(this.fileStream, Encoding.Default, true))
+                {
+                    string firstnameInRecord = reader.ReadString();
+                    if (string.Equals(firstName, firstnameInRecord, StringComparison.OrdinalIgnoreCase))
+                    {
+                        this.fileStream.Seek(-6 - (firstnameInRecord.Length + 1), SeekOrigin.Current);
+                        FileCabinetRecord foundRecord = this.GetOneRecord();
+                        list.Add(foundRecord);
+                    }
+
+                    offset += RECORDSIZE;
+                }
+            }
+            while (offset < fileInfo.Length);
+            ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(list);
+            return foundRecords;
         }
 
         /// <summary>
@@ -124,7 +135,71 @@ namespace FileCabinetApp
         /// <returns>all records with entered lastname.</returns>
         public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
         {
-            throw new NotImplementedException();
+            List<FileCabinetRecord> list = new List<FileCabinetRecord>();
+            FileInfo fileInfo = new FileInfo(this.fileStream.Name);
+            long offset = 126;
+            do
+            {
+                this.fileStream.Seek(offset, SeekOrigin.Begin);
+                using (BinaryReader reader = new BinaryReader(this.fileStream, Encoding.Default, true))
+                {
+                    string lastnameInRecord = reader.ReadString();
+                    if (string.Equals(lastName, lastnameInRecord, StringComparison.OrdinalIgnoreCase))
+                    {
+                        this.fileStream.Seek(-126 - (lastnameInRecord.Length + 1), SeekOrigin.Current);
+                        FileCabinetRecord foundRecord = this.GetOneRecord();
+                        list.Add(foundRecord);
+                    }
+
+                    offset += RECORDSIZE;
+                }
+            }
+            while (offset < fileInfo.Length);
+            ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(list);
+            return foundRecords;
+        }
+
+        /// <summary>
+        /// Find all records with entered dateofbirth.
+        /// </summary>
+        /// <param name="birthday">dateofbirth to find.</param>
+        /// <returns>all records with entered dateofbirth.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> FindByBirthday(string birthday)
+        {
+            List<FileCabinetRecord> list = new List<FileCabinetRecord>();
+            DateTime dateToFind;
+            if (!DateTime.TryParse(birthday, CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out dateToFind))
+            {
+                Console.WriteLine("Please check your input.");
+            }
+            else
+            {
+                FileInfo fileInfo = new FileInfo(this.fileStream.Name);
+                long offset = 246;
+                do
+                {
+                    this.fileStream.Seek(offset, SeekOrigin.Begin);
+                    using (BinaryReader reader = new BinaryReader(this.fileStream, Encoding.Default, true))
+                    {
+                        int year = reader.ReadInt32();
+                        int month = reader.ReadInt32();
+                        int day = reader.ReadInt32();
+                        DateTime dateInRecord = new DateTime(year, month, day);
+                        if (DateTime.Compare(dateToFind, dateInRecord) == 0)
+                        {
+                            this.fileStream.Seek(-258, SeekOrigin.Current);
+                            FileCabinetRecord foundRecord = this.GetOneRecord();
+                            list.Add(foundRecord);
+                        }
+
+                        offset += RECORDSIZE;
+                    }
+                }
+                while (offset < fileInfo.Length);
+            }
+
+            ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(list);
+            return foundRecords;
         }
 
         /// <summary>
