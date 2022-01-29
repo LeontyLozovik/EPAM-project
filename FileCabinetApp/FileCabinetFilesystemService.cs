@@ -52,24 +52,8 @@ namespace FileCabinetApp
             this.validator.ValidateParameters(record);
             FileInfo fileInfo = new FileInfo(this.fileStream.Name);
             record.Id = ((int)(fileInfo.Length / RECORDSIZE)) + 1;
-            short status = 1;
-            using (BinaryWriter binaryWriter = new BinaryWriter(this.fileStream, Encoding.Default, true))
-            {
-                binaryWriter.Seek((int)fileInfo.Length, SeekOrigin.Begin);
-                binaryWriter.Write(status);
-                binaryWriter.Write(record.Id);
-                binaryWriter.Write(record.FirstName);
-                binaryWriter.Seek(120 - (record.FirstName.Length + 1), SeekOrigin.Current);
-                binaryWriter.Write(record.LastName);
-                binaryWriter.Seek(120 - (record.LastName.Length + 1), SeekOrigin.Current);
-                binaryWriter.Write(record.DateOfBirth.Year);
-                binaryWriter.Write(record.DateOfBirth.Month);
-                binaryWriter.Write(record.DateOfBirth.Day);
-                binaryWriter.Write(record.Children);
-                binaryWriter.Write(record.AverageSalary);
-                binaryWriter.Write(record.Sex);
-            }
-
+            this.fileStream.Seek((int)fileInfo.Length, SeekOrigin.Begin);
+            this.WriteOneRecord(record);
             return record.Id;
         }
 
@@ -108,7 +92,9 @@ namespace FileCabinetApp
         /// <param name="newRecord">New record that replace old record.</param>
         public void EditRecord(FileCabinetRecord newRecord)
         {
-            throw new NotImplementedException();
+            int offset = (newRecord.Id - 1) * (int)RECORDSIZE;
+            this.fileStream.Seek(offset, SeekOrigin.Begin);
+            this.WriteOneRecord(newRecord);
         }
 
         /// <summary>
@@ -148,6 +134,30 @@ namespace FileCabinetApp
         public FileCabinetServiceSnapshot MakeSnapshot()
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Write one record to file from currient position.
+        /// </summary>
+        /// <param name="record">recort to write.</param>
+        private void WriteOneRecord(FileCabinetRecord record)
+        {
+            short status = 1;
+            using (BinaryWriter binaryWriter = new BinaryWriter(this.fileStream, Encoding.Default, true))
+            {
+                binaryWriter.Write(status);
+                binaryWriter.Write(record.Id);
+                binaryWriter.Write(record.FirstName);
+                binaryWriter.Seek(120 - (record.FirstName.Length + 1), SeekOrigin.Current);
+                binaryWriter.Write(record.LastName);
+                binaryWriter.Seek(120 - (record.LastName.Length + 1), SeekOrigin.Current);
+                binaryWriter.Write(record.DateOfBirth.Year);
+                binaryWriter.Write(record.DateOfBirth.Month);
+                binaryWriter.Write(record.DateOfBirth.Day);
+                binaryWriter.Write(record.Children);
+                binaryWriter.Write(record.AverageSalary);
+                binaryWriter.Write(record.Sex);
+            }
         }
 
         /// <summary>

@@ -102,6 +102,12 @@
             </summary>
             <returns>instance of FileCabinetServiceSnapshot class.</returns>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.WriteOneRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Write one record to file from currient position.
+            </summary>
+            <param name="record">recort to write.</param>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetOneRecord">
             <summary>
             Get one record from the file starting from currient position.
