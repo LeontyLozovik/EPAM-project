@@ -26,6 +26,189 @@
             </summary>
             <param name="record">record whose parametrs should be validate.</param>
         </member>
+        <member name="T:FileCabinetApp.FileCabinetFilesystemService">
+            <summary>
+            Do manipulations with records in file.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.#ctor(System.IO.FileStream)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetFilesystemService"/> class.
+            </summary>
+            <param name="fileStream">param to initialization fileStream fild.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.#ctor(System.IO.FileStream,FileCabinetApp.IRecordValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetFilesystemService"/> class.
+            </summary>
+            <param name="fileStream">param to initialization fileStream fild.</param>
+            <param name="validator">param to initialization validator fild.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetValidationType">
+            <summary>
+            Returns validator.
+            </summary>
+            <returns>type of validation.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Create a new record with inputed parameters.
+            </summary>
+            <param name="record">Record to create.</param>
+            <returns>Id of created record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetRecords">
+            <summary>
+            Return all existing records.
+            </summary>
+            <returns>all existing records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetStat">
+            <summary>
+            Return number of existing records.
+            </summary>
+            <returns>number of existing records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.EditRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Edit record by entered Id.
+            </summary>
+            <param name="newRecord">New record that replace old record.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.FindByFirstName(System.String)">
+            <summary>
+            Find all records with entered firstname.
+            </summary>
+            <param name="firstName">firstname to find.</param>
+            <returns>all records with entered firstname.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.FindByLastName(System.String)">
+            <summary>
+            Find all records with entered lastname.
+            </summary>
+            <param name="lastName">lastname to find.</param>
+            <returns>all records with entered lastname.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.FindByBirthday(System.String)">
+            <summary>
+            Find all records with entered dateofbirth.
+            </summary>
+            <param name="birthday">dateofbirth to find.</param>
+            <returns>all records with entered dateofbirth.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.MakeSnapshot">
+            <summary>
+            Make a snapshot of current state.
+            </summary>
+            <returns>instance of FileCabinetServiceSnapshot class.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.WriteOneRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Write one record to file from currient position.
+            </summary>
+            <param name="record">recort to write.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetOneRecord">
+            <summary>
+            Get one record from the file starting from currient position.
+            </summary>
+            <returns>One record from file.</returns>
+        </member>
+        <member name="T:FileCabinetApp.FileCabinetMemoryService">
+            <summary>
+            Do manipulations with records in memory.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.#ctor(FileCabinetApp.IRecordValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetMemoryService"/> class.
+            </summary>
+            <param name="validator">required validator.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.GetValidationType">
+            <summary>
+            Returns validator.
+            </summary>
+            <returns>type of validation.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Create a new record with inputed parameters.
+            </summary>
+            <param name="record">Record to create.</param>
+            <returns>Id of created record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.GetRecords">
+            <summary>
+            Return all existing records.
+            </summary>
+            <returns>all existing records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.GetStat">
+            <summary>
+            Return number of existing records.
+            </summary>
+            <returns>number of existing records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.EditRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Edit record by entered Id.
+            </summary>
+            <param name="newRecord">New record that replace old record.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByFirstName(System.String)">
+            <summary>
+            Find all records with entered firstname.
+            </summary>
+            <param name="firstName">firstname to find.</param>
+            <returns>all records with entered firstname.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByLastName(System.String)">
+            <summary>
+            Find all records with entered lastname.
+            </summary>
+            <param name="lastName">lastname to find.</param>
+            <returns>all records with entered lastname.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByBirthday(System.String)">
+            <summary>
+            Find all records with entered dateofbirth.
+            </summary>
+            <param name="birthday">dateofbirth to find.</param>
+            <returns>all records with entered dateofbirth.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.MakeSnapshot">
+            <summary>
+            Make a snapshot of current state.
+            </summary>
+            <returns>instance of FileCabinetServiceSnapshot class.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
+            <summary>
+            Add records with firtname or lastname key to the dictionary.
+            </summary>
+            <param name="name">firstname or lastname key.</param>
+            <param name="record">record to add.</param>
+            <param name="dictionary">dictionary to add.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.AddDateToDictionary(System.DateTime,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.DateTime,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
+            <summary>
+            Add records with dateofbirth key to the dictionary.
+            </summary>
+            <param name="date">dateofbirth key.</param>
+            <param name="record">record to add.</param>
+            <param name="dictionary">dictionary to add.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.EditDictionaries(System.String,System.String,System.DateTime,FileCabinetApp.FileCabinetRecord,FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Edit values in all dictionaries after user edited record.
+            </summary>
+            <param name="firstName">New firstname.</param>
+            <param name="lastName">New lastname.</param>
+            <param name="dateOfBirth">New dateofbirth.</param>
+            <param name="newRecord">New record.</param>
+            <param name="incorrectRecord">This record before etion.</param>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetRecord">
             <summary>
             Represents records.
@@ -136,101 +319,6 @@
             <summary>
             Close XmlWriter and due to settings write end of xml file.
             </summary>
-        </member>
-        <member name="T:FileCabinetApp.FileCabinetService">
-            <summary>
-            Do manipulations with records.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.#ctor(FileCabinetApp.IRecordValidator)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetService"/> class.
-            </summary>
-            <param name="validator">required validator.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.GetValidationType">
-            <summary>
-            Returns validator.
-            </summary>
-            <returns>type of validation.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Create a new record with inputed parameters.
-            </summary>
-            <param name="record">Record to create.</param>
-            <returns>Id of created record.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.GetRecords">
-            <summary>
-            Return all existing records.
-            </summary>
-            <returns>all existing records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.GetStat">
-            <summary>
-            Return number of existing records.
-            </summary>
-            <returns>number of existing records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.EditRecord(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Edit record by entered Id.
-            </summary>
-            <param name="newRecord">New record that replace old record.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.FindByFirstName(System.String)">
-            <summary>
-            Find all records with entered firstname.
-            </summary>
-            <param name="firstName">firstname to find.</param>
-            <returns>all records with entered firstname.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.FindByLastName(System.String)">
-            <summary>
-            Find all records with entered lastname.
-            </summary>
-            <param name="lastName">lastname to find.</param>
-            <returns>all records with entered lastname.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.FindByBirthday(System.String)">
-            <summary>
-            Find all records with entered dateofbirth.
-            </summary>
-            <param name="birthday">dateofbirth to find.</param>
-            <returns>all records with entered dateofbirth.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.MakeSnapshot">
-            <summary>
-            Make a snapshot of current state.
-            </summary>
-            <returns>instance of FileCabinetServiceSnapshot class.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
-            <summary>
-            Add records with firtname or lastname key to the dictionary.
-            </summary>
-            <param name="name">firstname or lastname key.</param>
-            <param name="record">record to add.</param>
-            <param name="dictionary">dictionary to add.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.AddDateToDictionary(System.DateTime,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.DateTime,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
-            <summary>
-            Add records with dateofbirth key to the dictionary.
-            </summary>
-            <param name="date">dateofbirth key.</param>
-            <param name="record">record to add.</param>
-            <param name="dictionary">dictionary to add.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetService.EditDictionaries(System.String,System.String,System.DateTime,FileCabinetApp.FileCabinetRecord,FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Edit values in all dictionaries after user edited record.
-            </summary>
-            <param name="firstName">New firstname.</param>
-            <param name="lastName">New lastname.</param>
-            <param name="dateOfBirth">New dateofbirth.</param>
-            <param name="newRecord">New record.</param>
-            <param name="incorrectRecord">This record before etion.</param>
         </member>
         <member name="T:FileCabinetApp.FileCabinetServiceSnapshot">
             <summary>
