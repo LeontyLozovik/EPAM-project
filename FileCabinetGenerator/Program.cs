@@ -1,4 +1,6 @@
-﻿namespace FileCabinetGenerator
+﻿using FileCabinetApp;
+
+namespace FileCabinetGenerator
 {
     public static class Program
     {
@@ -6,6 +8,13 @@
         public static void Main(string[] args)
         {
             ProcessInputParams(args);
+            for (int i = 0; i < generator.RecordsAmount; i++)
+            { 
+                FileCabinetRecord record = GenerateRecord(generator);
+                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, " +
+                    $"{record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
+                generator.Id += 1;
+            } 
             Console.WriteLine($"{generator.RecordsAmount} records were written to {generator.Filename}.");
         }
 
@@ -68,7 +77,7 @@
         }
         private static GeneratorParams CreateGenerator(string[][] arguments)
         {
-            string outputType = arguments[0][1]; 
+            string outputType = arguments[0][1].ToLowerInvariant(); 
             if (!string.Equals(outputType.ToLowerInvariant(), "csv") && !string.Equals(outputType.ToLowerInvariant(), "xml"))
             {
                 throw new ArgumentException("Invalid output-type");
@@ -89,11 +98,91 @@
                 OutputType = outputType,
                 Filename = filename,
                 RecordsAmount = amount,
-                StartId = startId,
+                Id = startId,
 
             };
 
             return parameters;
+        }
+        private static FileCabinetRecord GenerateRecord(GeneratorParams generator)
+        {
+            Random random = new Random();
+            bool isWomen = false;
+            int position = random.Next(0, 49);
+            if (position < 24)
+            {
+                isWomen = true;
+            }
+            string firstname = GenerateFirstname(position);
+            position = random.Next(0, 24);
+            string lastname = GenerateLastname(position);
+            if (isWomen)
+            {
+                lastname = string.Concat(lastname, "a");
+            }
+            int year = random.Next(1950, DateTime.Now.Year);
+            int month = random.Next(1,12);
+            int day = GenerateDay(year, month);
+            DateTime dateOfBirth = new DateTime(year, month, day);
+            short children = (short)random.Next(0, 10);
+            decimal salary = random.Next(0, 10000);
+            char sex = isWomen ? 'w'  : 'm';
+
+            FileCabinetRecord record = new FileCabinetRecord {
+                Id = generator.Id,
+                FirstName = firstname,
+                LastName = lastname,
+                DateOfBirth = dateOfBirth,
+                Children = children,
+                AverageSalary = salary,
+                Sex = sex,
+            };
+            return record;
+        }
+        private static string GenerateFirstname(int position)
+        {
+            string[] names = { "Anastasia", "Anna", "Maria", "Elena", "Daria", "Alina", "Irina", "Ekaterina",
+                "Arina", "Pauline", "Olga", "Julia", "Tatyana", "Natalia", "Victoria", "Elizabeth", "Kseniya",
+                "Milana", "Veronica", "Alice", "Valeria", "Alexandra", "Ulyana", "Sofia", "Marina", "Alexander",
+                "Dmitriy", "Maksim", "Sergei", "Andrey", "Alexei", "Artem", "Ilya",
+                "Kirill", "Michael", "Nikita", "Matvey", "Arseniy", "Egor", "Ivan", "Denis", "Evgeniy",
+                "Daniel", "Timothy", "Igor", "Vladimir", "Ruslan", "Mark", "Konstantin", "Oleg" };
+            return names[position]; 
+        }
+        private static string GenerateLastname(int position)
+        {
+            string[] names = { "Ivanov", "Vasiliev", "Petrov", "Smirnov", "Mihailov", "Fedorov", "Sokolov", 
+                "Yakovlev", "Popov", "Andreev", "Alekseev", "Aleksandrov", "Lebedev", "Grigoriev", "Stepanov", 
+                "Semenov", "Pavlov", "Bogdanov", "Nikolaev", "Dmitriev", "Egorov", "Volkov", "Kuznicov", "Nikitin", 
+                "Soloviev" };
+            return names[position];
+        }
+        private static int GenerateDay(int year, int month)
+        {
+            Random random = new Random();
+            if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
+            {
+                return random.Next(1, 31);
+            }
+            else if (month == 4 || month == 6 || month == 9 || month == 11)
+            {
+                return random.Next(1, 30);
+            }
+            else
+            {
+                if (year % 400 == 0)
+                {
+                    return random.Next(1, 29);
+                }
+                else if (year % 4 == 0)
+                {
+                    return random.Next(1, 29);
+                }
+                else
+                {
+                    return random.Next(1, 28);
+                }
+            }
         }
     }
 }
