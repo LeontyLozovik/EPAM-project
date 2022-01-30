@@ -1,23 +1,81 @@
 ﻿using FileCabinetApp;
+using System.Text;
 
 namespace FileCabinetGenerator
 {
     public static class Program
     {
         private static GeneratorParams generator = new GeneratorParams();
+        private static List<FileCabinetRecord> generatedRecords = new List<FileCabinetRecord>();
         public static void Main(string[] args)
         {
             ProcessInputParams(args);
             for (int i = 0; i < generator.RecordsAmount; i++)
             { 
                 FileCabinetRecord record = GenerateRecord(generator);
-                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, " +
-                    $"{record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
+                generatedRecords.Add(record);
                 generator.Id += 1;
-            } 
+            }
+            Export(generatedRecords);
             Console.WriteLine($"{generator.RecordsAmount} records were written to {generator.Filename}.");
         }
 
+        private static void Export(List<FileCabinetRecord> records)
+        {
+            string typeOfFile = generator.OutputType;
+            string filePath = generator.Filename;
+            switch (typeOfFile)
+            {
+                case "csv":
+                    if (!filePath.EndsWith(".csv"))
+                    {
+                        filePath = string.Concat(filePath, ".csv");
+                    }
+
+                    try
+                    {
+                        FileStream fileStream;
+                        if (File.Exists(filePath))
+                        {
+                            fileStream = new FileStream(filePath, FileMode.Truncate);
+                        }
+                        else 
+                        {
+                            fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
+                        }
+                        using (StreamWriter streamWriter = new StreamWriter(fileStream, System.Text.Encoding.Default))
+                        {
+                            SaveToCsv(streamWriter, records);
+                        }                       
+                        fileStream.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    break;
+                default:
+                    Console.WriteLine($"Unknown or unsupported type of file - {typeOfFile}");
+                    break;
+            }
+        }
+        private static void SaveToCsv(StreamWriter streamWriter, List<FileCabinetRecord> records)
+        {
+            TextWriter textWriter = streamWriter;
+            foreach (var record in records)
+            {
+                StringBuilder stringToWrite = new StringBuilder();
+                object[] fildsOfRecord = 
+                {
+                    record.Id, record.FirstName, record.LastName, record.DateOfBirth.ToString("dd/MM/yyyy"),
+                    record.Children, record.AverageSalary, record.Sex,
+                };
+                stringToWrite.AppendJoin(',', fildsOfRecord);
+                textWriter.WriteLine(stringToWrite);
+            }
+            textWriter.Close();
+        }
         private static void ProcessInputParams(string[] args)
         {
             if (args.Length != 4 && args.Length != 8)

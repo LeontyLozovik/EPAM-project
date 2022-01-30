@@ -845,9 +845,8 @@ namespace FileCabinetApp
                                 streamWriter.Close();
                                 fileStream.Close();
                             }
-                            catch (Exception ex)
+                            catch (Exception)
                             {
-                                Console.WriteLine(ex.Message);
                                 Console.WriteLine($"Export failed: can't open file {filePath}");
                             }
 
