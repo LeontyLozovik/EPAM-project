@@ -102,6 +102,13 @@
             </summary>
             <returns>instance of FileCabinetServiceSnapshot class.</returns>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.ImportFromCsvFile(System.IO.StreamReader)">
+            <summary>
+            Add records from csv file to service.
+            </summary>
+            <param name="streamReader">stream for reading.</param>
+            <returns>number of imported records.</returns>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.WriteOneRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Write one record to file from currient position.
@@ -182,6 +189,13 @@
             Make a snapshot of current state.
             </summary>
             <returns>instance of FileCabinetServiceSnapshot class.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.ImportFromCsvFile(System.IO.StreamReader)">
+            <summary>
+            Add records from csv file to service.
+            </summary>
+            <param name="streamReader">stream for reading.</param>
+            <returns>number of imported records.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
             <summary>
@@ -405,6 +419,13 @@
             Make a snapshot of current state.
             </summary>
             <returns>instance of FileCabinetServiceSnapshot class.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.ImportFromCsvFile(System.IO.StreamReader)">
+            <summary>
+            Add records from csv file to service.
+            </summary>
+            <param name="streamReader">stream for reading.</param>
+            <returns>number of imported records.</returns>
         </member>
         <member name="T:FileCabinetApp.IRecordValidator">
             <summary>

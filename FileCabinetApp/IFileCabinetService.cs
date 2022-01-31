@@ -64,5 +64,12 @@ namespace FileCabinetApp
         /// </summary>
         /// <returns>instance of FileCabinetServiceSnapshot class.</returns>
         public FileCabinetServiceSnapshot MakeSnapshot();
+
+        /// <summary>
+        /// Add records from csv file to service.
+        /// </summary>
+        /// <param name="streamReader">stream for reading.</param>
+        /// <returns>number of imported records.</returns>
+        public int ImportFromCsvFile(StreamReader streamReader);
     }
 }

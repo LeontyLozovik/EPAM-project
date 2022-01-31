@@ -153,6 +153,68 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Add records from csv file to service.
+        /// </summary>
+        /// <param name="streamReader">stream for reading.</param>
+        /// <returns>number of imported records.</returns>
+        public int ImportFromCsvFile(StreamReader streamReader)
+        {
+            if (streamReader is null)
+            {
+                throw new ArgumentException("Stream is null");
+            }
+
+            List<FileCabinetRecord> recordsFromFile = new List<FileCabinetRecord>();
+            string? stringRecord;
+            int numberOfRecords = 0;
+            int numberOfRecordsToRewrite = 0;
+            while ((stringRecord = streamReader.ReadLine()) != null)
+            {
+                var fildsOfRecord = stringRecord.Split(',');
+                int id = int.Parse(fildsOfRecord[0], CultureInfo.InvariantCulture);
+                string firstname = fildsOfRecord[1];
+                string lastname = fildsOfRecord[2];
+                var date = fildsOfRecord[3].Split(".");
+                int day = int.Parse(date[0], CultureInfo.InvariantCulture);
+                int month = int.Parse(date[1], CultureInfo.InvariantCulture);
+                int year = int.Parse(date[2], CultureInfo.InvariantCulture);
+                DateTime dateOfBirth = new DateTime(year, month, day);
+                short children = short.Parse(fildsOfRecord[4], CultureInfo.InvariantCulture);
+                decimal salary = decimal.Parse(fildsOfRecord[5], CultureInfo.InvariantCulture);
+                char sex = char.Parse(fildsOfRecord[6]);
+                FileCabinetRecord record = new FileCabinetRecord
+                {
+                    Id = id,
+                    FirstName = firstname,
+                    LastName = lastname,
+                    DateOfBirth = dateOfBirth,
+                    Children = children,
+                    AverageSalary = salary,
+                    Sex = sex,
+                };
+                if (record.Id <= this.list.Count)
+                {
+                    numberOfRecordsToRewrite++;
+                }
+
+                recordsFromFile.Add(record);
+                numberOfRecords++;
+            }
+
+            for (int i = 0; i < numberOfRecordsToRewrite; i++)
+            {
+                this.EditRecord(recordsFromFile[i]);
+            }
+
+            for (int i = numberOfRecordsToRewrite; i < numberOfRecords; i++)
+            {
+                this.CreateRecord(recordsFromFile[i]);
+            }
+
+            return numberOfRecords;
+        }
+
+        /// <summary>
         /// Add records with firtname or lastname key to the dictionary.
         /// </summary>
         /// <param name="name">firstname or lastname key.</param>

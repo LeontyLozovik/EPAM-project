@@ -212,6 +212,16 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Add records from csv file to service.
+        /// </summary>
+        /// <param name="streamReader">stream for reading.</param>
+        /// <returns>number of imported records.</returns>
+        public int ImportFromCsvFile(StreamReader streamReader)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Write one record to file from currient position.
         /// </summary>
         /// <param name="record">recort to write.</param>

@@ -11,15 +11,22 @@ namespace FileCabinetGenerator
         private static List<FileCabinetRecord> generatedRecords = new List<FileCabinetRecord>();
         public static void Main(string[] args)
         {
-            ProcessInputParams(args);
-            for (int i = 0; i < generator.RecordsAmount; i++)
+            try
             {
-                FileCabinetRecord record = GenerateRecord(generator);
-                generatedRecords.Add(record);
-                generator.Id += 1;
+                ProcessInputParams(args);
+                for (int i = 0; i < generator.RecordsAmount; i++)
+                {
+                    FileCabinetRecord record = GenerateRecord(generator);
+                    generatedRecords.Add(record);
+                    generator.Id += 1;
+                }
+                Export(generatedRecords);
+                Console.WriteLine($"{generator.RecordsAmount} records were written to {generator.Filename}.");
             }
-            Export(generatedRecords);
-            Console.WriteLine($"{generator.RecordsAmount} records were written to {generator.Filename}.");
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }          
         }
 
         private static void Export(List<FileCabinetRecord> records)
@@ -114,7 +121,6 @@ namespace FileCabinetGenerator
             XmlSerializer serializer = new XmlSerializer(typeof(List<FileCabinetRecord>));
             serializer.Serialize(writer, records);
         }
-
         private static void ProcessInputParams(string[] args)
         {
             if (args.Length != 4 && args.Length != 8)
@@ -136,6 +142,10 @@ namespace FileCabinetGenerator
                         {
                             generator = CreateGenerator(arguments);
                         }
+                        else 
+                        {
+                            Console.WriteLine("Invalid parameters.");
+                        }
                         break;
                     case 8:
                         arguments = new string[4][];
@@ -146,6 +156,10 @@ namespace FileCabinetGenerator
                         if (CheckArguments(arguments))
                         {
                             generator = CreateGenerator(arguments);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid parameters.");
                         }
                         break;
                 }
