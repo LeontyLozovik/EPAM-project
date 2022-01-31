@@ -1,5 +1,7 @@
 ﻿using FileCabinetApp;
 using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace FileCabinetGenerator
 {
@@ -11,7 +13,7 @@ namespace FileCabinetGenerator
         {
             ProcessInputParams(args);
             for (int i = 0; i < generator.RecordsAmount; i++)
-            { 
+            {
                 FileCabinetRecord record = GenerateRecord(generator);
                 generatedRecords.Add(record);
                 generator.Id += 1;
@@ -39,13 +41,43 @@ namespace FileCabinetGenerator
                         {
                             fileStream = new FileStream(filePath, FileMode.Truncate);
                         }
-                        else 
+                        else
                         {
                             fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
                         }
                         using (StreamWriter streamWriter = new StreamWriter(fileStream, System.Text.Encoding.Default))
                         {
                             SaveToCsv(streamWriter, records);
+                        }
+                        fileStream.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    break;
+                case "xml":
+                    if (!filePath.EndsWith(".xml"))
+                    {
+                        filePath = string.Concat(filePath, ".xml");
+                    }
+
+                    try
+                    {
+                        FileStream fileStream;
+                        if (File.Exists(filePath))
+                        {
+                            fileStream = new FileStream(filePath, FileMode.Truncate);
+                        }
+                        else
+                        {
+                            fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
+                        }
+                        FileStreamOptions fileStreamOptions = new FileStreamOptions();
+                        using (StreamWriter streamWriter = new StreamWriter(fileStream, System.Text.Encoding.Default))
+                        {
+                            SaveToXml(streamWriter, generatedRecords);
                         }                       
                         fileStream.Close();
                     }
@@ -66,7 +98,7 @@ namespace FileCabinetGenerator
             foreach (var record in records)
             {
                 StringBuilder stringToWrite = new StringBuilder();
-                object[] fildsOfRecord = 
+                object[] fildsOfRecord =
                 {
                     record.Id, record.FirstName, record.LastName, record.DateOfBirth.ToString("dd/MM/yyyy"),
                     record.Children, record.AverageSalary, record.Sex,
@@ -76,6 +108,13 @@ namespace FileCabinetGenerator
             }
             textWriter.Close();
         }
+        private static void SaveToXml(StreamWriter streamWriter, List<FileCabinetRecord> records)
+        {
+            TextWriter writer = streamWriter;
+            XmlSerializer serializer = new XmlSerializer(typeof(List<FileCabinetRecord>));
+            serializer.Serialize(writer, records);
+        }
+
         private static void ProcessInputParams(string[] args)
         {
             if (args.Length != 4 && args.Length != 8)
@@ -167,7 +206,7 @@ namespace FileCabinetGenerator
             Random random = new Random();
             bool isWomen = false;
             int position = random.Next(0, 49);
-            if (position < 24)
+            if (position < 25)
             {
                 isWomen = true;
             }
