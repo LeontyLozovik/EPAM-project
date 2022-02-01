@@ -910,6 +910,35 @@ namespace FileCabinetApp
                             }
 
                             break;
+                        case "xml":
+                            if (!filePath.EndsWith(".xml"))
+                            {
+                                filePath = string.Concat(filePath, ".xml");
+                            }
+
+                            if (!File.Exists(filePath))
+                            {
+                                Console.WriteLine($"Import error: file {filePath} is not exist");
+                                break;
+                            }
+
+                            try
+                            {
+                                FileStream fileStream = new FileStream(filePath, FileMode.Open);
+                                StreamReader streamReader = new StreamReader(fileStream, Encoding.Default);
+                                var snapshot = fileCabinetService.MakeSnapshot();
+                                snapshot.LoadFromXml(streamReader);
+                                int amount = fileCabinetService.Restore(snapshot);
+                                Console.WriteLine($"{amount} records were imported from file {filePath}");
+                                fileStream.Close();
+                                streamReader.Close();
+                            }
+                            catch (ArgumentNullException ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+
+                            break;
                         default:
                             Console.WriteLine($"Unknown or unsupported type of file - {typeOfFile}");
                             break;

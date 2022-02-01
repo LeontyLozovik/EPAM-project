@@ -68,5 +68,22 @@ namespace FileCabinetApp
             FileCabinetRecordCsvReader reader = new FileCabinetRecordCsvReader(streamReader);
             this.Records = new ReadOnlyCollection<FileCabinetRecord>(reader.ReadAll());
         }
+
+        /// <summary>
+        /// Loads from records from xml file.
+        /// </summary>
+        /// <param name="streamReader">stream to read.</param>
+        public void LoadFromXml(StreamReader streamReader)
+        {
+            FileCabinetRecordXmlReader reader = new FileCabinetRecordXmlReader(streamReader);
+            try
+            {
+                this.Records = new ReadOnlyCollection<FileCabinetRecord>(reader.ReadAll());
+            }
+            catch (ArgumentNullException)
+            {
+                Console.WriteLine("File is empty");
+            }
+        }
     }
 }
