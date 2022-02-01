@@ -1,8 +1,7 @@
 {
   "profiles": {
     "FileCabinetApp": {
-      "commandName": "Project",
-      "commandLineArgs": "--validation-rules=custom --storage=file"
+      "commandName": "Project"
     }
   }
 }

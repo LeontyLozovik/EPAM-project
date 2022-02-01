@@ -153,6 +153,61 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Add records to service.
+        /// </summary>
+        /// <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
+        /// <returns>number of imported records.</returns>
+        public int Restore(FileCabinetServiceSnapshot snapshot)
+        {
+            if (snapshot is null)
+            {
+                throw new ArgumentNullException(nameof(FileCabinetServiceSnapshot));
+            }
+
+            var recordsFromFile = snapshot.Records;
+            if (recordsFromFile is null)
+            {
+                throw new ArgumentNullException(nameof(IReadOnlyCollection<FileCabinetRecord>));
+            }
+
+            int numberOfRecords = recordsFromFile.Count;
+            var recordEnumerator = recordsFromFile.GetEnumerator();
+            recordEnumerator.MoveNext();
+
+            for (int i = 0; i < numberOfRecords; i++)
+            {
+                if (recordEnumerator.Current.Id <= this.GetStat())
+                {
+                    try
+                    {
+                        this.EditRecord(recordEnumerator.Current);
+                    }
+                    catch (ArgumentException)
+                    {
+                        Console.WriteLine($"{recordEnumerator.Current.Id} record break data rules and will be skipped");
+                    }
+
+                    recordEnumerator.MoveNext();
+                }
+                else
+                {
+                    try
+                    {
+                        this.CreateRecord(recordEnumerator.Current);
+                    }
+                    catch (ArgumentException)
+                    {
+                        Console.WriteLine($"{recordEnumerator.Current.Id} record break data rules and will be skipped");
+                    }
+
+                    recordEnumerator.MoveNext();
+                }
+            }
+
+            return numberOfRecords;
+        }
+
+        /// <summary>
         /// Add records with firtname or lastname key to the dictionary.
         /// </summary>
         /// <param name="name">firstname or lastname key.</param>

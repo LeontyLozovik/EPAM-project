@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Text;
 
 namespace FileCabinetApp
 {
@@ -25,6 +26,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("edit", Edit),
             new Tuple<string, Action<string>>("find", Find),
             new Tuple<string, Action<string>>("export", Export),
+            new Tuple<string, Action<string>>("import", Import),
         };
 
         private static string[][] helpMessages = new string[][]
@@ -37,6 +39,7 @@ namespace FileCabinetApp
             new string[] { "edit", "edit your record by Id", "The 'edit' command edit your record by Id" },
             new string[] { "find", "find records by one parameter", "The 'find' command find records by one parameter" },
             new string[] { "export", "exporting service records to files of a certain type", "The 'export' command exporting service records to files of a certain type" },
+            new string[] { "import", "importing service records from files of a certain type", "The 'import' command importing service records from files of a certain type" },
         };
 
         private static IFileCabinetService fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
@@ -791,7 +794,7 @@ namespace FileCabinetApp
                             try
                             {
                                 FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
-                                StreamWriter streamWriter = new StreamWriter(fileStream, System.Text.Encoding.Default);
+                                StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.Default);
                                 var snapshot = fileCabinetService.MakeSnapshot();
                                 snapshot.SaveToCsv(streamWriter);
                                 Console.WriteLine($"All records are exported to file {filePath}");
@@ -838,17 +841,101 @@ namespace FileCabinetApp
                             try
                             {
                                 FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
-                                StreamWriter streamWriter = new StreamWriter(fileStream, System.Text.Encoding.Default);
+                                StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.Default);
                                 var snapshot = fileCabinetService.MakeSnapshot();
                                 snapshot.SaveToXml(streamWriter);
                                 Console.WriteLine($"All records are exported to file {filePath}");
                                 streamWriter.Close();
                                 fileStream.Close();
                             }
-                            catch (Exception ex)
+                            catch (Exception)
+                            {
+                                Console.WriteLine($"Export failed: can't open file {filePath}");
+                            }
+
+                            break;
+                        default:
+                            Console.WriteLine($"Unknown or unsupported type of file - {typeOfFile}");
+                            break;
+                    }
+                }
+            }
+        }
+
+        private static void Import(string parameters)
+        {
+            if (string.IsNullOrEmpty(parameters))
+            {
+                Console.WriteLine("Command 'import' should contain type and path of file from witch read.");
+            }
+            else
+            {
+                string[] input = parameters.Split(' ', 2);
+                if (input.Length != 2)
+                {
+                    Console.WriteLine("Please check you input.");
+                }
+                else
+                {
+                    string typeOfFile = input[0].ToLowerInvariant();
+                    string filePath = input[1];
+                    switch (typeOfFile)
+                    {
+                        case "csv":
+                            if (!filePath.EndsWith(".csv"))
+                            {
+                                filePath = string.Concat(filePath, ".csv");
+                            }
+
+                            if (!File.Exists(filePath))
+                            {
+                                Console.WriteLine($"Import error: file {filePath} is not exist");
+                                break;
+                            }
+
+                            try
+                            {
+                                FileStream fileStream = new FileStream(filePath, FileMode.Open);
+                                StreamReader streamReader = new StreamReader(fileStream, Encoding.Default);
+                                var snapshot = fileCabinetService.MakeSnapshot();
+                                snapshot.LoadFromCsv(streamReader);
+                                int amount = fileCabinetService.Restore(snapshot);
+                                Console.WriteLine($"{amount} records were imported from file {filePath}");
+                                fileStream.Close();
+                                streamReader.Close();
+                            }
+                            catch (ArgumentNullException ex)
                             {
                                 Console.WriteLine(ex.Message);
-                                Console.WriteLine($"Export failed: can't open file {filePath}");
+                            }
+
+                            break;
+                        case "xml":
+                            if (!filePath.EndsWith(".xml"))
+                            {
+                                filePath = string.Concat(filePath, ".xml");
+                            }
+
+                            if (!File.Exists(filePath))
+                            {
+                                Console.WriteLine($"Import error: file {filePath} is not exist");
+                                break;
+                            }
+
+                            try
+                            {
+                                FileStream fileStream = new FileStream(filePath, FileMode.Open);
+                                StreamReader streamReader = new StreamReader(fileStream, Encoding.Default);
+                                var snapshot = fileCabinetService.MakeSnapshot();
+                                snapshot.LoadFromXml(streamReader);
+                                int amount = fileCabinetService.Restore(snapshot);
+                                Console.WriteLine($"{amount} records were imported from file {filePath}");
+                                fileStream.Close();
+                                streamReader.Close();
+                            }
+                            catch (ArgumentNullException ex)
+                            {
+                                Console.WriteLine(ex.Message);
                             }
 
                             break;
