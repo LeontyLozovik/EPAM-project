@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.Collections.ObjectModel;
+using System.Xml;
 
 namespace FileCabinetApp
 {
@@ -17,6 +18,12 @@ namespace FileCabinetApp
         {
             this.records = records;
         }
+
+        /// <summary>
+        /// Gets readOnlyColection of records.
+        /// </summary>
+        /// <value>Collection of records readed from file.</value>
+        public IReadOnlyCollection<FileCabinetRecord>? Records { get; private set; }
 
         /// <summary>
         /// Save all records to csv file.
@@ -50,6 +57,16 @@ namespace FileCabinetApp
             }
 
             fileWriter.End();
+        }
+
+        /// <summary>
+        /// Loads from records from csv file.
+        /// </summary>
+        /// <param name="streamReader">stream to read.</param>
+        public void LoadFromCsv(StreamReader streamReader)
+        {
+            FileCabinetRecordCsvReader reader = new FileCabinetRecordCsvReader(streamReader);
+            this.Records = new ReadOnlyCollection<FileCabinetRecord>(reader.ReadAll());
         }
     }
 }

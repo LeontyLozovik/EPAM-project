@@ -66,10 +66,10 @@ namespace FileCabinetApp
         public FileCabinetServiceSnapshot MakeSnapshot();
 
         /// <summary>
-        /// Add records from csv file to service.
+        /// Add records from to service.
         /// </summary>
-        /// <param name="streamReader">stream for reading.</param>
+        /// <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
         /// <returns>number of imported records.</returns>
-        public int ImportFromCsvFile(StreamReader streamReader);
+        public int Restore(FileCabinetServiceSnapshot snapshot);
     }
 }

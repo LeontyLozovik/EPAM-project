@@ -153,62 +153,55 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Add records from csv file to service.
+        /// Add records to service.
         /// </summary>
-        /// <param name="streamReader">stream for reading.</param>
+        /// <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
         /// <returns>number of imported records.</returns>
-        public int ImportFromCsvFile(StreamReader streamReader)
+        public int Restore(FileCabinetServiceSnapshot snapshot)
         {
-            if (streamReader is null)
+            if (snapshot is null)
             {
-                throw new ArgumentException("Stream is null");
+                throw new ArgumentNullException(nameof(FileCabinetServiceSnapshot));
             }
 
-            List<FileCabinetRecord> recordsFromFile = new List<FileCabinetRecord>();
-            string? stringRecord;
-            int numberOfRecords = 0;
-            int numberOfRecordsToRewrite = 0;
-            while ((stringRecord = streamReader.ReadLine()) != null)
+            var recordsFromFile = snapshot.Records;
+            if (recordsFromFile is null)
             {
-                var fildsOfRecord = stringRecord.Split(',');
-                int id = int.Parse(fildsOfRecord[0], CultureInfo.InvariantCulture);
-                string firstname = fildsOfRecord[1];
-                string lastname = fildsOfRecord[2];
-                var date = fildsOfRecord[3].Split(".");
-                int day = int.Parse(date[0], CultureInfo.InvariantCulture);
-                int month = int.Parse(date[1], CultureInfo.InvariantCulture);
-                int year = int.Parse(date[2], CultureInfo.InvariantCulture);
-                DateTime dateOfBirth = new DateTime(year, month, day);
-                short children = short.Parse(fildsOfRecord[4], CultureInfo.InvariantCulture);
-                decimal salary = decimal.Parse(fildsOfRecord[5], CultureInfo.InvariantCulture);
-                char sex = char.Parse(fildsOfRecord[6]);
-                FileCabinetRecord record = new FileCabinetRecord
+                throw new ArgumentNullException(nameof(IReadOnlyCollection<FileCabinetRecord>));
+            }
+
+            int numberOfRecords = recordsFromFile.Count;
+            var recordEnumerator = recordsFromFile.GetEnumerator();
+            recordEnumerator.MoveNext();
+
+            for (int i = 0; i < numberOfRecords; i++)
+            {
+                if (recordEnumerator.Current.Id <= this.GetStat())
                 {
-                    Id = id,
-                    FirstName = firstname,
-                    LastName = lastname,
-                    DateOfBirth = dateOfBirth,
-                    Children = children,
-                    AverageSalary = salary,
-                    Sex = sex,
-                };
-                if (record.Id <= this.list.Count)
-                {
-                    numberOfRecordsToRewrite++;
+                    try
+                    {
+                        this.EditRecord(recordEnumerator.Current);
+                    }
+                    catch (ArgumentException)
+                    {
+                        Console.WriteLine($"{recordEnumerator.Current.Id} record break data rules and will be skipped");
+                    }
+
+                    recordEnumerator.MoveNext();
                 }
+                else
+                {
+                    try
+                    {
+                        this.CreateRecord(recordEnumerator.Current);
+                    }
+                    catch (ArgumentException)
+                    {
+                        Console.WriteLine($"{recordEnumerator.Current.Id} record break data rules and will be skipped");
+                    }
 
-                recordsFromFile.Add(record);
-                numberOfRecords++;
-            }
-
-            for (int i = 0; i < numberOfRecordsToRewrite; i++)
-            {
-                this.EditRecord(recordsFromFile[i]);
-            }
-
-            for (int i = numberOfRecordsToRewrite; i < numberOfRecords; i++)
-            {
-                this.CreateRecord(recordsFromFile[i]);
+                    recordEnumerator.MoveNext();
+                }
             }
 
             return numberOfRecords;

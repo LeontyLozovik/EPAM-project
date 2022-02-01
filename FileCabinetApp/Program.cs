@@ -897,12 +897,14 @@ namespace FileCabinetApp
                             {
                                 FileStream fileStream = new FileStream(filePath, FileMode.Open);
                                 StreamReader streamReader = new StreamReader(fileStream, Encoding.Default);
-                                int amount = fileCabinetService.ImportFromCsvFile(streamReader);
+                                var snapshot = fileCabinetService.MakeSnapshot();
+                                snapshot.LoadFromCsv(streamReader);
+                                int amount = fileCabinetService.Restore(snapshot);
                                 Console.WriteLine($"{amount} records were imported from file {filePath}");
                                 fileStream.Close();
                                 streamReader.Close();
                             }
-                            catch (ArgumentException ex)
+                            catch (ArgumentNullException ex)
                             {
                                 Console.WriteLine(ex.Message);
                             }
