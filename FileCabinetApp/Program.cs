@@ -27,6 +27,7 @@ namespace FileCabinetApp
             new Tuple<string, Action<string>>("find", Find),
             new Tuple<string, Action<string>>("export", Export),
             new Tuple<string, Action<string>>("import", Import),
+            new Tuple<string, Action<string>>("remove", Remove),
         };
 
         private static string[][] helpMessages = new string[][]
@@ -40,6 +41,7 @@ namespace FileCabinetApp
             new string[] { "find", "find records by one parameter", "The 'find' command find records by one parameter" },
             new string[] { "export", "exporting service records to files of a certain type", "The 'export' command exporting service records to files of a certain type" },
             new string[] { "import", "importing service records from files of a certain type", "The 'import' command importing service records from files of a certain type" },
+            new string[] { "remove", "remove records from service", "The 'remove' command remove records from service" },
         };
 
         private static IFileCabinetService fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
@@ -943,6 +945,37 @@ namespace FileCabinetApp
                             Console.WriteLine($"Unknown or unsupported type of file - {typeOfFile}");
                             break;
                     }
+                }
+            }
+        }
+
+        private static void Remove(string parameters)
+        {
+            int enteredId;
+            if (!int.TryParse(parameters, out enteredId))
+            {
+                Console.WriteLine("Error! Please check inputed Id.");
+            }
+
+            var recordsCount = Program.fileCabinetService.GetStat();
+            if (enteredId <= 0)
+            {
+                Console.WriteLine("Id should be grater then 0");
+            }
+            else if (recordsCount < enteredId)
+            {
+                Console.WriteLine($"#{enteredId} record is not exists.");
+            }
+            else
+            {
+                try
+                {
+                    Program.fileCabinetService.Remove(enteredId);
+                    Console.WriteLine($"Record #{enteredId} is removed.");
+                }
+                catch (ArgumentNullException)
+                {
+                    Console.WriteLine($"#{enteredId} record is not exists.");
                 }
             }
         }

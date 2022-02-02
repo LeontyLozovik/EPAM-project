@@ -84,7 +84,10 @@ namespace FileCabinetApp
 
             this.list.RemoveAt(newRecord.Id - 1);
             this.list.Insert(newRecord.Id - 1, newRecord);
-            this.EditDictionaries(newRecord.FirstName, newRecord.LastName, newRecord.DateOfBirth, newRecord, incorrectRecord);
+            this.RemoveFromDictionaries(incorrectRecord);
+            this.AddNamesToDictionary(newRecord.FirstName, newRecord, this.firstNameDictionary);
+            this.AddNamesToDictionary(newRecord.LastName, newRecord, this.lastNameDictionary);
+            this.AddDateToDictionary(newRecord.DateOfBirth, newRecord, this.dateofbirthDictionary);
         }
 
         /// <summary>
@@ -208,6 +211,22 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Remove record from service.
+        /// </summary>
+        /// <param name="recordId">Id of record to remove.</param>
+        public void Remove(int recordId)
+        {
+            FileCabinetRecord? incorrectRecord = this.list.Find(record => record.Id == recordId);
+            if (incorrectRecord is null)
+            {
+                throw new ArgumentNullException($"Record #{recordId} doesn't exists");
+            }
+
+            this.list.Remove(incorrectRecord);
+            this.RemoveFromDictionaries(incorrectRecord);
+        }
+
+        /// <summary>
         /// Add records with firtname or lastname key to the dictionary.
         /// </summary>
         /// <param name="name">firstname or lastname key.</param>
@@ -255,27 +274,20 @@ namespace FileCabinetApp
         /// <summary>
         /// Edit values in all dictionaries after user edited record.
         /// </summary>
-        /// <param name="firstName">New firstname.</param>
-        /// <param name="lastName">New lastname.</param>
-        /// <param name="dateOfBirth">New dateofbirth.</param>
-        /// <param name="newRecord">New record.</param>
-        /// <param name="incorrectRecord">This record before etion.</param>
-        private void EditDictionaries(string firstName, string lastName, DateTime dateOfBirth, FileCabinetRecord newRecord, FileCabinetRecord incorrectRecord)
+        /// <param name="incorrectRecord">Record to remove from dictionaries.</param>
+        private void RemoveFromDictionaries(FileCabinetRecord incorrectRecord)
         {
             List<FileCabinetRecord> recordToRemove = this.firstNameDictionary[incorrectRecord.FirstName.ToLowerInvariant()];
             int removeIndex = recordToRemove.FindIndex(0, recordToRemove.Count, record => record.Id == incorrectRecord.Id);
             recordToRemove.RemoveAt(removeIndex);
-            this.AddNamesToDictionary(firstName, newRecord, this.firstNameDictionary);
 
             recordToRemove = this.lastNameDictionary[incorrectRecord.LastName.ToLowerInvariant()];
             removeIndex = recordToRemove.FindIndex(0, recordToRemove.Count, record => record.Id == incorrectRecord.Id);
             recordToRemove.RemoveAt(removeIndex);
-            this.AddNamesToDictionary(lastName, newRecord, this.lastNameDictionary);
 
             recordToRemove = this.dateofbirthDictionary[incorrectRecord.DateOfBirth];
             removeIndex = recordToRemove.FindIndex(0, recordToRemove.Count, record => record.Id == incorrectRecord.Id);
             recordToRemove.RemoveAt(removeIndex);
-            this.AddDateToDictionary(dateOfBirth, newRecord, this.dateofbirthDictionary);
         }
     }
 }

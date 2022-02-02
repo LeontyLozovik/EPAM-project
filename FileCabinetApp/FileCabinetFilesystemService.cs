@@ -267,6 +267,15 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Remove record from service.
+        /// </summary>
+        /// <param name="recordId">Id of record to remove.</param>
+        public void Remove(int recordId)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Write one record to file from currient position.
         /// </summary>
         /// <param name="record">recort to write.</param>

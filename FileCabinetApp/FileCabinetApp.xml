@@ -109,6 +109,12 @@
             <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
             <returns>number of imported records.</returns>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.Remove(System.Int32)">
+            <summary>
+            Remove record from service.
+            </summary>
+            <param name="recordId">Id of record to remove.</param>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.WriteOneRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Write one record to file from currient position.
@@ -197,6 +203,12 @@
             <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
             <returns>number of imported records.</returns>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.Remove(System.Int32)">
+            <summary>
+            Remove record from service.
+            </summary>
+            <param name="recordId">Id of record to remove.</param>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
             <summary>
             Add records with firtname or lastname key to the dictionary.
@@ -213,15 +225,11 @@
             <param name="record">record to add.</param>
             <param name="dictionary">dictionary to add.</param>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.EditDictionaries(System.String,System.String,System.DateTime,FileCabinetApp.FileCabinetRecord,FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.RemoveFromDictionaries(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Edit values in all dictionaries after user edited record.
             </summary>
-            <param name="firstName">New firstname.</param>
-            <param name="lastName">New lastname.</param>
-            <param name="dateOfBirth">New dateofbirth.</param>
-            <param name="newRecord">New record.</param>
-            <param name="incorrectRecord">This record before etion.</param>
+            <param name="incorrectRecord">Record to remove from dictionaries.</param>
         </member>
         <member name="T:FileCabinetApp.FileCabinetRecord">
             <summary>
@@ -478,6 +486,12 @@
             </summary>
             <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
             <returns>number of imported records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.Remove(System.Int32)">
+            <summary>
+            Remove record from service.
+            </summary>
+            <param name="recordId">Id of record to remove.</param>
         </member>
         <member name="T:FileCabinetApp.IRecordValidator">
             <summary>
