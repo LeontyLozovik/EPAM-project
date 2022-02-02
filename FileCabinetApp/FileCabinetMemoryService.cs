@@ -33,6 +33,21 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Check if currient Id exist.
+        /// </summary>
+        /// /// <param name="id">Id to check.</param>
+        /// <returns>True if record with this id exist, false if not exist.</returns>
+        public bool IsIdExist(int id)
+        {
+            if (this.GetStat() >= id)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Create a new record with inputed parameters.
         /// </summary>
         /// <param name="record">Record to create.</param>
@@ -216,7 +231,7 @@ namespace FileCabinetApp
         /// <param name="recordId">Id of record to remove.</param>
         public void Remove(int recordId)
         {
-            FileCabinetRecord? incorrectRecord = this.list.Find(record => record.Id == recordId);
+            FileCabinetRecord? incorrectRecord = this.list[recordId - 1];
             if (incorrectRecord is null)
             {
                 throw new ArgumentNullException($"Record #{recordId} doesn't exists");
@@ -224,6 +239,17 @@ namespace FileCabinetApp
 
             this.list.Remove(incorrectRecord);
             this.RemoveFromDictionaries(incorrectRecord);
+            this.ReindecsingId();
+        }
+
+        private void ReindecsingId()
+        {
+            int startId = 1;
+            foreach (var record in this.list)
+            {
+                record.Id = startId;
+                startId++;
+            }
         }
 
         /// <summary>

@@ -620,12 +620,11 @@ namespace FileCabinetApp
                 Console.WriteLine("Error! Please check inputed Id.");
             }
 
-            var recordsCount = Program.fileCabinetService.GetStat();
             if (enteredId <= 0)
             {
                 Console.WriteLine("Id should be grater then 0");
             }
-            else if (recordsCount < enteredId)
+            else if (!fileCabinetService.IsIdExist(enteredId))
             {
                 Console.WriteLine($"#{enteredId} record is not found.");
             }
@@ -666,14 +665,12 @@ namespace FileCabinetApp
                     try
                     {
                         Program.fileCabinetService.EditRecord(newRecord);
+                        Console.WriteLine($"Record #{enteredId} is updated.");
+                        flagNotEnd = false;
                     }
                     catch (ArgumentException exeption)
                     {
                         Console.WriteLine(exeption.Message);
-                    }
-                    finally
-                    {
-                        Console.WriteLine($"Record #{enteredId} is updated.");
                         flagNotEnd = false;
                     }
                 }

@@ -43,6 +43,21 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Check if currient Id exist.
+        /// </summary>
+        /// /// <param name="id">Id to check.</param>
+        /// <returns>True if record with this id exist, false if not exist.</returns>
+        public bool IsIdExist(int id)
+        {
+            if (this.GetOffsetOfRecord(id) > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Create a new record with inputed parameters.
         /// </summary>
         /// <param name="record">Record to create.</param>
@@ -50,9 +65,8 @@ namespace FileCabinetApp
         public int CreateRecord(FileCabinetRecord record)
         {
             this.validator.ValidateParameters(record);
-            FileInfo fileInfo = new FileInfo(this.fileStream.Name);
-            record.Id = ((int)(fileInfo.Length / RECORDSIZE)) + 1;
-            this.fileStream.Seek((int)fileInfo.Length, SeekOrigin.Begin);
+            record.Id = this.FirstFreeId();
+            this.fileStream.Seek(0, SeekOrigin.End);
             this.WriteOneRecord(record);
             return record.Id;
         }
@@ -69,7 +83,14 @@ namespace FileCabinetApp
             this.fileStream.Seek(0, SeekOrigin.Begin);
             for (int i = 0; i < numberOfRecords; i++)
             {
-                list.Add(this.GetOneRecord());
+                try
+                {
+                    list.Add(this.GetOneRecord());
+                }
+                catch (ArgumentException)
+                {
+                    continue;
+                }
             }
 
             ReadOnlyCollection<FileCabinetRecord> allRecords = new ReadOnlyCollection<FileCabinetRecord>(list);
@@ -92,7 +113,12 @@ namespace FileCabinetApp
         /// <param name="newRecord">New record that replace old record.</param>
         public void EditRecord(FileCabinetRecord newRecord)
         {
-            int offset = (newRecord.Id - 1) * (int)RECORDSIZE;
+            long offset = this.GetOffsetOfRecord(newRecord.Id);
+            if (offset < 0)
+            {
+                throw new ArgumentException("Record with this id didn't exist.");
+            }
+
             this.fileStream.Seek(offset, SeekOrigin.Begin);
             this.WriteOneRecord(newRecord);
         }
@@ -116,8 +142,16 @@ namespace FileCabinetApp
                     if (string.Equals(firstName, firstnameInRecord, StringComparison.OrdinalIgnoreCase))
                     {
                         this.fileStream.Seek(-6 - (firstnameInRecord.Length + 1), SeekOrigin.Current);
-                        FileCabinetRecord foundRecord = this.GetOneRecord();
-                        list.Add(foundRecord);
+                        try
+                        {
+                            FileCabinetRecord foundRecord = this.GetOneRecord();
+                            list.Add(foundRecord);
+                        }
+                        catch (ArgumentException)
+                        {
+                            offset += RECORDSIZE;
+                            continue;
+                        }
                     }
 
                     offset += RECORDSIZE;
@@ -147,8 +181,16 @@ namespace FileCabinetApp
                     if (string.Equals(lastName, lastnameInRecord, StringComparison.OrdinalIgnoreCase))
                     {
                         this.fileStream.Seek(-126 - (lastnameInRecord.Length + 1), SeekOrigin.Current);
-                        FileCabinetRecord foundRecord = this.GetOneRecord();
-                        list.Add(foundRecord);
+                        try
+                        {
+                            FileCabinetRecord foundRecord = this.GetOneRecord();
+                            list.Add(foundRecord);
+                        }
+                        catch (ArgumentException)
+                        {
+                            offset += RECORDSIZE;
+                            continue;
+                        }
                     }
 
                     offset += RECORDSIZE;
@@ -188,8 +230,16 @@ namespace FileCabinetApp
                         if (DateTime.Compare(dateToFind, dateInRecord) == 0)
                         {
                             this.fileStream.Seek(-258, SeekOrigin.Current);
-                            FileCabinetRecord foundRecord = this.GetOneRecord();
-                            list.Add(foundRecord);
+                            try
+                            {
+                                FileCabinetRecord foundRecord = this.GetOneRecord();
+                                list.Add(foundRecord);
+                            }
+                            catch (ArgumentException)
+                            {
+                                offset += RECORDSIZE;
+                                continue;
+                            }
                         }
 
                         offset += RECORDSIZE;
@@ -272,7 +322,17 @@ namespace FileCabinetApp
         /// <param name="recordId">Id of record to remove.</param>
         public void Remove(int recordId)
         {
-            throw new NotImplementedException();
+            long offset = this.GetOffsetOfRecord(recordId);
+            if (offset < 0)
+            {
+                throw new ArgumentNullException();
+            }
+
+            this.fileStream.Seek(offset, SeekOrigin.Begin);
+            using (BinaryWriter binaryWriter = new BinaryWriter(this.fileStream, Encoding.Default, true))
+            {
+                binaryWriter.Write((short)1);
+            }
         }
 
         /// <summary>
@@ -281,7 +341,7 @@ namespace FileCabinetApp
         /// <param name="record">recort to write.</param>
         private void WriteOneRecord(FileCabinetRecord record)
         {
-            short status = 1;
+            short status = 0;
             using (BinaryWriter binaryWriter = new BinaryWriter(this.fileStream, Encoding.Default, true))
             {
                 binaryWriter.Write(status);
@@ -308,6 +368,12 @@ namespace FileCabinetApp
             using (BinaryReader binaryReader = new BinaryReader(this.fileStream, Encoding.Default, true))
             {
                 short status = binaryReader.ReadInt16();
+                if (status == 1)
+                {
+                    this.fileStream.Seek(RECORDSIZE - sizeof(short), SeekOrigin.Current);
+                    throw new ArgumentException();
+                }
+
                 int id = binaryReader.ReadInt32();
                 string firstname = binaryReader.ReadString();
                 this.fileStream.Seek(120 - (firstname.Length + 1), SeekOrigin.Current);
@@ -332,6 +398,80 @@ namespace FileCabinetApp
                 };
                 return record;
             }
+        }
+
+        /// <summary>
+        /// Check if there is any free Id of records which were removed.
+        /// </summary>
+        /// <returns>Next id to use.</returns>
+        private int FirstFreeId()
+        {
+            FileInfo fileInfo = new FileInfo(this.fileStream.Name);
+            int numberOfRecords = (int)(fileInfo.Length / RECORDSIZE);
+            this.fileStream.Seek(0, SeekOrigin.Begin);
+            List<int> posibleIds = new List<int>();
+            int numberOfRemoved = 0;
+            using (BinaryReader binaryReader = new BinaryReader(this.fileStream, Encoding.Default, true))
+            {
+                for (int i = 0; i < numberOfRecords; i++)
+                {
+                    short status = binaryReader.ReadInt16();
+                    if (status == 1)
+                    {
+                        posibleIds.Add(binaryReader.ReadInt32());
+                        numberOfRemoved++;
+                    }
+                    else
+                    {
+                        int existId = binaryReader.ReadInt32();
+                        if (posibleIds.Contains(existId))
+                        {
+                            posibleIds.Remove(existId);
+                        }
+                    }
+
+                    this.fileStream.Seek(RECORDSIZE - sizeof(short) - sizeof(int), SeekOrigin.Current);
+                }
+            }
+
+            if (posibleIds.Count == 0)
+            {
+                return ((int)(fileInfo.Length / RECORDSIZE)) + 1 - numberOfRemoved;
+            }
+
+            return posibleIds[0];
+        }
+
+        /// <summary>
+        /// Returned offset of record with given Id.
+        /// </summary>
+        /// <param name="id">Id of record.</param>
+        /// <returns>Offset of record with this Id.</returns>
+        private long GetOffsetOfRecord(int id)
+        {
+            FileInfo fileInfo = new FileInfo(this.fileStream.Name);
+            int numberOfRecords = (int)(fileInfo.Length / RECORDSIZE);
+            this.fileStream.Seek(0, SeekOrigin.Begin);
+            using (BinaryReader binaryReader = new BinaryReader(this.fileStream, Encoding.Default, true))
+            {
+                for (int i = 0; i < numberOfRecords; i++)
+                {
+                    short status = binaryReader.ReadInt16();
+                    if (status == 0)
+                    {
+                        if (id == binaryReader.ReadInt32())
+                        {
+                            return this.fileStream.Position - sizeof(int) - sizeof(short);
+                        }
+
+                        this.fileStream.Seek(-sizeof(int), SeekOrigin.Current);
+                    }
+
+                    this.fileStream.Seek(RECORDSIZE - sizeof(short), SeekOrigin.Current);
+                }
+            }
+
+            return -1;
         }
     }
 }

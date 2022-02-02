@@ -14,6 +14,13 @@ namespace FileCabinetApp
         public IRecordValidator GetValidationType();
 
         /// <summary>
+        /// Check if currient Id exist.
+        /// </summary>
+        /// <param name="id">Id to check.</param>
+        /// <returns>True if record with this id exist, false if not exist.</returns>
+        public bool IsIdExist(int id);
+
+        /// <summary>
         /// Create a new record with inputed parameters.
         /// </summary>
         /// <param name="record">Record to create.</param>

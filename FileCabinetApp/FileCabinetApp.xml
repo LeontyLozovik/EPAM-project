@@ -50,6 +50,13 @@
             </summary>
             <returns>type of validation.</returns>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.IsIdExist(System.Int32)">
+            <summary>
+            Check if currient Id exist.
+            </summary>
+            /// <param name="id">Id to check.</param>
+            <returns>True if record with this id exist, false if not exist.</returns>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Create a new record with inputed parameters.
@@ -127,6 +134,19 @@
             </summary>
             <returns>One record from file.</returns>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.FirstFreeId">
+            <summary>
+            Check if there is any free Id of records which were removed.
+            </summary>
+            <returns>Next id to use.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetOffsetOfRecord(System.Int32)">
+            <summary>
+            Returned offset of record with given Id.
+            </summary>
+            <param name="id">Id of record.</param>
+            <returns>Offset of record with this Id.</returns>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetMemoryService">
             <summary>
             Do manipulations with records in memory.
@@ -143,6 +163,13 @@
             Returns validator.
             </summary>
             <returns>type of validation.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.IsIdExist(System.Int32)">
+            <summary>
+            Check if currient Id exist.
+            </summary>
+            /// <param name="id">Id to check.</param>
+            <returns>True if record with this id exist, false if not exist.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
@@ -427,6 +454,13 @@
             Returns validator.
             </summary>
             <returns>type of validation.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.IsIdExist(System.Int32)">
+            <summary>
+            Check if currient Id exist.
+            </summary>
+            <param name="id">Id to check.</param>
+            <returns>True if record with this id exist, false if not exist.</returns>
         </member>
         <member name="M:FileCabinetApp.IFileCabinetService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
