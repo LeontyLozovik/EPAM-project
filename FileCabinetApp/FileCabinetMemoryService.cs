@@ -39,7 +39,7 @@ namespace FileCabinetApp
         /// <returns>True if record with this id exist, false if not exist.</returns>
         public bool IsIdExist(int id)
         {
-            if (this.GetStat() >= id)
+            if (this.GetStat(false) >= id)
             {
                 return true;
             }
@@ -78,8 +78,14 @@ namespace FileCabinetApp
         /// Return number of existing records.
         /// </summary>
         /// <returns>number of existing records.</returns>
-        public int GetStat()
+        /// <param name="writeNumberRemoverRecords">Write or don't write number of removedrecords.</param>>
+        public int GetStat(bool writeNumberRemoverRecords = true)
         {
+            if (writeNumberRemoverRecords)
+            {
+                Console.WriteLine("0 records removed.");
+            }
+
             return this.list.Count;
         }
 
@@ -194,7 +200,7 @@ namespace FileCabinetApp
 
             for (int i = 0; i < numberOfRecords; i++)
             {
-                if (recordEnumerator.Current.Id <= this.GetStat())
+                if (recordEnumerator.Current.Id <= this.GetStat(false))
                 {
                     try
                     {

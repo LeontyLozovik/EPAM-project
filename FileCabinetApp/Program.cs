@@ -956,7 +956,7 @@ namespace FileCabinetApp
                 Console.WriteLine("Error! Please check inputed Id.");
             }
 
-            var recordsCount = Program.fileCabinetService.GetStat();
+            var recordsCount = Program.fileCabinetService.GetStat(false);
             if (enteredId <= 0)
             {
                 Console.WriteLine("Id should be grater then 0");
@@ -982,7 +982,7 @@ namespace FileCabinetApp
         private static void Purge(string parameters)
         {
             int numberOfDefragmentedRecords = fileCabinetService.Defragment();
-            Console.WriteLine($"Data file processing is completed: {numberOfDefragmentedRecords} of {fileCabinetService.GetStat() + numberOfDefragmentedRecords} records were purged.");
+            Console.WriteLine($"Data file processing is completed: {numberOfDefragmentedRecords} of {fileCabinetService.GetStat(false) + numberOfDefragmentedRecords} records were purged.");
         }
     }
 }

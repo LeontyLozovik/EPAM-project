@@ -37,7 +37,8 @@ namespace FileCabinetApp
         /// Return number of existing records.
         /// </summary>
         /// <returns>number of existing records.</returns>
-        public int GetStat();
+        /// <param name="writeNumberRemoverRecords">Write or don't write number of removedrecords.</param>>
+        public int GetStat(bool writeNumberRemoverRecords = true);
 
         /// <summary>
         /// Edit record by entered Id.

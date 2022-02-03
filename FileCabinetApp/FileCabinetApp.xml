@@ -70,11 +70,12 @@
             </summary>
             <returns>all existing records.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetStat">
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetStat(System.Boolean)">
             <summary>
             Return number of existing records.
             </summary>
             <returns>number of existing records.</returns>
+            <param name="writeNumberRemoverRecords">Write or don't write number of removedrecords.</param>>
         </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.EditRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
@@ -206,11 +207,12 @@
             </summary>
             <returns>all existing records.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.GetStat">
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.GetStat(System.Boolean)">
             <summary>
             Return number of existing records.
             </summary>
             <returns>number of existing records.</returns>
+            <param name="writeNumberRemoverRecords">Write or don't write number of removedrecords.</param>>
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.EditRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
@@ -508,11 +510,12 @@
             </summary>
             <returns>all existing records.</returns>
         </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.GetStat">
+        <member name="M:FileCabinetApp.IFileCabinetService.GetStat(System.Boolean)">
             <summary>
             Return number of existing records.
             </summary>
             <returns>number of existing records.</returns>
+            <param name="writeNumberRemoverRecords">Write or don't write number of removedrecords.</param>>
         </member>
         <member name="M:FileCabinetApp.IFileCabinetService.EditRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>

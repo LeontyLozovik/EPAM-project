@@ -101,8 +101,14 @@ namespace FileCabinetApp
         /// Return number of existing records.
         /// </summary>
         /// <returns>number of existing records.</returns>
-        public int GetStat()
+        /// <param name="writeNumberRemoverRecords">Write or don't write number of removedrecords.</param>>
+        public int GetStat(bool writeNumberRemoverRecords = true)
         {
+            if (writeNumberRemoverRecords)
+            {
+                Console.WriteLine($"{this.GetNumberOfRemovedRecords()} records removed.");
+            }
+
             FileInfo fileInfo = new FileInfo(this.fileStream.Name);
             return (int)(fileInfo.Length / RECORDSIZE);
         }
@@ -285,7 +291,7 @@ namespace FileCabinetApp
 
             for (int i = 0; i < numberOfRecords; i++)
             {
-                if (recordEnumerator.Current.Id <= this.GetStat())
+                if (recordEnumerator.Current.Id <= this.GetStat(false))
                 {
                     try
                     {
@@ -582,6 +588,15 @@ namespace FileCabinetApp
                     this.fileStream.Seek(RECORDSIZE - sizeof(short), SeekOrigin.Current);
                 }
             }
+        }
+
+        private int GetNumberOfRemovedRecords()
+        {
+            FileInfo fileInfo = new FileInfo(this.fileStream.Name);
+            int numberOfRecords = (int)(fileInfo.Length / RECORDSIZE);
+            var realRecords = this.GetRecords().Count;
+            int removedRecords = numberOfRecords - realRecords;
+            return removedRecords;
         }
     }
 }
