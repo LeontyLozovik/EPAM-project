@@ -14,6 +14,13 @@ namespace FileCabinetApp
         public IRecordValidator GetValidationType();
 
         /// <summary>
+        /// Check if currient Id exist.
+        /// </summary>
+        /// <param name="id">Id to check.</param>
+        /// <returns>True if record with this id exist, false if not exist.</returns>
+        public bool IsIdExist(int id);
+
+        /// <summary>
         /// Create a new record with inputed parameters.
         /// </summary>
         /// <param name="record">Record to create.</param>
@@ -30,7 +37,8 @@ namespace FileCabinetApp
         /// Return number of existing records.
         /// </summary>
         /// <returns>number of existing records.</returns>
-        public int GetStat();
+        /// <param name="writeNumberRemoverRecords">Write or don't write number of removedrecords.</param>>
+        public int GetStat(bool writeNumberRemoverRecords = true);
 
         /// <summary>
         /// Edit record by entered Id.
@@ -71,5 +79,17 @@ namespace FileCabinetApp
         /// <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
         /// <returns>number of imported records.</returns>
         public int Restore(FileCabinetServiceSnapshot snapshot);
+
+        /// <summary>
+        /// Remove record from service.
+        /// </summary>
+        /// <param name="recordId">Id of record to remove.</param>
+        public void Remove(int recordId);
+
+        /// <summary>
+        /// Difragment file with records in FileCabinetFilesystemService.
+        /// </summary>
+        /// <returns>Number of difragmented records.</returns>
+        public int Defragment();
     }
 }
