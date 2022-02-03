@@ -122,6 +122,23 @@
             </summary>
             <param name="recordId">Id of record to remove.</param>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.Defragment">
+            <summary>
+            Difragment file with records in FileCabinetFilesystemService.
+            </summary>
+            <returns>Number of difragmented records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.Dispose">
+            <summary>
+            Implement method of IDispose.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.Dispose(System.Boolean)">
+            <summary>
+            Implement method of IDispose.
+            </summary>
+            <param name="disposing">dispose or not dispose.</param>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.WriteOneRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Write one record to file from currient position.
@@ -146,6 +163,11 @@
             </summary>
             <param name="id">Id of record.</param>
             <returns>Offset of record with this Id.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.SetCorrectOrder">
+            <summary>
+            Set correct oder of records before difragmentation.
+            </summary>
         </member>
         <member name="T:FileCabinetApp.FileCabinetMemoryService">
             <summary>
@@ -235,6 +257,17 @@
             Remove record from service.
             </summary>
             <param name="recordId">Id of record to remove.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.Defragment">
+            <summary>
+            Difragment file with records in FileCabinetFilesystemService.
+            </summary>
+            <returns>0 - because there is nothing to defragment.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.ReindecsingId">
+            <summary>
+            Reindecsing records in list.
+            </summary>
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
             <summary>
@@ -526,6 +559,12 @@
             Remove record from service.
             </summary>
             <param name="recordId">Id of record to remove.</param>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.Defragment">
+            <summary>
+            Difragment file with records in FileCabinetFilesystemService.
+            </summary>
+            <returns>Number of difragmented records.</returns>
         </member>
         <member name="T:FileCabinetApp.IRecordValidator">
             <summary>

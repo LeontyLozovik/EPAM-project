@@ -7,10 +7,10 @@ namespace FileCabinetApp
     /// <summary>
     /// Do manipulations with records in file.
     /// </summary>
-    public class FileCabinetFilesystemService : IFileCabinetService
+    public class FileCabinetFilesystemService : IFileCabinetService, IDisposable
     {
         private const long RECORDSIZE = 277;
-        private readonly FileStream fileStream;
+        private FileStream fileStream;
         private IRecordValidator validator = new DefaultValidator();
 
         /// <summary>
@@ -336,6 +336,64 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Difragment file with records in FileCabinetFilesystemService.
+        /// </summary>
+        /// <returns>Number of difragmented records.</returns>
+        public int Defragment()
+        {
+            this.SetCorrectOrder();
+            int numberOfRemovedRecords = 0;
+            FileInfo fileInfo = new FileInfo(this.fileStream.Name);
+            List<FileCabinetRecord> listOfExistingRecords = new List<FileCabinetRecord>();
+            int numberOfRecords = (int)(fileInfo.Length / RECORDSIZE);
+            this.fileStream.Seek(0, SeekOrigin.Begin);
+            for (int i = 0; i < numberOfRecords; i++)
+            {
+                try
+                {
+                    listOfExistingRecords.Add(this.GetOneRecord());
+                }
+                catch (ArgumentException)
+                {
+                    numberOfRemovedRecords++;
+                    continue;
+                }
+            }
+
+            this.Dispose();
+            this.fileStream = new FileStream("C:\\Epam-project\\FileCabinetApp\\FileDataBase\\cabinet-records.db", FileMode.Truncate);
+            this.Dispose();
+            this.fileStream = new FileStream("C:\\Epam-project\\FileCabinetApp\\FileDataBase\\cabinet-records.db", FileMode.Open);
+            for (int i = 0; i < numberOfRecords - numberOfRemovedRecords; i++)
+            {
+                this.WriteOneRecord(listOfExistingRecords[i]);
+            }
+
+            return numberOfRemovedRecords;
+        }
+
+        /// <summary>
+        /// Implement method of IDispose.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Implement method of IDispose.
+        /// </summary>
+        /// <param name="disposing">dispose or not dispose.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.fileStream.Dispose();
+            }
+        }
+
+        /// <summary>
         /// Write one record to file from currient position.
         /// </summary>
         /// <param name="record">recort to write.</param>
@@ -410,7 +468,7 @@ namespace FileCabinetApp
             int numberOfRecords = (int)(fileInfo.Length / RECORDSIZE);
             this.fileStream.Seek(0, SeekOrigin.Begin);
             List<int> posibleIds = new List<int>();
-            int numberOfRemoved = 0;
+            int bigestId = 0;
             using (BinaryReader binaryReader = new BinaryReader(this.fileStream, Encoding.Default, true))
             {
                 for (int i = 0; i < numberOfRecords; i++)
@@ -418,15 +476,23 @@ namespace FileCabinetApp
                     short status = binaryReader.ReadInt16();
                     if (status == 1)
                     {
-                        posibleIds.Add(binaryReader.ReadInt32());
-                        numberOfRemoved++;
+                        int id = binaryReader.ReadInt32();
+                        if (!posibleIds.Contains(id))
+                        {
+                            posibleIds.Add(id);
+                        }
                     }
                     else
                     {
-                        int existId = binaryReader.ReadInt32();
-                        if (posibleIds.Contains(existId))
+                        int id = binaryReader.ReadInt32();
+                        if (id > bigestId)
                         {
-                            posibleIds.Remove(existId);
+                            bigestId = id;
+                        }
+
+                        if (posibleIds.Contains(id))
+                        {
+                            posibleIds.Remove(id);
                         }
                     }
 
@@ -436,7 +502,7 @@ namespace FileCabinetApp
 
             if (posibleIds.Count == 0)
             {
-                return ((int)(fileInfo.Length / RECORDSIZE)) + 1 - numberOfRemoved;
+                return bigestId + 1;
             }
 
             return posibleIds[0];
@@ -472,6 +538,50 @@ namespace FileCabinetApp
             }
 
             return -1;
+        }
+
+        /// <summary>
+        /// Set correct oder of records before difragmentation.
+        /// </summary>
+        private void SetCorrectOrder()
+        {
+            FileInfo fileInfo = new FileInfo(this.fileStream.Name);
+            int numberOfRecords = (int)(fileInfo.Length / RECORDSIZE);
+            this.fileStream.Seek(0, SeekOrigin.Begin);
+            List<int> chanchedId = new List<int>();
+            using (BinaryReader binaryReader = new BinaryReader(this.fileStream, Encoding.Default, true))
+            {
+                for (int i = 0; i < numberOfRecords; i++)
+                {
+                    short status = binaryReader.ReadInt16();
+                    if (status == 1)
+                    {
+                        int id = binaryReader.ReadInt32();
+                        long offsetOfThisRecord = this.fileStream.Seek(-sizeof(short) - sizeof(int), SeekOrigin.Current);
+                        if (this.IsIdExist(id) && !chanchedId.Contains(id))
+                        {
+                            chanchedId.Add(id);
+                            this.fileStream.Seek(this.GetOffsetOfRecord(id), SeekOrigin.Begin);
+                            var recordToMove = this.GetOneRecord();
+                            using (BinaryWriter binaryWriter = new BinaryWriter(this.fileStream, Encoding.Default, true))
+                            {
+                                this.fileStream.Seek(-RECORDSIZE, SeekOrigin.Current);
+                                binaryWriter.Write((short)1);
+                            }
+
+                            this.fileStream.Seek(offsetOfThisRecord, SeekOrigin.Begin);
+                            this.WriteOneRecord(recordToMove);
+                            this.fileStream.Seek(-RECORDSIZE + sizeof(short), SeekOrigin.Current);
+                        }
+                        else
+                        {
+                            this.fileStream.Seek(offsetOfThisRecord + sizeof(short), SeekOrigin.Begin);
+                        }
+                    }
+
+                    this.fileStream.Seek(RECORDSIZE - sizeof(short), SeekOrigin.Current);
+                }
+            }
         }
     }
 }

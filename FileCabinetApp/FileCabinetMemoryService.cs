@@ -242,6 +242,19 @@ namespace FileCabinetApp
             this.ReindecsingId();
         }
 
+        /// <summary>
+        /// Difragment file with records in FileCabinetFilesystemService.
+        /// </summary>
+        /// <returns>0 - because there is nothing to defragment.</returns>
+        public int Defragment()
+        {
+            Console.WriteLine("Memory service don't support 'purge' command");
+            return 0;
+        }
+
+        /// <summary>
+        /// Reindecsing records in list.
+        /// </summary>
         private void ReindecsingId()
         {
             int startId = 1;

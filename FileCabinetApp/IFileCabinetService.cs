@@ -84,5 +84,11 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="recordId">Id of record to remove.</param>
         public void Remove(int recordId);
+
+        /// <summary>
+        /// Difragment file with records in FileCabinetFilesystemService.
+        /// </summary>
+        /// <returns>Number of difragmented records.</returns>
+        public int Defragment();
     }
 }
