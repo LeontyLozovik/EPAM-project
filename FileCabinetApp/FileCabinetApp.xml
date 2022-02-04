@@ -170,6 +170,12 @@
             Set correct oder of records before difragmentation.
             </summary>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetNumberOfRemovedRecords">
+            <summary>
+            Get number of removed records in file.
+            </summary>
+            <returns>number of removed records.</returns>
+        </member>
         <member name="T:FileCabinetApp.FileCabinetMemoryService">
             <summary>
             Do manipulations with records in memory.
@@ -266,11 +272,6 @@
             </summary>
             <returns>0 - because there is nothing to defragment.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.ReindecsingId">
-            <summary>
-            Reindecsing records in list.
-            </summary>
-        </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
             <summary>
             Add records with firtname or lastname key to the dictionary.
@@ -286,6 +287,11 @@
             <param name="date">dateofbirth key.</param>
             <param name="record">record to add.</param>
             <param name="dictionary">dictionary to add.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.ReindecsingId">
+            <summary>
+            Reindecsing records in list.
+            </summary>
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.RemoveFromDictionaries(FileCabinetApp.FileCabinetRecord)">
             <summary>

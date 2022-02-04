@@ -54,7 +54,10 @@ namespace FileCabinetApp
         /// <param name="args">parameters of "Main" function.</param>
         public static void Main(string[] args)
         {
-            ReadCmdArgument(args, ref fileCabinetService);
+            if (!(args is null))
+            {
+                ReadCmdArgument(args, ref fileCabinetService);
+            }
 
             Console.WriteLine($"File Cabinet Application, developed by {Program.DeveloperName}");
             Console.WriteLine(Program.HintMessage);
@@ -74,7 +77,7 @@ namespace FileCabinetApp
                     continue;
                 }
 
-                var index = Array.FindIndex(commands, 0, commands.Length, i => i.Item1.Equals(command, StringComparison.InvariantCultureIgnoreCase));
+                var index = Array.FindIndex(commands, 0, commands.Length, i => i.Item1.Equals(command, StringComparison.OrdinalIgnoreCase));
                 if (index >= 0)
                 {
                     const int parametersIndex = 1;
@@ -93,10 +96,10 @@ namespace FileCabinetApp
         {
             switch (argument)
             {
-                case "default":
+                case "DEFAULT":
                     Console.WriteLine("Using default validation rules.");
                     return new DefaultValidator();
-                case "custom":
+                case "CUSTOM":
                     Console.WriteLine("Using custom validation rules.");
                     return new CustomValidator();
                 default:
@@ -109,10 +112,10 @@ namespace FileCabinetApp
         {
             switch (argument)
             {
-                case "memory":
+                case "MEMORY":
                     Console.WriteLine("Using memory service.");
                     return new FileCabinetMemoryService(validator);
-                case "file":
+                case "FILE":
                     FileMode mode;
                     string path = "C:\\Epam-project\\FileCabinetApp\\FileDataBase\\cabinet-records.db";
                     if (File.Exists(path))
@@ -146,11 +149,11 @@ namespace FileCabinetApp
                         switch (command)
                         {
                             case "--validation-rules":
-                                string argument = inputLine[1].ToLowerInvariant();
+                                string argument = inputLine[1].ToUpperInvariant();
                                 fileCabinetService = new FileCabinetMemoryService(SwitchValidationRules(argument));
                                 break;
                             case "--storage":
-                                argument = inputLine[1].ToLowerInvariant();
+                                argument = inputLine[1].ToUpperInvariant();
                                 fileCabinetService = SwitchStorageVariant(argument, new DefaultValidator());
                                 break;
                             default:
@@ -160,7 +163,7 @@ namespace FileCabinetApp
 
                         break;
                     case 2:
-                        if (args[0].StartsWith("--") && args[0].Contains("="))
+                        if (args[0].StartsWith("--", StringComparison.OrdinalIgnoreCase) && args[0].Contains('=', StringComparison.OrdinalIgnoreCase))
                         {
                             var firstAtribute = args[0] != null ? args[0].Split('=', 2) : new string[] { string.Empty, string.Empty };
                             var secondAtribute = args[1] != null ? args[1].Split('=', 2) : new string[] { string.Empty, string.Empty };
@@ -172,12 +175,12 @@ namespace FileCabinetApp
                                     switch (commandSecond)
                                     {
                                         case "--storage":
-                                            string firstArgument = firstAtribute[1].ToLowerInvariant();
-                                            string secondArgument = secondAtribute[1].ToLowerInvariant();
+                                            string firstArgument = firstAtribute[1].ToUpperInvariant();
+                                            string secondArgument = secondAtribute[1].ToUpperInvariant();
                                             fileCabinetService = SwitchStorageVariant(secondArgument, SwitchValidationRules(firstArgument));
                                             break;
                                         default:
-                                            firstArgument = firstAtribute[1].ToLowerInvariant();
+                                            firstArgument = firstAtribute[1].ToUpperInvariant();
                                             fileCabinetService = new FileCabinetMemoryService(SwitchValidationRules(firstArgument));
                                             break;
                                     }
@@ -187,12 +190,12 @@ namespace FileCabinetApp
                                     switch (commandSecond)
                                     {
                                         case "--validation-rules":
-                                            string firstArgument = firstAtribute[1].ToLowerInvariant();
-                                            string secondArgument = secondAtribute[1].ToLowerInvariant();
+                                            string firstArgument = firstAtribute[1].ToUpperInvariant();
+                                            string secondArgument = secondAtribute[1].ToUpperInvariant();
                                             fileCabinetService = SwitchStorageVariant(firstArgument, SwitchValidationRules(secondArgument));
                                             break;
                                         default:
-                                            firstArgument = firstAtribute[1].ToLowerInvariant();
+                                            firstArgument = firstAtribute[1].ToUpperInvariant();
                                             fileCabinetService = SwitchStorageVariant(firstArgument, new DefaultValidator());
                                             break;
                                     }
@@ -209,11 +212,11 @@ namespace FileCabinetApp
                             switch (command)
                             {
                                 case "-v":
-                                    string argument = args[1].ToLowerInvariant();
+                                    string argument = args[1].ToUpperInvariant();
                                     fileCabinetService = new FileCabinetMemoryService(SwitchValidationRules(argument));
                                     break;
                                 case "-s":
-                                    argument = args[1].ToLowerInvariant();
+                                    argument = args[1].ToUpperInvariant();
                                     fileCabinetService = SwitchStorageVariant(argument, new DefaultValidator());
                                     break;
 
@@ -233,12 +236,12 @@ namespace FileCabinetApp
                                 switch (secondCommand)
                                 {
                                     case "-s":
-                                        string firstArgument = args[1].ToLowerInvariant();
-                                        string secondArgument = args[3].ToLowerInvariant();
+                                        string firstArgument = args[1].ToUpperInvariant();
+                                        string secondArgument = args[3].ToUpperInvariant();
                                         fileCabinetService = SwitchStorageVariant(secondArgument, SwitchValidationRules(firstArgument));
                                         break;
                                     default:
-                                        firstArgument = args[1].ToLowerInvariant();
+                                        firstArgument = args[1].ToUpperInvariant();
                                         fileCabinetService = new FileCabinetMemoryService(SwitchValidationRules(firstArgument));
                                         break;
                                 }
@@ -248,12 +251,12 @@ namespace FileCabinetApp
                                 switch (secondCommand)
                                 {
                                     case "-v":
-                                        string firstArgument = args[1].ToLowerInvariant();
-                                        string secondArgument = args[3].ToLowerInvariant();
+                                        string firstArgument = args[1].ToUpperInvariant();
+                                        string secondArgument = args[3].ToUpperInvariant();
                                         fileCabinetService = SwitchStorageVariant(firstArgument, SwitchValidationRules(secondArgument));
                                         break;
                                     default:
-                                        firstArgument = args[1].ToLowerInvariant();
+                                        firstArgument = args[1].ToUpperInvariant();
                                         fileCabinetService = SwitchStorageVariant(firstArgument, new DefaultValidator());
                                         break;
                                 }
@@ -294,7 +297,7 @@ namespace FileCabinetApp
         {
             if (!string.IsNullOrEmpty(parameters))
             {
-                var index = Array.FindIndex(helpMessages, 0, helpMessages.Length, i => string.Equals(i[Program.CommandHelpIndex], parameters, StringComparison.InvariantCultureIgnoreCase));
+                var index = Array.FindIndex(helpMessages, 0, helpMessages.Length, i => string.Equals(i[Program.CommandHelpIndex], parameters, StringComparison.OrdinalIgnoreCase));
                 if (index >= 0)
                 {
                     Console.WriteLine(helpMessages[index][Program.ExplanationHelpIndex]);
@@ -486,7 +489,7 @@ namespace FileCabinetApp
                     break;
             }
 
-            return new Tuple<bool, string>(validationSuccess, birthday.ToString());
+            return new Tuple<bool, string>(validationSuccess, birthday.ToString(CultureInfo.InvariantCulture));
         }
 
         private static Tuple<bool, string> NumberOfChildrenValidator(short children)
@@ -510,7 +513,7 @@ namespace FileCabinetApp
                     break;
             }
 
-            return new Tuple<bool, string>(validationSuccess, children.ToString());
+            return new Tuple<bool, string>(validationSuccess, children.ToString(CultureInfo.InvariantCulture));
         }
 
         private static Tuple<bool, string> AverageSalaryValidator(decimal salary)
@@ -534,7 +537,7 @@ namespace FileCabinetApp
                     break;
             }
 
-            return new Tuple<bool, string>(validationSuccess, salary.ToString());
+            return new Tuple<bool, string>(validationSuccess, salary.ToString(CultureInfo.InvariantCulture));
         }
 
         private static Tuple<bool, string> SexValidator(char sex)
@@ -600,9 +603,9 @@ namespace FileCabinetApp
                     Console.WriteLine($"Record #{id} is created.");
                     flagNotEnd = false;
                 }
-                catch (ArgumentException exeption)
+                catch (Exception ex)
                 {
-                    Console.WriteLine(exeption.Message);
+                    Console.WriteLine(ex.Message);
                     flagNotEnd = false;
                 }
             }
@@ -610,8 +613,15 @@ namespace FileCabinetApp
 
         private static void List(string parameters)
         {
-            var listOfRecords = Program.fileCabinetService.GetRecords();
-            PrintListOfRecords(listOfRecords);
+            try
+            {
+                var listOfRecords = Program.fileCabinetService.GetRecords();
+                PrintListOfRecords(listOfRecords);
+            }
+            catch (ArgumentNullException)
+            {
+                Console.WriteLine("Instance doesn't exist.");
+            }
         }
 
         private static void Edit(string parameters)
@@ -670,7 +680,7 @@ namespace FileCabinetApp
                         Console.WriteLine($"Record #{enteredId} is updated.");
                         flagNotEnd = false;
                     }
-                    catch (ArgumentException exeption)
+                    catch (Exception exeption)
                     {
                         Console.WriteLine(exeption.Message);
                         flagNotEnd = false;
@@ -694,35 +704,35 @@ namespace FileCabinetApp
                 }
                 else
                 {
-                    string propName = input[0].ToLowerInvariant();
+                    string propName = input[0].ToUpperInvariant();
                     string textToFind = input[1].Trim('\"');
                     switch (propName)
                     {
-                        case "firstname":
+                        case "FIRSTNAME":
                             try
                             {
                                 var firstNameReturnedRecords = fileCabinetService.FindByFirstName(textToFind);
                                 PrintListOfRecords(firstNameReturnedRecords);
                             }
-                            catch (ArgumentException ex)
+                            catch (Exception ex)
                             {
                                 Console.WriteLine(ex.Message);
                             }
 
                             break;
-                        case "lastname":
+                        case "LASTNAME":
                             try
                             {
                                 var lastNameReturnedRecords = fileCabinetService.FindByLastName(textToFind);
                                 PrintListOfRecords(lastNameReturnedRecords);
                             }
-                            catch (ArgumentException ex)
+                            catch (Exception ex)
                             {
                                 Console.WriteLine(ex.Message);
                             }
 
                             break;
-                        case "dateofbirth":
+                        case "DATEOFBIRTH":
                             try
                             {
                                 var birthdayReturnedRecords = fileCabinetService.FindByBirthday(textToFind);
@@ -757,12 +767,12 @@ namespace FileCabinetApp
                 }
                 else
                 {
-                    string typeOfFile = input[0].ToLowerInvariant();
+                    string typeOfFile = input[0].ToUpperInvariant();
                     string filePath = input[1];
                     switch (typeOfFile)
                     {
-                        case "csv":
-                            if (!filePath.EndsWith(".csv"))
+                        case "CSV":
+                            if (!filePath.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
                             {
                                 filePath = string.Concat(filePath, ".csv");
                             }
@@ -779,12 +789,12 @@ namespace FileCabinetApp
                                         break;
                                     }
 
-                                    if (string.Equals(answer.ToLowerInvariant(), "y"))
+                                    if (string.Equals(answer, "y", StringComparison.OrdinalIgnoreCase))
                                     {
                                         File.Delete(filePath);
                                         notEnd = false;
                                     }
-                                    else if (answer.ToLowerInvariant() == "n")
+                                    else if (string.Equals(answer, "n", StringComparison.OrdinalIgnoreCase))
                                     {
                                         break;
                                     }
@@ -808,8 +818,8 @@ namespace FileCabinetApp
                             }
 
                             break;
-                        case "xml":
-                            if (!filePath.EndsWith(".xml"))
+                        case "XML":
+                            if (!filePath.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
                             {
                                 filePath = string.Concat(filePath, ".xml");
                             }
@@ -826,12 +836,12 @@ namespace FileCabinetApp
                                         break;
                                     }
 
-                                    if (string.Equals(answer.ToLowerInvariant(), "y"))
+                                    if (string.Equals(answer, "y", StringComparison.OrdinalIgnoreCase))
                                     {
                                         File.Delete(filePath);
                                         notEnd = false;
                                     }
-                                    else if (answer.ToLowerInvariant() == "n")
+                                    else if (string.Equals(answer, "n", StringComparison.OrdinalIgnoreCase))
                                     {
                                         break;
                                     }
@@ -878,12 +888,12 @@ namespace FileCabinetApp
                 }
                 else
                 {
-                    string typeOfFile = input[0].ToLowerInvariant();
+                    string typeOfFile = input[0].ToUpperInvariant();
                     string filePath = input[1];
                     switch (typeOfFile)
                     {
-                        case "csv":
-                            if (!filePath.EndsWith(".csv"))
+                        case "CSV":
+                            if (!filePath.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
                             {
                                 filePath = string.Concat(filePath, ".csv");
                             }
@@ -911,8 +921,8 @@ namespace FileCabinetApp
                             }
 
                             break;
-                        case "xml":
-                            if (!filePath.EndsWith(".xml"))
+                        case "XML":
+                            if (!filePath.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
                             {
                                 filePath = string.Concat(filePath, ".xml");
                             }
