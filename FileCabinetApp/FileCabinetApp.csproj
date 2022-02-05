@@ -11,6 +11,7 @@
 	<EnableNETAnalyzers>true</EnableNETAnalyzers>
 	<AnalysisMode>AllEnabledByDefault</AnalysisMode>
 	<CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+	<LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
