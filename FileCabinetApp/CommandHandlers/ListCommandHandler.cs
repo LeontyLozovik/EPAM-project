@@ -5,6 +5,17 @@
     /// </summary>
     public class ListCommandHandler : CommandHandlerBase
     {
+        private IFileCabinetService service;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListCommandHandler"/> class.
+        /// </summary>
+        /// <param name="service">service to work with.</param>
+        public ListCommandHandler(IFileCabinetService service)
+        {
+            this.service = service;
+        }
+
         /// <summary>
         /// Handle list command.
         /// </summary>
@@ -15,7 +26,7 @@
             {
                 try
                 {
-                    var listOfRecords = Program.fileCabinetService.GetRecords();
+                    var listOfRecords = this.service.GetRecords();
                     PrintListOfRecords(listOfRecords);
                 }
                 catch (ArgumentNullException)

@@ -7,6 +7,17 @@ namespace FileCabinetApp.CommandHandlers
     /// </summary>
     public class ExportCommandHandler : CommandHandlerBase
     {
+        private IFileCabinetService service;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExportCommandHandler"/> class.
+        /// </summary>
+        /// <param name="service">service to work with.</param>
+        public ExportCommandHandler(IFileCabinetService service)
+        {
+            this.service = service;
+        }
+
         /// <summary>
         /// Handle export command.
         /// </summary>
@@ -67,7 +78,7 @@ namespace FileCabinetApp.CommandHandlers
                                 {
                                     FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
                                     StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.Default);
-                                    var snapshot = Program.fileCabinetService.MakeSnapshot();
+                                    var snapshot = this.service.MakeSnapshot();
                                     snapshot.SaveToCsv(streamWriter);
                                     Console.WriteLine($"All records are exported to file {filePath}");
                                     streamWriter.Close();
@@ -114,7 +125,7 @@ namespace FileCabinetApp.CommandHandlers
                                 {
                                     FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
                                     StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.Default);
-                                    var snapshot = Program.fileCabinetService.MakeSnapshot();
+                                    var snapshot = this.service.MakeSnapshot();
                                     snapshot.SaveToXml(streamWriter);
                                     Console.WriteLine($"All records are exported to file {filePath}");
                                     streamWriter.Close();

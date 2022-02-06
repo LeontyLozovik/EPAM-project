@@ -5,6 +5,17 @@
     /// </summary>
     public class FindCommandHandler : CommandHandlerBase
     {
+        private IFileCabinetService service;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FindCommandHandler"/> class.
+        /// </summary>
+        /// <param name="service">service to work with.</param>
+        public FindCommandHandler(IFileCabinetService service)
+        {
+            this.service = service;
+        }
+
         /// <summary>
         /// Handle find command.
         /// </summary>
@@ -33,7 +44,7 @@
                             case "FIRSTNAME":
                                 try
                                 {
-                                    var firstNameReturnedRecords = Program.fileCabinetService.FindByFirstName(textToFind);
+                                    var firstNameReturnedRecords = this.service.FindByFirstName(textToFind);
                                     PrintListOfRecords(firstNameReturnedRecords);
                                 }
                                 catch (ArgumentNullException exeption)
@@ -49,7 +60,7 @@
                             case "LASTNAME":
                                 try
                                 {
-                                    var lastNameReturnedRecords = Program.fileCabinetService.FindByLastName(textToFind);
+                                    var lastNameReturnedRecords = this.service.FindByLastName(textToFind);
                                     PrintListOfRecords(lastNameReturnedRecords);
                                 }
                                 catch (ArgumentNullException exeption)
@@ -65,7 +76,7 @@
                             case "DATEOFBIRTH":
                                 try
                                 {
-                                    var birthdayReturnedRecords = Program.fileCabinetService.FindByBirthday(textToFind);
+                                    var birthdayReturnedRecords = this.service.FindByBirthday(textToFind);
                                     PrintListOfRecords(birthdayReturnedRecords);
                                 }
                                 catch (ArgumentException ex)

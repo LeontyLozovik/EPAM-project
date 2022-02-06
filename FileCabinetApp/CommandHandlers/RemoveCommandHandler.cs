@@ -5,6 +5,17 @@
     /// </summary>
     public class RemoveCommandHandler : CommandHandlerBase
     {
+        private IFileCabinetService service;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RemoveCommandHandler"/> class.
+        /// </summary>
+        /// <param name="service">service to work with.</param>
+        public RemoveCommandHandler(IFileCabinetService service)
+        {
+            this.service = service;
+        }
+
         /// <summary>
         /// Handle remove command.
         /// </summary>
@@ -19,7 +30,7 @@
                     Console.WriteLine("Error! Please check inputed Id.");
                 }
 
-                var recordsCount = Program.fileCabinetService.GetStat(false);
+                var recordsCount = this.service.GetStat(false);
                 if (enteredId <= 0)
                 {
                     Console.WriteLine("Id should be grater then 0");
@@ -32,7 +43,7 @@
                 {
                     try
                     {
-                        Program.fileCabinetService.Remove(enteredId);
+                        this.service.Remove(enteredId);
                         Console.WriteLine($"Record #{enteredId} is removed.");
                     }
                     catch (ArgumentNullException)

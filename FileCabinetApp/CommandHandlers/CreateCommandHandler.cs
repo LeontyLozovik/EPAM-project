@@ -5,6 +5,17 @@
     /// </summary>
     public class CreateCommandHandler : CommandHandlerBase
     {
+        private IFileCabinetService service;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateCommandHandler"/> class.
+        /// </summary>
+        /// <param name="service">service to work with.</param>
+        public CreateCommandHandler(IFileCabinetService service)
+        {
+            this.service = service;
+        }
+
         /// <summary>
         /// Handle create command.
         /// </summary>
@@ -17,22 +28,22 @@
                 while (flagNotEnd)
                 {
                     Console.Write("First name: ");
-                    var firstName = ReadInput(StringConverter, FirstNameValidator);
+                    var firstName = Program.ReadInput(Program.StringConverter, Program.FirstNameValidator);
 
                     Console.Write("Last name: ");
-                    var lastName = ReadInput(StringConverter, LastNameValidator);
+                    var lastName = Program.ReadInput(Program.StringConverter, Program.LastNameValidator);
 
                     Console.Write("Date of birth: ");
-                    var birthday = ReadInput(DateConverter, DateOfBirthValidator);
+                    var birthday = Program.ReadInput(Program.DateConverter, Program.DateOfBirthValidator);
 
                     Console.Write("Number of children: ");
-                    short children = ReadInput(ShortConverter, NumberOfChildrenValidator);
+                    short children = Program.ReadInput(Program.ShortConverter, Program.NumberOfChildrenValidator);
 
                     Console.Write("Averege salary: ");
-                    decimal salary = ReadInput(DecimalConverter, AverageSalaryValidator);
+                    decimal salary = Program.ReadInput(Program.DecimalConverter, Program.AverageSalaryValidator);
 
                     Console.Write("Sex (m - men, w - women): ");
-                    char sex = ReadInput(CharConverter, SexValidator);
+                    char sex = Program.ReadInput(Program.CharConverter, Program.SexValidator);
 
                     var record = new FileCabinetRecord
                     {
@@ -47,7 +58,7 @@
 
                     try
                     {
-                        var id = Program.fileCabinetService.CreateRecord(record);
+                        var id = this.service.CreateRecord(record);
                         Console.WriteLine($"Record #{id} is created.");
                         flagNotEnd = false;
                     }

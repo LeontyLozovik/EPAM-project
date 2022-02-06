@@ -5,6 +5,17 @@
     /// </summary>
     public class StatCommandHandle : CommandHandlerBase
     {
+        private IFileCabinetService service;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StatCommandHandle"/> class.
+        /// </summary>
+        /// <param name="service">service to work with.</param>
+        public StatCommandHandle(IFileCabinetService service)
+        {
+            this.service = service;
+        }
+
         /// <summary>
         /// Handle stat command.
         /// </summary>
@@ -13,7 +24,7 @@
         {
             if (string.Equals(request.Command, "stat", StringComparison.OrdinalIgnoreCase))
             {
-                var recordsCount = Program.fileCabinetService.GetStat();
+                var recordsCount = this.service.GetStat();
                 Console.WriteLine($"{recordsCount} record(s).");
             }
             else if (this.nextHandler != null)
