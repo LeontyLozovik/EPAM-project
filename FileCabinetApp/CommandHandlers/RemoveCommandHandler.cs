@@ -3,17 +3,15 @@
     /// <summary>
     /// Handle remove command.
     /// </summary>
-    public class RemoveCommandHandler : CommandHandlerBase
+    public class RemoveCommandHandler : ServiceCommandHandlerBase
     {
-        private IFileCabinetService service;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoveCommandHandler"/> class.
         /// </summary>
         /// <param name="service">service to work with.</param>
         public RemoveCommandHandler(IFileCabinetService service)
+             : base(service)
         {
-            this.service = service;
         }
 
         /// <summary>

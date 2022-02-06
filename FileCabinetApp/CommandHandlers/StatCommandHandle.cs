@@ -3,17 +3,15 @@
     /// <summary>
     /// Handle stat command.
     /// </summary>
-    public class StatCommandHandle : CommandHandlerBase
+    public class StatCommandHandle : ServiceCommandHandlerBase
     {
-        private IFileCabinetService service;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="StatCommandHandle"/> class.
         /// </summary>
         /// <param name="service">service to work with.</param>
         public StatCommandHandle(IFileCabinetService service)
+             : base(service)
         {
-            this.service = service;
         }
 
         /// <summary>
