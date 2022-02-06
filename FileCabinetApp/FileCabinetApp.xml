@@ -21,21 +21,107 @@
             </summary>
             <value>App parametrs.</value>
         </member>
-        <member name="T:FileCabinetApp.CommandHandler">
-            <summary>
-            Handle request in a certain way.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
-            <summary>
-            Handle request.
-            </summary>
-            <param name="request">request to handle.</param>
-        </member>
         <member name="T:FileCabinetApp.CommandHandlerBase">
             <summary>
             Represent hendlers of app commonds.
             </summary>
+        </member>
+        <member name="F:FileCabinetApp.CommandHandlerBase.nextHandler">
+            <summary>
+            Next command handler.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlerBase.PrintListOfRecords(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Print records.
+            </summary>
+            <param name="recordToPrint">colection of records to print.</param>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlerBase.ReadInput``1(System.Func{System.String,System.Tuple{System.Boolean,System.String,``0}},System.Func{``0,System.Tuple{System.Boolean,System.String}})">
+            <summary>
+            Read all filds of record.
+            </summary>
+            <typeparam name="T">returning type.</typeparam>
+            <param name="converter">one of converters.</param>
+            <param name="validator">one of validators.</param>
+            <returns>converted and validate fild of record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlerBase.StringConverter(System.String)">
+            <summary>
+            Convert input param to string.
+            </summary>
+            <param name="toConvert">string to convert.</param>
+            <returns>converted string.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlerBase.DateConverter(System.String)">
+            <summary>
+            Convert input param to date.
+            </summary>
+            <param name="toConvert">string to convert.</param>
+            <returns>converted date.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlerBase.ShortConverter(System.String)">
+            <summary>
+            Convert input param to short.
+            </summary>
+            <param name="toConvert">string to convert.</param>
+            <returns>converted short.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlerBase.DecimalConverter(System.String)">
+            <summary>
+            Convert input param to decimal.
+            </summary>
+            <param name="toConvert">string to convert.</param>
+            <returns>converted decimal.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlerBase.CharConverter(System.String)">
+            <summary>
+            Convert input param to char.
+            </summary>
+            <param name="toConvert">string to convert.</param>
+            <returns>converted char.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlerBase.FirstNameValidator(System.String)">
+            <summary>
+            Validate firstname.
+            </summary>
+            <param name="firstName">string to validate.</param>
+            <returns>true - correct, false - incorrect.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlerBase.LastNameValidator(System.String)">
+            <summary>
+            Validate lastname.
+            </summary>
+            <param name="lastName">string to validate.</param>
+            <returns>true - correct, false - incorrect.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlerBase.DateOfBirthValidator(System.DateTime)">
+            <summary>
+            Validate date.
+            </summary>
+            <param name="birthday">date to validate.</param>
+            <returns>true - correct, false - incorrect.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlerBase.NumberOfChildrenValidator(System.Int16)">
+            <summary>
+            Validate number of childres.
+            </summary>
+            <param name="children">number of children to validate.</param>
+            <returns>true - correct, false - incorrect.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlerBase.AverageSalaryValidator(System.Decimal)">
+            <summary>
+            Validate salary.
+            </summary>
+            <param name="salary">salary to validate.</param>
+            <returns>true - correct, false - incorrect.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlerBase.SexValidator(System.Char)">
+            <summary>
+            Validate sex.
+            </summary>
+            <param name="sex">sex to validate.</param>
+            <returns>true - correct, false - incorrect.</returns>
         </member>
         <member name="M:FileCabinetApp.CommandHandlerBase.SetNext(FileCabinetApp.ICommandHandler)">
             <summary>
@@ -48,6 +134,138 @@
             Handle request.
             </summary>
             <param name="request">request to handle.</param>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.CreateCommandHandler">
+            <summary>
+            Handle create command.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.CreateCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
+            <summary>
+            Handle create command.
+            </summary>
+            <param name="request">request with command and param.</param>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.EditCommandHandler">
+            <summary>
+            Handle edit command.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.EditCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
+            <summary>
+            Handle edit command.
+            </summary>
+            <param name="request">request with command and param.</param>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.ExitCommandHandler">
+            <summary>
+            Handle exit command.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ExitCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
+            <summary>
+            Handle exit command.
+            </summary>
+            <param name="request">request with command and param.</param>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.ExportCommandHandler">
+            <summary>
+            Handle export command.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ExportCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
+            <summary>
+            Handle export command.
+            </summary>
+            <param name="request">request with command and param.</param>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.FindCommandHandler">
+            <summary>
+            Handle find command.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.FindCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
+            <summary>
+            Handle find command.
+            </summary>
+            <param name="request">request with command and param.</param>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.HelpCommandHandler">
+            <summary>
+            Handle help command.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.HelpCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
+            <summary>
+            Handle help command.
+            </summary>
+            <param name="request">request with command and param.</param>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.ImportCommandHandler">
+            <summary>
+            Handle import command.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ImportCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
+            <summary>
+            Handle import command.
+            </summary>
+            <param name="request">request with command and param.</param>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.ListCommandHandler">
+            <summary>
+            Handle list command.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ListCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
+            <summary>
+            Handle list command.
+            </summary>
+            <param name="request">request with command and param.</param>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.MissedCommandHandler">
+            <summary>
+            Handle missed command.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.MissedCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
+            <summary>
+            Handle missed command.
+            </summary>
+            <param name="request">request with command and param.</param>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.PurgeCommandHandler">
+            <summary>
+            Handle purge command.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.PurgeCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
+            <summary>
+            Handle purge command.
+            </summary>
+            <param name="request">request with command and param.</param>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.RemoveCommandHandler">
+            <summary>
+            Handle remove command.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.RemoveCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
+            <summary>
+            Handle remove command.
+            </summary>
+            <param name="request">request with command and param.</param>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.StatCommandHandle">
+            <summary>
+            Handle stat command.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.StatCommandHandle.Handle(FileCabinetApp.AppCommandRequest)">
+            <summary>
+            Handle stat command.
+            </summary>
+            <param name="request">request with command and param.</param>
         </member>
         <member name="T:FileCabinetApp.ICommandHandler">
             <summary>

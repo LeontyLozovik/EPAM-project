@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Text;
+﻿using FileCabinetApp.CommandHandlers;
 
 namespace FileCabinetApp
 {
@@ -13,21 +11,6 @@ namespace FileCabinetApp
         /// true - pogramm running, false - not running.
         /// </summary>
         public static bool isRunning = true;
-
-        /*private static Tuple<string, Action<string>>[] commands = new Tuple<string, Action<string>>[]
-        {
-            new Tuple<string, Action<string>>("help", PrintHelp),
-            new Tuple<string, Action<string>>("exit", Exit),
-            new Tuple<string, Action<string>>("stat", Stat),
-            new Tuple<string, Action<string>>("create", Create),
-            new Tuple<string, Action<string>>("list", List),
-            new Tuple<string, Action<string>>("edit", Edit),
-            new Tuple<string, Action<string>>("find", Find),
-            new Tuple<string, Action<string>>("export", Export),
-            new Tuple<string, Action<string>>("import", Import),
-            new Tuple<string, Action<string>>("remove", Remove),
-            new Tuple<string, Action<string>>("purge", Purge),
-        };*/
 
         /// <summary>
         /// Type of service to use for handling records.
@@ -74,27 +57,36 @@ namespace FileCabinetApp
                             Command = command,
                             Parameters = parameters,
                         });
-
-                /*var index = Array.FindIndex(commands, 0, commands.Length, i => i.Item1.Equals(command, StringComparison.OrdinalIgnoreCase));
-                if (index >= 0)
-                {
-                    const int parametersIndex = 1;
-                    var parameters = inputs.Length > 1 ? inputs[parametersIndex] : string.Empty;
-
-                    commands[index].Item2(parameters);
-                }
-                else
-                {
-                    PrintMissedCommandInfo(command);
-                }*/
             }
             while (isRunning);
         }
 
         private static ICommandHandler CreateCommandHandlers()
         {
-            var commandHandler = new CommandHandler();
-            return commandHandler;
+            var helpCommandHandler = new HelpCommandHandler();
+            var exitCommandHandler = new ExitCommandHandler();
+            var statCommandHandler = new StatCommandHandle();
+            var listCommandHandler = new ListCommandHandler();
+            var createCommandHandler = new CreateCommandHandler();
+            var editCommandHandler = new EditCommandHandler();
+            var findCommandHandler = new FindCommandHandler();
+            var importCommandHandler = new ImportCommandHandler();
+            var exportCommandHandler = new ExportCommandHandler();
+            var removeCommandHandler = new RemoveCommandHandler();
+            var purgeCommandHandler = new PurgeCommandHandler();
+            var missedCommandHandler = new MissedCommandHandler();
+            listCommandHandler.SetNext(createCommandHandler);
+            createCommandHandler.SetNext(importCommandHandler);
+            importCommandHandler.SetNext(removeCommandHandler);
+            removeCommandHandler.SetNext(editCommandHandler);
+            editCommandHandler.SetNext(findCommandHandler);
+            findCommandHandler.SetNext(purgeCommandHandler);
+            purgeCommandHandler.SetNext(statCommandHandler);
+            statCommandHandler.SetNext(exportCommandHandler);
+            exportCommandHandler.SetNext(helpCommandHandler);
+            helpCommandHandler.SetNext(exitCommandHandler);
+            exitCommandHandler.SetNext(missedCommandHandler);
+            return listCommandHandler;
         }
 
         private static IRecordValidator SwitchValidationRules(string argument)

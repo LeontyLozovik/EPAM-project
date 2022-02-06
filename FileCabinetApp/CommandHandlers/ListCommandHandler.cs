@@ -1,0 +1,32 @@
+﻿namespace FileCabinetApp.CommandHandlers
+{
+    /// <summary>
+    /// Handle list command.
+    /// </summary>
+    public class ListCommandHandler : CommandHandlerBase
+    {
+        /// <summary>
+        /// Handle list command.
+        /// </summary>
+        /// <param name="request">request with command and param.</param>
+        public override void Handle(AppCommandRequest request)
+        {
+            if (string.Equals(request.Command, "list", StringComparison.OrdinalIgnoreCase))
+            {
+                try
+                {
+                    var listOfRecords = Program.fileCabinetService.GetRecords();
+                    PrintListOfRecords(listOfRecords);
+                }
+                catch (ArgumentNullException)
+                {
+                    Console.WriteLine("Instance doesn't exist.");
+                }
+            }
+            else if (this.nextHandler != null)
+            {
+                this.nextHandler.Handle(request);
+            }
+        }
+    }
+}
