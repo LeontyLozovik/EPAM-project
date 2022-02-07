@@ -16,11 +16,11 @@
                 throw new ArgumentNullException(nameof(record), "Instance doesn't exist.");
             }
 
-            new CustomFirstNameValidator().ValidateParameters(record);
-            new CustomLastNameValidator().ValidateParameters(record);
-            new CustomDateOfBirthValidator().ValidateParameters(record);
-            new CustomNumberOfChildrenValidator().ValidateParameters(record);
-            new CustomAverageSalaryValidator().ValidateParameters(record);
+            new FirstNameValidator(1, 20).ValidateParameters(record);
+            new LastNameValidator(1, 20).ValidateParameters(record);
+            new DateOfBirthValidator(new DateTime(1900, 1, 1), DateTime.Now).ValidateParameters(record);
+            new NumberOfChildrenValidator(1).ValidateParameters(record);
+            new AverageSalaryValidator(500, 1000000).ValidateParameters(record);
             new CustomSexValidator().ValidateParameters(record);
         }
     }
