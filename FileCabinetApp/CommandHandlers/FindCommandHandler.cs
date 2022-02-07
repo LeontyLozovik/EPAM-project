@@ -5,13 +5,17 @@
     /// </summary>
     public class FindCommandHandler : ServiceCommandHandlerBase
     {
+        private IRecordPrinter printer;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FindCommandHandler"/> class.
         /// </summary>
         /// <param name="service">service to work with.</param>
-        public FindCommandHandler(IFileCabinetService service)
+        /// <param name="printer">printer to work with.</param>
+        public FindCommandHandler(IFileCabinetService service, IRecordPrinter printer)
             : base(service)
         {
+            this.printer = printer;
         }
 
         /// <summary>
@@ -43,7 +47,7 @@
                                 try
                                 {
                                     var firstNameReturnedRecords = service.FindByFirstName(textToFind);
-                                    PrintListOfRecords(firstNameReturnedRecords);
+                                    this.printer.Print(firstNameReturnedRecords);
                                 }
                                 catch (ArgumentNullException exeption)
                                 {
@@ -59,7 +63,7 @@
                                 try
                                 {
                                     var lastNameReturnedRecords = service.FindByLastName(textToFind);
-                                    PrintListOfRecords(lastNameReturnedRecords);
+                                    this.printer.Print(lastNameReturnedRecords);
                                 }
                                 catch (ArgumentNullException exeption)
                                 {
@@ -75,7 +79,7 @@
                                 try
                                 {
                                     var birthdayReturnedRecords = service.FindByBirthday(textToFind);
-                                    PrintListOfRecords(birthdayReturnedRecords);
+                                    this.printer.Print(birthdayReturnedRecords);
                                 }
                                 catch (ArgumentException ex)
                                 {

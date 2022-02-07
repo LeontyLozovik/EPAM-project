@@ -31,12 +31,6 @@
             Next command handler.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlerBase.PrintListOfRecords(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
-            <summary>
-            Print records.
-            </summary>
-            <param name="recordToPrint">colection of records to print.</param>
-        </member>
         <member name="M:FileCabinetApp.CommandHandlerBase.SetNext(FileCabinetApp.ICommandHandler)">
             <summary>
             Next handler if this handler can't handle.
@@ -65,6 +59,17 @@
             Handle create command.
             </summary>
             <param name="request">request with command and param.</param>
+        </member>
+        <member name="T:FileCabinetApp.CommandHandlers.DefaultRecordPrinter">
+            <summary>
+            Print records in default way.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.DefaultRecordPrinter.Print(System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Print records in default way.
+            </summary>
+            <param name="records">Records to print.</param>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.EditCommandHandler">
             <summary>
@@ -122,11 +127,12 @@
             Handle find command.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.FindCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.FindCommandHandler.#ctor(FileCabinetApp.IFileCabinetService,FileCabinetApp.CommandHandlers.IRecordPrinter)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.FindCommandHandler"/> class.
             </summary>
             <param name="service">service to work with.</param>
+            <param name="printer">printer to work with.</param>
         </member>
         <member name="M:FileCabinetApp.CommandHandlers.FindCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
             <summary>
@@ -162,16 +168,28 @@
             </summary>
             <param name="request">request with command and param.</param>
         </member>
+        <member name="T:FileCabinetApp.CommandHandlers.IRecordPrinter">
+            <summary>
+            Represet rules for records printers.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.IRecordPrinter.Print(System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Print records.
+            </summary>
+            <param name="records">Records to print.</param>
+        </member>
         <member name="T:FileCabinetApp.CommandHandlers.ListCommandHandler">
             <summary>
             Handle list command.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ListCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.ListCommandHandler.#ctor(FileCabinetApp.IFileCabinetService,FileCabinetApp.CommandHandlers.IRecordPrinter)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ListCommandHandler"/> class.
             </summary>
             <param name="service">service to work with.</param>
+            <param name="printer">printer to work with.</param>
         </member>
         <member name="M:FileCabinetApp.CommandHandlers.ListCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
             <summary>

@@ -13,18 +13,6 @@ namespace FileCabinetApp
         protected ICommandHandler? nextHandler;
 
         /// <summary>
-        /// Print records.
-        /// </summary>
-        /// <param name="recordToPrint">colection of records to print.</param>
-        public static void PrintListOfRecords(ReadOnlyCollection<FileCabinetRecord> recordToPrint)
-        {
-            foreach (var record in recordToPrint)
-            {
-                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
-            }
-        }
-
-        /// <summary>
         /// Next handler if this handler can't handle.
         /// </summary>
         /// <param name="commandHandler">Next handler.</param>
