@@ -356,28 +356,6 @@
             </summary>
             <param name="request">request to handle.</param>
         </member>
-        <member name="T:FileCabinetApp.CustomValidator">
-            <summary>
-            Custom validation parameters of record.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.CustomValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Validate incoming parameters of record.
-            </summary>
-            <param name="record">record whose parametrs should be validate.</param>
-        </member>
-        <member name="T:FileCabinetApp.DefaultValidator">
-            <summary>
-            Default validation parameters of record.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.DefaultValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Validate incoming parameters of record.
-            </summary>
-            <param name="record">record whose parametrs should be validate.</param>
-        </member>
         <member name="T:FileCabinetApp.FileCabinetFilesystemService">
             <summary>
             Do manipulations with records in file.
@@ -389,7 +367,7 @@
             </summary>
             <param name="fileStream">param to initialization fileStream fild.</param>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.#ctor(System.IO.FileStream,FileCabinetApp.IRecordValidator)">
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.#ctor(System.IO.FileStream,FileCabinetApp.RecordValidators.IRecordValidator)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetFilesystemService"/> class.
             </summary>
@@ -533,7 +511,7 @@
             Do manipulations with records in memory.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.#ctor(FileCabinetApp.IRecordValidator)">
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.#ctor(FileCabinetApp.RecordValidators.IRecordValidator)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetMemoryService"/> class.
             </summary>
@@ -927,17 +905,6 @@
             </summary>
             <returns>Number of difragmented records.</returns>
         </member>
-        <member name="T:FileCabinetApp.IRecordValidator">
-            <summary>
-            Discribes the rules for creating validation classes.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.IRecordValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Validate incoming parameters of record.
-            </summary>
-            <param name="record">record whose parametrs should be validate.</param>
-        </member>
         <member name="T:FileCabinetApp.Program">
             <summary>
             Get user requests and calls the desired hendler.
@@ -948,6 +915,39 @@
             Get user comand from cmd and call functions to process them.
             </summary>
             <param name="args">parameters of "Main" function.</param>
+        </member>
+        <member name="T:FileCabinetApp.RecordValidators.CustomValidator">
+            <summary>
+            Custom validation parameters of record.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.RecordValidators.CustomValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Validate incoming parameters of record.
+            </summary>
+            <param name="record">record whose parametrs should be validate.</param>
+        </member>
+        <member name="T:FileCabinetApp.RecordValidators.DefaultValidator">
+            <summary>
+            Default validation parameters of record.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.RecordValidators.DefaultValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Validate incoming parameters of record.
+            </summary>
+            <param name="record">record whose parametrs should be validate.</param>
+        </member>
+        <member name="T:FileCabinetApp.RecordValidators.IRecordValidator">
+            <summary>
+            Discribes the rules for creating validation classes.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.RecordValidators.IRecordValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Validate incoming parameters of record.
+            </summary>
+            <param name="record">record whose parametrs should be validate.</param>
         </member>
     </members>
 </doc>
