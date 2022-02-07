@@ -5,17 +5,17 @@
     /// </summary>
     public class ListCommandHandler : ServiceCommandHandlerBase
     {
-        private IRecordPrinter printer;
+        private Action<IEnumerable<FileCabinetRecord>> print;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ListCommandHandler"/> class.
         /// </summary>
         /// <param name="service">service to work with.</param>
-        /// <param name="printer">printer to work with.</param>
-        public ListCommandHandler(IFileCabinetService service, IRecordPrinter printer)
+        /// <param name="print">print function.</param>
+        public ListCommandHandler(IFileCabinetService service, Action<IEnumerable<FileCabinetRecord>> print)
             : base(service)
         {
-            this.printer = printer;
+            this.print = print;
         }
 
         /// <summary>
@@ -29,7 +29,7 @@
                 try
                 {
                     var listOfRecords = service.GetRecords();
-                    this.printer.Print(listOfRecords);
+                    this.print.Invoke(listOfRecords);
                 }
                 catch (ArgumentNullException)
                 {

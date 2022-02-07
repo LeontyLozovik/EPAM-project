@@ -5,17 +5,17 @@
     /// </summary>
     public class FindCommandHandler : ServiceCommandHandlerBase
     {
-        private IRecordPrinter printer;
+        private Action<IEnumerable<FileCabinetRecord>> print;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FindCommandHandler"/> class.
         /// </summary>
         /// <param name="service">service to work with.</param>
-        /// <param name="printer">printer to work with.</param>
-        public FindCommandHandler(IFileCabinetService service, IRecordPrinter printer)
+        /// <param name="print">print function.</param>
+        public FindCommandHandler(IFileCabinetService service, Action<IEnumerable<FileCabinetRecord>> print)
             : base(service)
         {
-            this.printer = printer;
+            this.print = print;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@
                                 try
                                 {
                                     var firstNameReturnedRecords = service.FindByFirstName(textToFind);
-                                    this.printer.Print(firstNameReturnedRecords);
+                                    this.print.Invoke(firstNameReturnedRecords);
                                 }
                                 catch (ArgumentNullException exeption)
                                 {
@@ -63,7 +63,7 @@
                                 try
                                 {
                                     var lastNameReturnedRecords = service.FindByLastName(textToFind);
-                                    this.printer.Print(lastNameReturnedRecords);
+                                    this.print.Invoke(lastNameReturnedRecords);
                                 }
                                 catch (ArgumentNullException exeption)
                                 {
@@ -79,7 +79,7 @@
                                 try
                                 {
                                     var birthdayReturnedRecords = service.FindByBirthday(textToFind);
-                                    this.printer.Print(birthdayReturnedRecords);
+                                    this.print.Invoke(birthdayReturnedRecords);
                                 }
                                 catch (ArgumentException ex)
                                 {

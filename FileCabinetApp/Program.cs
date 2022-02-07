@@ -55,25 +55,28 @@ namespace FileCabinetApp
             while (isRunning);
         }
 
-        /// <summary>
-        /// Change running in Program.
-        /// </summary>
-        /// <param name="setRunnig">New runnig.</param>
-        public static void ChangeRunning(bool setRunnig)
+        private static void ChangeRunning(bool setRunnig)
         {
             isRunning = setRunnig;
         }
 
+        private static void DefaultRecordPrint(IEnumerable<FileCabinetRecord> records)
+        {
+            foreach (var record in records)
+            {
+                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
+            }
+        }
+
         private static ICommandHandler CreateCommandHandlers()
         {
-            var recordPrinter = new DefaultRecordPrinter();
             var helpCommandHandler = new HelpCommandHandler();
             var exitCommandHandler = new ExitCommandHandler(ChangeRunning);
             var statCommandHandler = new StatCommandHandle(Program.fileCabinetService);
-            var listCommandHandler = new ListCommandHandler(Program.fileCabinetService, recordPrinter);
+            var listCommandHandler = new ListCommandHandler(Program.fileCabinetService, DefaultRecordPrint);
             var createCommandHandler = new CreateCommandHandler(Program.fileCabinetService);
             var editCommandHandler = new EditCommandHandler(Program.fileCabinetService);
-            var findCommandHandler = new FindCommandHandler(Program.fileCabinetService, recordPrinter);
+            var findCommandHandler = new FindCommandHandler(Program.fileCabinetService, DefaultRecordPrint);
             var importCommandHandler = new ImportCommandHandler(Program.fileCabinetService);
             var exportCommandHandler = new ExportCommandHandler(Program.fileCabinetService);
             var removeCommandHandler = new RemoveCommandHandler(Program.fileCabinetService);

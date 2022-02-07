@@ -60,17 +60,6 @@
             </summary>
             <param name="request">request with command and param.</param>
         </member>
-        <member name="T:FileCabinetApp.CommandHandlers.DefaultRecordPrinter">
-            <summary>
-            Print records in default way.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.DefaultRecordPrinter.Print(System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord})">
-            <summary>
-            Print records in default way.
-            </summary>
-            <param name="records">Records to print.</param>
-        </member>
         <member name="T:FileCabinetApp.CommandHandlers.EditCommandHandler">
             <summary>
             Handle edit command.
@@ -127,12 +116,12 @@
             Handle find command.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.FindCommandHandler.#ctor(FileCabinetApp.IFileCabinetService,FileCabinetApp.CommandHandlers.IRecordPrinter)">
+        <member name="M:FileCabinetApp.CommandHandlers.FindCommandHandler.#ctor(FileCabinetApp.IFileCabinetService,System.Action{System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord}})">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.FindCommandHandler"/> class.
             </summary>
             <param name="service">service to work with.</param>
-            <param name="printer">printer to work with.</param>
+            <param name="print">print function.</param>
         </member>
         <member name="M:FileCabinetApp.CommandHandlers.FindCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
             <summary>
@@ -168,28 +157,17 @@
             </summary>
             <param name="request">request with command and param.</param>
         </member>
-        <member name="T:FileCabinetApp.CommandHandlers.IRecordPrinter">
-            <summary>
-            Represet rules for records printers.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.IRecordPrinter.Print(System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord})">
-            <summary>
-            Print records.
-            </summary>
-            <param name="records">Records to print.</param>
-        </member>
         <member name="T:FileCabinetApp.CommandHandlers.ListCommandHandler">
             <summary>
             Handle list command.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ListCommandHandler.#ctor(FileCabinetApp.IFileCabinetService,FileCabinetApp.CommandHandlers.IRecordPrinter)">
+        <member name="M:FileCabinetApp.CommandHandlers.ListCommandHandler.#ctor(FileCabinetApp.IFileCabinetService,System.Action{System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord}})">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ListCommandHandler"/> class.
             </summary>
             <param name="service">service to work with.</param>
-            <param name="printer">printer to work with.</param>
+            <param name="print">print function.</param>
         </member>
         <member name="M:FileCabinetApp.CommandHandlers.ListCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
             <summary>
@@ -970,12 +948,6 @@
             Get user comand from cmd and call functions to process them.
             </summary>
             <param name="args">parameters of "Main" function.</param>
-        </member>
-        <member name="M:FileCabinetApp.Program.ChangeRunning(System.Boolean)">
-            <summary>
-            Change running in Program.
-            </summary>
-            <param name="setRunnig">New runnig.</param>
         </member>
     </members>
 </doc>
