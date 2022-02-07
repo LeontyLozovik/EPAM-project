@@ -22,8 +22,8 @@
         {
             if (string.Equals(request.Command, "purge", StringComparison.OrdinalIgnoreCase))
             {
-                int numberOfDefragmentedRecords = this.service.Defragment();
-                Console.WriteLine($"Data file processing is completed: {numberOfDefragmentedRecords} of {this.service.GetStat(false) + numberOfDefragmentedRecords} records were purged.");
+                int numberOfDefragmentedRecords = service.Defragment();
+                Console.WriteLine($"Data file processing is completed: {numberOfDefragmentedRecords} of {service.GetStat(false) + numberOfDefragmentedRecords} records were purged.");
             }
             else if (this.nextHandler != null)
             {

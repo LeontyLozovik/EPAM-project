@@ -32,7 +32,7 @@
                 {
                     Console.WriteLine("Id should be grater then 0");
                 }
-                else if (!this.service.IsIdExist(enteredId))
+                else if (!service.IsIdExist(enteredId))
                 {
                     Console.WriteLine($"#{enteredId} record is not found.");
                 }
@@ -42,22 +42,22 @@
                     while (flagNotEnd)
                     {
                         Console.Write("First name: ");
-                        var firstName = Program.ReadInput(Program.StringConverter, Program.FirstNameValidator);
+                        var firstName = ReadInput(StringConverter, FirstNameValidator);
 
                         Console.Write("Last name: ");
-                        var lastName = Program.ReadInput(Program.StringConverter, Program.LastNameValidator);
+                        var lastName = ReadInput(StringConverter, LastNameValidator);
 
                         Console.Write("Date of birth: ");
-                        var birthday = Program.ReadInput(Program.DateConverter, Program.DateOfBirthValidator);
+                        var birthday = ReadInput(DateConverter, DateOfBirthValidator);
 
                         Console.Write("Number of children: ");
-                        short children = Program.ReadInput(Program.ShortConverter, Program.NumberOfChildrenValidator);
+                        short children = ReadInput(ShortConverter, NumberOfChildrenValidator);
 
                         Console.Write("Averege salary: ");
-                        decimal salary = Program.ReadInput(Program.DecimalConverter, Program.AverageSalaryValidator);
+                        decimal salary = ReadInput(DecimalConverter, AverageSalaryValidator);
 
                         Console.Write("Sex (m - men, w - women): ");
-                        char sex = Program.ReadInput(Program.CharConverter, Program.SexValidator);
+                        char sex = ReadInput(CharConverter, SexValidator);
 
                         var newRecord = new FileCabinetRecord
                         {
@@ -72,7 +72,7 @@
 
                         try
                         {
-                            this.service.EditRecord(newRecord);
+                            service.EditRecord(newRecord);
                             Console.WriteLine($"Record #{enteredId} is updated.");
                             flagNotEnd = false;
                         }

@@ -42,7 +42,7 @@
                             case "FIRSTNAME":
                                 try
                                 {
-                                    var firstNameReturnedRecords = this.service.FindByFirstName(textToFind);
+                                    var firstNameReturnedRecords = service.FindByFirstName(textToFind);
                                     PrintListOfRecords(firstNameReturnedRecords);
                                 }
                                 catch (ArgumentNullException exeption)
@@ -58,7 +58,7 @@
                             case "LASTNAME":
                                 try
                                 {
-                                    var lastNameReturnedRecords = this.service.FindByLastName(textToFind);
+                                    var lastNameReturnedRecords = service.FindByLastName(textToFind);
                                     PrintListOfRecords(lastNameReturnedRecords);
                                 }
                                 catch (ArgumentNullException exeption)
@@ -74,7 +74,7 @@
                             case "DATEOFBIRTH":
                                 try
                                 {
-                                    var birthdayReturnedRecords = this.service.FindByBirthday(textToFind);
+                                    var birthdayReturnedRecords = service.FindByBirthday(textToFind);
                                     PrintListOfRecords(birthdayReturnedRecords);
                                 }
                                 catch (ArgumentException ex)

@@ -88,6 +88,12 @@
             Handle exit command.
             </summary>
         </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ExitCommandHandler.#ctor(System.Action{System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ExitCommandHandler"/> class.
+            </summary>
+            <param name="exit">Exit function.</param>
+        </member>
         <member name="M:FileCabinetApp.CommandHandlers.ExitCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
             <summary>
             Handle exit command.
@@ -232,7 +238,93 @@
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase"/> class.
             </summary>
-            <param name="service">using service.</param>
+            <param name="cabinetService">using service.</param>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase.ReadInput``1(System.Func{System.String,System.Tuple{System.Boolean,System.String,``0}},System.Func{``0,System.Tuple{System.Boolean,System.String}})">
+            <summary>
+            Read all filds of record.
+            </summary>
+            <typeparam name="T">returning type.</typeparam>
+            <param name="converter">one of converters.</param>
+            <param name="validator">one of validators.</param>
+            <returns>converted and validate fild of record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase.StringConverter(System.String)">
+            <summary>
+            Convert input param to string.
+            </summary>
+            <param name="toConvert">string to convert.</param>
+            <returns>converted string.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase.DateConverter(System.String)">
+            <summary>
+            Convert input param to date.
+            </summary>
+            <param name="toConvert">string to convert.</param>
+            <returns>converted date.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase.ShortConverter(System.String)">
+            <summary>
+            Convert input param to short.
+            </summary>
+            <param name="toConvert">string to convert.</param>
+            <returns>converted short.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase.DecimalConverter(System.String)">
+            <summary>
+            Convert input param to decimal.
+            </summary>
+            <param name="toConvert">string to convert.</param>
+            <returns>converted decimal.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase.CharConverter(System.String)">
+            <summary>
+            Convert input param to char.
+            </summary>
+            <param name="toConvert">string to convert.</param>
+            <returns>converted char.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase.FirstNameValidator(System.String)">
+            <summary>
+            Validate firstname.
+            </summary>
+            <param name="firstName">string to validate.</param>
+            <returns>true - correct, false - incorrect.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase.LastNameValidator(System.String)">
+            <summary>
+            Validate lastname.
+            </summary>
+            <param name="lastName">string to validate.</param>
+            <returns>true - correct, false - incorrect.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase.DateOfBirthValidator(System.DateTime)">
+            <summary>
+            Validate date.
+            </summary>
+            <param name="birthday">date to validate.</param>
+            <returns>true - correct, false - incorrect.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase.NumberOfChildrenValidator(System.Int16)">
+            <summary>
+            Validate number of childres.
+            </summary>
+            <param name="children">number of children to validate.</param>
+            <returns>true - correct, false - incorrect.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase.AverageSalaryValidator(System.Decimal)">
+            <summary>
+            Validate salary.
+            </summary>
+            <param name="salary">salary to validate.</param>
+            <returns>true - correct, false - incorrect.</returns>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase.SexValidator(System.Char)">
+            <summary>
+            Validate sex.
+            </summary>
+            <param name="sex">sex to validate.</param>
+            <returns>true - correct, false - incorrect.</returns>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.StatCommandHandle">
             <summary>
@@ -855,102 +947,17 @@
             Get user requests and calls the desired hendler.
             </summary>
         </member>
-        <member name="F:FileCabinetApp.Program.isRunning">
-            <summary>
-            true - pogramm running, false - not running.
-            </summary>
-        </member>
         <member name="M:FileCabinetApp.Program.Main(System.String[])">
             <summary>
             Get user comand from cmd and call functions to process them.
             </summary>
             <param name="args">parameters of "Main" function.</param>
         </member>
-        <member name="M:FileCabinetApp.Program.ReadInput``1(System.Func{System.String,System.Tuple{System.Boolean,System.String,``0}},System.Func{``0,System.Tuple{System.Boolean,System.String}})">
+        <member name="M:FileCabinetApp.Program.ChangeRunning(System.Boolean)">
             <summary>
-            Read all filds of record.
+            Change running in Program.
             </summary>
-            <typeparam name="T">returning type.</typeparam>
-            <param name="converter">one of converters.</param>
-            <param name="validator">one of validators.</param>
-            <returns>converted and validate fild of record.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Program.StringConverter(System.String)">
-            <summary>
-            Convert input param to string.
-            </summary>
-            <param name="toConvert">string to convert.</param>
-            <returns>converted string.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Program.DateConverter(System.String)">
-            <summary>
-            Convert input param to date.
-            </summary>
-            <param name="toConvert">string to convert.</param>
-            <returns>converted date.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Program.ShortConverter(System.String)">
-            <summary>
-            Convert input param to short.
-            </summary>
-            <param name="toConvert">string to convert.</param>
-            <returns>converted short.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Program.DecimalConverter(System.String)">
-            <summary>
-            Convert input param to decimal.
-            </summary>
-            <param name="toConvert">string to convert.</param>
-            <returns>converted decimal.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Program.CharConverter(System.String)">
-            <summary>
-            Convert input param to char.
-            </summary>
-            <param name="toConvert">string to convert.</param>
-            <returns>converted char.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Program.FirstNameValidator(System.String)">
-            <summary>
-            Validate firstname.
-            </summary>
-            <param name="firstName">string to validate.</param>
-            <returns>true - correct, false - incorrect.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Program.LastNameValidator(System.String)">
-            <summary>
-            Validate lastname.
-            </summary>
-            <param name="lastName">string to validate.</param>
-            <returns>true - correct, false - incorrect.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Program.DateOfBirthValidator(System.DateTime)">
-            <summary>
-            Validate date.
-            </summary>
-            <param name="birthday">date to validate.</param>
-            <returns>true - correct, false - incorrect.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Program.NumberOfChildrenValidator(System.Int16)">
-            <summary>
-            Validate number of childres.
-            </summary>
-            <param name="children">number of children to validate.</param>
-            <returns>true - correct, false - incorrect.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Program.AverageSalaryValidator(System.Decimal)">
-            <summary>
-            Validate salary.
-            </summary>
-            <param name="salary">salary to validate.</param>
-            <returns>true - correct, false - incorrect.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Program.SexValidator(System.Char)">
-            <summary>
-            Validate sex.
-            </summary>
-            <param name="sex">sex to validate.</param>
-            <returns>true - correct, false - incorrect.</returns>
+            <param name="setRunnig">New runnig.</param>
         </member>
     </members>
 </doc>

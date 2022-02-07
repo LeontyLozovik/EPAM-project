@@ -57,9 +57,9 @@ namespace FileCabinetApp.CommandHandlers
                                 {
                                     FileStream fileStream = new FileStream(filePath, FileMode.Open);
                                     StreamReader streamReader = new StreamReader(fileStream, Encoding.Default);
-                                    var snapshot = this.service.MakeSnapshot();
+                                    var snapshot = service.MakeSnapshot();
                                     snapshot.LoadFromCsv(streamReader);
-                                    int amount = this.service.Restore(snapshot);
+                                    int amount = service.Restore(snapshot);
                                     Console.WriteLine($"{amount} records were imported from file {filePath}");
                                     fileStream.Close();
                                     streamReader.Close();
@@ -86,9 +86,9 @@ namespace FileCabinetApp.CommandHandlers
                                 {
                                     FileStream fileStream = new FileStream(filePath, FileMode.Open);
                                     StreamReader streamReader = new StreamReader(fileStream, Encoding.Default);
-                                    var snapshot = this.service.MakeSnapshot();
+                                    var snapshot = service.MakeSnapshot();
                                     snapshot.LoadFromXml(streamReader);
-                                    int amount = this.service.Restore(snapshot);
+                                    int amount = service.Restore(snapshot);
                                     Console.WriteLine($"{amount} records were imported from file {filePath}");
                                     fileStream.Close();
                                     streamReader.Close();

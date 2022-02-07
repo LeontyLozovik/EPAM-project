@@ -76,7 +76,7 @@ namespace FileCabinetApp.CommandHandlers
                                 {
                                     FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
                                     StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.Default);
-                                    var snapshot = this.service.MakeSnapshot();
+                                    var snapshot = service.MakeSnapshot();
                                     snapshot.SaveToCsv(streamWriter);
                                     Console.WriteLine($"All records are exported to file {filePath}");
                                     streamWriter.Close();
@@ -123,7 +123,7 @@ namespace FileCabinetApp.CommandHandlers
                                 {
                                     FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate);
                                     StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.Default);
-                                    var snapshot = this.service.MakeSnapshot();
+                                    var snapshot = service.MakeSnapshot();
                                     snapshot.SaveToXml(streamWriter);
                                     Console.WriteLine($"All records are exported to file {filePath}");
                                     streamWriter.Close();

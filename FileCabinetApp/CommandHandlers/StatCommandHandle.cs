@@ -22,7 +22,7 @@
         {
             if (string.Equals(request.Command, "stat", StringComparison.OrdinalIgnoreCase))
             {
-                var recordsCount = this.service.GetStat();
+                var recordsCount = service.GetStat();
                 Console.WriteLine($"{recordsCount} record(s).");
             }
             else if (this.nextHandler != null)

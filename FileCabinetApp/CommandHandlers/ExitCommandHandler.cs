@@ -5,6 +5,17 @@
     /// </summary>
     public class ExitCommandHandler : CommandHandlerBase
     {
+        private Action<bool> exit;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExitCommandHandler"/> class.
+        /// </summary>
+        /// <param name="exit">Exit function.</param>
+        public ExitCommandHandler(Action<bool> exit)
+        {
+            this.exit = exit;
+        }
+
         /// <summary>
         /// Handle exit command.
         /// </summary>
@@ -14,7 +25,7 @@
             if (string.Equals(request.Command, "exit", StringComparison.OrdinalIgnoreCase))
             {
                 Console.WriteLine("Exiting an application...");
-                Program.isRunning = false;
+                this.exit.Invoke(false);
             }
             else if (this.nextHandler != null)
             {

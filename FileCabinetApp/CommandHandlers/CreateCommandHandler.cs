@@ -26,22 +26,22 @@
                 while (flagNotEnd)
                 {
                     Console.Write("First name: ");
-                    var firstName = Program.ReadInput(Program.StringConverter, Program.FirstNameValidator);
+                    var firstName = ReadInput(StringConverter, FirstNameValidator);
 
                     Console.Write("Last name: ");
-                    var lastName = Program.ReadInput(Program.StringConverter, Program.LastNameValidator);
+                    var lastName = ReadInput(StringConverter, LastNameValidator);
 
                     Console.Write("Date of birth: ");
-                    var birthday = Program.ReadInput(Program.DateConverter, Program.DateOfBirthValidator);
+                    var birthday = ReadInput(DateConverter, DateOfBirthValidator);
 
                     Console.Write("Number of children: ");
-                    short children = Program.ReadInput(Program.ShortConverter, Program.NumberOfChildrenValidator);
+                    short children = ReadInput(ShortConverter, NumberOfChildrenValidator);
 
                     Console.Write("Averege salary: ");
-                    decimal salary = Program.ReadInput(Program.DecimalConverter, Program.AverageSalaryValidator);
+                    decimal salary = ReadInput(DecimalConverter, AverageSalaryValidator);
 
                     Console.Write("Sex (m - men, w - women): ");
-                    char sex = Program.ReadInput(Program.CharConverter, Program.SexValidator);
+                    char sex = ReadInput(CharConverter, SexValidator);
 
                     var record = new FileCabinetRecord
                     {
@@ -56,7 +56,7 @@
 
                     try
                     {
-                        var id = this.service.CreateRecord(record);
+                        var id = service.CreateRecord(record);
                         Console.WriteLine($"Record #{id} is created.");
                         flagNotEnd = false;
                     }

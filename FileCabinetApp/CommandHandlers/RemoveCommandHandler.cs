@@ -28,7 +28,7 @@
                     Console.WriteLine("Error! Please check inputed Id.");
                 }
 
-                var recordsCount = this.service.GetStat(false);
+                var recordsCount = service.GetStat(false);
                 if (enteredId <= 0)
                 {
                     Console.WriteLine("Id should be grater then 0");
@@ -41,7 +41,7 @@
                 {
                     try
                     {
-                        this.service.Remove(enteredId);
+                        service.Remove(enteredId);
                         Console.WriteLine($"Record #{enteredId} is removed.");
                     }
                     catch (ArgumentNullException)

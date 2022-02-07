@@ -24,7 +24,7 @@
             {
                 try
                 {
-                    var listOfRecords = this.service.GetRecords();
+                    var listOfRecords = service.GetRecords();
                     PrintListOfRecords(listOfRecords);
                 }
                 catch (ArgumentNullException)
