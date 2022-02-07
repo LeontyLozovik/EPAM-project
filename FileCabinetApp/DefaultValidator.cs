@@ -16,44 +16,69 @@
                 throw new ArgumentNullException(nameof(record), "Instance doesn't exist.");
             }
 
-            if (record.FirstName is null)
-            {
-                throw new ArgumentNullException(record.FirstName, "First name can't be null.");
-            }
-            else if (string.IsNullOrWhiteSpace(record.FirstName) || record.FirstName.Length < 2 || record.FirstName.Length > 60)
-            {
-                throw new ArgumentException("Incorrect first name! First name should be grater then 2, less then 60 and can't be white space.", record.FirstName);
-            }
+            ValidateFirstName(record.FirstName);
+            ValidateLastName(record.LastName);
+            ValidateDateOfBirth(record.DateOfBirth);
+            ValidateNumberOfChildren(record.Children);
+            ValidateAverageSalary(record.AverageSalary);
+            ValidateSex(record.Sex);
+        }
 
-            if (record.LastName is null)
+        private static void ValidateFirstName(string parameter)
+        {
+            if (parameter is null)
             {
-                throw new ArgumentNullException(record.LastName, "Last name can't be null.");
+                throw new ArgumentNullException(parameter, "First name can't be null.");
             }
-            else if (string.IsNullOrWhiteSpace(record.LastName) || record.LastName.Length < 2 || record.LastName.Length > 60)
+            else if (string.IsNullOrWhiteSpace(parameter) || parameter.Length < 2 || parameter.Length > 60)
             {
-                throw new ArgumentException("Incorrect last name! Last name should be grater then 2, less then 60 and can't be white space.", record.LastName);
+                throw new ArgumentException("Incorrect first name! First name should be grater then 2, less then 60 and can't be white space.", parameter);
             }
+        }
 
-            if (record.Children < 0)
+        private static void ValidateLastName(string parameter)
+        {
+            if (parameter is null)
+            {
+                throw new ArgumentNullException(parameter, "Last name can't be null.");
+            }
+            else if (string.IsNullOrWhiteSpace(parameter) || parameter.Length < 2 || parameter.Length > 60)
+            {
+                throw new ArgumentException("Incorrect last name! Last name should be grater then 2, less then 60 and can't be white space.", parameter);
+            }
+        }
+
+        private static void ValidateDateOfBirth(DateTime parameter)
+        {
+            DateTime oldest = new DateTime(1950, 1, 1);
+            DateTime now = DateTime.Now;
+            if (parameter < oldest || parameter > now)
+            {
+                throw new ArgumentException("Sorry but minimal date of birth - 01-Jan-1950 and maxsimum - current date");
+            }
+        }
+
+        private static void ValidateNumberOfChildren(short parameter)
+        {
+            if (parameter < 0)
             {
                 throw new ArgumentException("Number of children can't be less then 0.");
             }
+        }
 
-            if (record.AverageSalary < 0 || record.AverageSalary > 1000000000)
+        private static void ValidateAverageSalary(decimal parameter)
+        {
+            if (parameter < 0 || parameter > 1000000000)
             {
                 throw new ArgumentException("Average salary can't be less then 0 or grater then 1 billion.");
             }
+        }
 
-            if (record.Sex != 'm' && record.Sex != 'w')
+        private static void ValidateSex(char parameter)
+        {
+            if (parameter != 'm' && parameter != 'w')
             {
                 throw new ArgumentException("Sorry, but your sex can be m - men or w - women only.");
-            }
-
-            DateTime oldest = new DateTime(1950, 1, 1);
-            DateTime now = DateTime.Now;
-            if (record.DateOfBirth < oldest || record.DateOfBirth > now)
-            {
-                throw new ArgumentException("Sorry but minimal date of birth - 01-Jan-1950 and maxsimum - current date");
             }
         }
     }
