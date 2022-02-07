@@ -1,7 +1,14 @@
 ﻿namespace FileCabinetApp.RecordValidators
 {
-    public class DefaultSexValidator : IRecordValidator
+    /// <summary>
+    /// Valiate sex.
+    /// </summary>
+    public class SexValidator : IRecordValidator
     {
+        /// <summary>
+        /// Validate sex.
+        /// </summary>
+        /// <param name="record">record to validate.</param>
         public void ValidateParameters(FileCabinetRecord record)
         {
             if (record.Sex != 'm' && record.Sex != 'w')

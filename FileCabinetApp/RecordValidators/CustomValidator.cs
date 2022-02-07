@@ -3,25 +3,18 @@
     /// <summary>
     /// Custom validation parameters of record.
     /// </summary>
-    public class CustomValidator : IRecordValidator
+    public class CustomValidator : CompositeValidator
     {
-        /// <summary>
-        /// Validate incoming parameters of record.
-        /// </summary>
-        /// <param name="record">record whose parametrs should be validate.</param>
-        public void ValidateParameters(FileCabinetRecord record)
+        public CustomValidator()
+            : base (new IRecordValidator[] {
+            new FirstNameValidator(1, 20),
+            new LastNameValidator(1, 20),
+            new DateOfBirthValidator(new DateTime(1900, 1, 1), DateTime.Now),
+            new NumberOfChildrenValidator(1),
+            new AverageSalaryValidator(500, 1000000),
+            new SexValidator(),
+        })
         {
-            if (record is null)
-            {
-                throw new ArgumentNullException(nameof(record), "Instance doesn't exist.");
-            }
-
-            new FirstNameValidator(1, 20).ValidateParameters(record);
-            new LastNameValidator(1, 20).ValidateParameters(record);
-            new DateOfBirthValidator(new DateTime(1900, 1, 1), DateTime.Now).ValidateParameters(record);
-            new NumberOfChildrenValidator(1).ValidateParameters(record);
-            new AverageSalaryValidator(500, 1000000).ValidateParameters(record);
-            new CustomSexValidator().ValidateParameters(record);
         }
     }
 }
