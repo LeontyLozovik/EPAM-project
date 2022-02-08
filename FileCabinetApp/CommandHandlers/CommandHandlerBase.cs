@@ -8,7 +8,9 @@
         /// <summary>
         /// Next command handler.
         /// </summary>
+#pragma warning disable SA1401 // Fields should be private
         protected ICommandHandler? nextHandler;
+#pragma warning restore SA1401 // Fields should be private
 
         /// <summary>
         /// Next handler if this handler can't handle.

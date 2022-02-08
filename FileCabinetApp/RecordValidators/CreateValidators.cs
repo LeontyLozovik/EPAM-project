@@ -13,7 +13,38 @@
         /// <returns>List of validators.</returns>
         public static CompositeValidator CreateDefault(this ValidatorBuilder validatorBuilder, Action<ValidationType> setValidation)
         {
+            if (validatorBuilder is null)
+            {
+                throw new ArgumentNullException(nameof(validatorBuilder));
+            }
+            else if (setValidation is null)
+            {
+                throw new ArgumentNullException(nameof(setValidation));
+            }
+
             setValidation.Invoke(ValidationType.Default);
+            var validator = validatorBuilder.ValidateFirstName(2, 60)
+                .ValidateLastName(2, 60)
+                .ValidateDateOfBirth(new DateTime(1950, 1, 1), DateTime.Now)
+                .ValidateNumberOfChildren(0)
+                .ValidateAveragesalary(0, 100000000)
+                .ValidateSex()
+                .Create();
+            return (CompositeValidator)validator;
+        }
+
+        /// <summary>
+        /// Create default validator.
+        /// </summary>
+        /// <param name="validatorBuilder">Instance to build validator.</param>
+        /// <returns>List of validators.</returns>
+        public static CompositeValidator CreateDefault(this ValidatorBuilder validatorBuilder)
+        {
+            if (validatorBuilder is null)
+            {
+                throw new ArgumentNullException(nameof(validatorBuilder));
+            }
+
             var validator = validatorBuilder.ValidateFirstName(2, 60)
                 .ValidateLastName(2, 60)
                 .ValidateDateOfBirth(new DateTime(1950, 1, 1), DateTime.Now)
@@ -32,6 +63,15 @@
         /// <returns>List of validators.</returns>
         public static CompositeValidator CreateCustom(this ValidatorBuilder validatorBuilder, Action<ValidationType> setValidation)
         {
+            if (validatorBuilder is null)
+            {
+                throw new ArgumentNullException(nameof(validatorBuilder));
+            }
+            else if (setValidation is null)
+            {
+                throw new ArgumentNullException(nameof(setValidation));
+            }
+
             setValidation.Invoke(ValidationType.Custom);
             var validator = validatorBuilder.ValidateFirstName(1, 20)
                 .ValidateLastName(1, 20)

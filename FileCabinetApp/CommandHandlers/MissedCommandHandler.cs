@@ -11,6 +11,11 @@
         /// <param name="request">request with command and param.</param>
         public override void Handle(AppCommandRequest request)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             Console.WriteLine($"There is no '{request.Command}' command.");
             Console.WriteLine();
         }

@@ -25,6 +25,11 @@
         /// <param name="record">record to validate.</param>
         public void ValidateParameters(FileCabinetRecord record)
         {
+            if (record is null)
+            {
+                throw new ArgumentNullException(nameof(record));
+            }
+
             if (record.LastName is null)
             {
                 throw new ArgumentNullException(record.LastName, "Last name can't be null.");

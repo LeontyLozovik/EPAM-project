@@ -11,7 +11,9 @@ namespace FileCabinetApp.CommandHandlers
         /// <summary>
         /// Instance of service.
         /// </summary>
-        protected static IFileCabinetService service;
+#pragma warning disable SA1401 // Fields should be private
+        protected static IFileCabinetService service = new FileCabinetMemoryService(new ValidatorBuilder().CreateDefault());
+#pragma warning restore SA1401 // Fields should be private
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceCommandHandlerBase"/> class.
@@ -33,6 +35,15 @@ namespace FileCabinetApp.CommandHandlers
         {
             do
             {
+                if (converter is null)
+                {
+                    throw new ArgumentNullException(nameof(converter));
+                }
+                else if (validator is null)
+                {
+                    throw new ArgumentNullException(nameof(validator));
+                }
+
                 T value;
 
                 var input = Console.ReadLine();
@@ -70,6 +81,11 @@ namespace FileCabinetApp.CommandHandlers
         /// <returns>converted string.</returns>
         public static Tuple<bool, string, string> StringConverter(string toConvert)
         {
+            if (toConvert is null)
+            {
+                throw new ArgumentNullException(nameof(toConvert));
+            }
+
             char[] separators = { ' ', '.', ',', '\'', '\"' };
             string resultString = toConvert.Trim(separators);
             return new Tuple<bool, string, string>(true, toConvert, resultString);
@@ -82,6 +98,11 @@ namespace FileCabinetApp.CommandHandlers
         /// <returns>converted date.</returns>
         public static Tuple<bool, string, DateTime> DateConverter(string toConvert)
         {
+            if (toConvert is null)
+            {
+                throw new ArgumentNullException(nameof(toConvert));
+            }
+
             char[] separators = { ' ', '.', ',', '\'', '\"' };
             string trimedString = toConvert.Trim(separators);
             DateTime birthday;
@@ -101,11 +122,16 @@ namespace FileCabinetApp.CommandHandlers
         /// <returns>converted short.</returns>
         public static Tuple<bool, string, short> ShortConverter(string toConvert)
         {
+            if (toConvert is null)
+            {
+                throw new ArgumentNullException(nameof(toConvert));
+            }
+
             char[] separators = { ' ', '.', ',', '\'', '\"' };
             string trimedString = toConvert.Trim(separators);
             short numberOfChildren;
             bool goodShort = true;
-            if (!short.TryParse(toConvert, out numberOfChildren))
+            if (!short.TryParse(trimedString, out numberOfChildren))
             {
                 goodShort = false;
             }
@@ -120,11 +146,16 @@ namespace FileCabinetApp.CommandHandlers
         /// <returns>converted decimal.</returns>
         public static Tuple<bool, string, decimal> DecimalConverter(string toConvert)
         {
+            if (toConvert is null)
+            {
+                throw new ArgumentNullException(nameof(toConvert));
+            }
+
             char[] separators = { ' ', '.', ',', '\'', '\"' };
             string trimedString = toConvert.Trim(separators);
             decimal averageSalary;
             bool goodNumber = true;
-            if (!decimal.TryParse(toConvert, out averageSalary))
+            if (!decimal.TryParse(trimedString, out averageSalary))
             {
                 goodNumber = false;
             }
@@ -139,6 +170,11 @@ namespace FileCabinetApp.CommandHandlers
         /// <returns>converted char.</returns>
         public static Tuple<bool, string, char> CharConverter(string toConvert)
         {
+            if (toConvert is null)
+            {
+                throw new ArgumentNullException(nameof(toConvert));
+            }
+
             char[] separators = { ' ', '.', ',', '\'', '\"' };
             string trimedString = toConvert.Trim(separators);
             bool isChar = true;

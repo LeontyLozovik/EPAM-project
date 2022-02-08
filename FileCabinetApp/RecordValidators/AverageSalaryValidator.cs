@@ -25,6 +25,11 @@
         /// <param name="record">record to validate.</param>
         public void ValidateParameters(FileCabinetRecord record)
         {
+            if (record is null)
+            {
+                throw new ArgumentNullException(nameof(record));
+            }
+
             if (record.AverageSalary < this.minSalary || record.AverageSalary > this.maxSalary)
             {
                 throw new ArgumentException($"Average salary can't be less then {this.minSalary} or grater then {this.maxSalary}.");
