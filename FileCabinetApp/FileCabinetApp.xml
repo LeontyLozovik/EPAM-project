@@ -361,24 +361,12 @@
             Do manipulations with records in file.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.#ctor(System.IO.FileStream)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetFilesystemService"/> class.
-            </summary>
-            <param name="fileStream">param to initialization fileStream fild.</param>
-        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.#ctor(System.IO.FileStream,FileCabinetApp.RecordValidators.IRecordValidator)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetFilesystemService"/> class.
             </summary>
             <param name="fileStream">param to initialization fileStream fild.</param>
             <param name="validator">param to initialization validator fild.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetValidationType">
-            <summary>
-            Returns validator.
-            </summary>
-            <returns>type of validation.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.IsIdExist(System.Int32)">
             <summary>
@@ -516,12 +504,6 @@
             Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetMemoryService"/> class.
             </summary>
             <param name="validator">required validator.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.GetValidationType">
-            <summary>
-            Returns validator.
-            </summary>
-            <returns>type of validation.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.IsIdExist(System.Int32)">
             <summary>
@@ -820,12 +802,6 @@
             Represent rules for working with FileCabinetRecord.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.GetValidationType">
-            <summary>
-            Returns validator.
-            </summary>
-            <returns>type of validation.</returns>
-        </member>
         <member name="M:FileCabinetApp.IFileCabinetService.IsIdExist(System.Int32)">
             <summary>
             Check if currient Id exist.
@@ -916,6 +892,12 @@
             </summary>
             <param name="args">parameters of "Main" function.</param>
         </member>
+        <member name="M:FileCabinetApp.Program.GetValidationType">
+            <summary>
+            Get currient validation type.
+            </summary>
+            <returns>Validation type.</returns>
+        </member>
         <member name="T:FileCabinetApp.RecordValidators.AverageSalaryValidator">
             <summary>
             Validate average selary.
@@ -943,7 +925,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.RecordValidators.CompositeValidator"/> class.
             </summary>
-            <param name="validators">set of validations.</param>
+            <param name="validator">List of validators.</param>
         </member>
         <member name="M:FileCabinetApp.RecordValidators.CompositeValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
             <summary>
@@ -951,10 +933,26 @@
             </summary>
             <param name="record">record to vilidate.</param>
         </member>
-        <member name="T:FileCabinetApp.RecordValidators.CustomValidator">
+        <member name="T:FileCabinetApp.RecordValidators.CreateValidators">
             <summary>
-            Custom validation parameters of record.
+            Extantion methods for creation validators.
             </summary>
+        </member>
+        <member name="M:FileCabinetApp.RecordValidators.CreateValidators.CreateDefault(FileCabinetApp.RecordValidators.ValidatorBuilder,System.Action{FileCabinetApp.RecordValidators.ValidationType})">
+            <summary>
+            Create default validator.
+            </summary>
+            <param name="validatorBuilder">Instance to build validator.</param>
+            <param name="setValidation">Function that set validation type.</param>
+            <returns>List of validators.</returns>
+        </member>
+        <member name="M:FileCabinetApp.RecordValidators.CreateValidators.CreateCustom(FileCabinetApp.RecordValidators.ValidatorBuilder,System.Action{FileCabinetApp.RecordValidators.ValidationType})">
+            <summary>
+            Create custom validator.
+            </summary>
+            <param name="validatorBuilder">Instance to build validator.</param>
+            /// <param name="setValidation">Function that set validation type.</param>
+            <returns>List of validators.</returns>
         </member>
         <member name="T:FileCabinetApp.RecordValidators.DateOfBirthValidator">
             <summary>
@@ -973,11 +971,6 @@
             Validate date of birth.
             </summary>
             <param name="record">record to validate.</param>
-        </member>
-        <member name="T:FileCabinetApp.RecordValidators.DefaultValidator">
-            <summary>
-            Default validation parameters of record.
-            </summary>
         </member>
         <member name="T:FileCabinetApp.RecordValidators.FirstNameValidator">
             <summary>
@@ -1053,6 +1046,77 @@
             Validate sex.
             </summary>
             <param name="record">record to validate.</param>
+        </member>
+        <member name="T:FileCabinetApp.RecordValidators.ValidationType">
+            <summary>
+            Represent existed types of validation.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.RecordValidators.ValidationType.Default">
+            <summary>
+            Default type of validation.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.RecordValidators.ValidationType.Custom">
+            <summary>
+            Custom type of validation.
+            </summary>
+        </member>
+        <member name="T:FileCabinetApp.RecordValidators.ValidatorBuilder">
+            <summary>
+            Build validator.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateFirstName(System.Int32,System.Int32)">
+            <summary>
+            Add firstname validator to list of validators.
+            </summary>
+            <param name="minLenght">min lenghts of firstname.</param>
+            <param name="maxLenght">max lenghts of firstname.</param>
+            <returns>Object of ValidatorBuilder with added firstname validator.</returns>
+        </member>
+        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateLastName(System.Int32,System.Int32)">
+            <summary>
+            Add lastname validator to list of validators.
+            </summary>
+            <param name="minLenght">min lenghts of lastname.</param>
+            <param name="maxLenght">max lenghts of lastname.</param>
+            <returns>Object of ValidatorBuilder with added lastname validator.</returns>
+        </member>
+        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateDateOfBirth(System.DateTime,System.DateTime)">
+            <summary>
+            Add date of birth validator to list of validators.
+            </summary>
+            <param name="from">earliest date.</param>
+            <param name="to">latest date.</param>
+            <returns>Object of ValidatorBuilder with added date of birth validator.</returns>
+        </member>
+        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateNumberOfChildren(System.Int32)">
+            <summary>
+            Add number of children validator to list of validators.
+            </summary>
+            <param name="minNumber">min number of children.</param>
+            <returns>Object of ValidatorBuilder with added number of children validator.</returns>
+        </member>
+        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateAveragesalary(System.Int32,System.Int32)">
+            <summary>
+            Add average salary validator to list of validators.
+            </summary>
+            <param name="min">min salary.</param>
+            <param name="max">max salary.</param>
+            <returns>Object of ValidatorBuilder with added average salary validator.</returns>
+        </member>
+        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateSex">
+            <summary>
+            Add sex validator to list of validators.
+            </summary>
+            <returns>Object of ValidatorBuilder with added sex validator.</returns>
+        </member>
+        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.Create">
+            <summary>
+            Create validator with all supvalidators.
+            </summary>
+            <returns>validator.</returns>
         </member>
     </members>
 </doc>

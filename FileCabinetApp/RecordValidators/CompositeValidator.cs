@@ -10,10 +10,10 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeValidator"/> class.
         /// </summary>
-        /// <param name="validators">set of validations.</param>
-        protected CompositeValidator(IEnumerable<IRecordValidator> validators)
+        /// <param name="validator">List of validators.</param>
+        public CompositeValidator(IEnumerable<IRecordValidator> validator)
         {
-            this.validators = (List<IRecordValidator>)validators;
+            this.validators = (List<IRecordValidator>)validator;
         }
 
         /// <summary>

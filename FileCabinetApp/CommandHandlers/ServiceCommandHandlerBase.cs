@@ -158,16 +158,16 @@ namespace FileCabinetApp.CommandHandlers
         public static Tuple<bool, string> FirstNameValidator(string firstName)
         {
             bool validationSuccess = true;
-            switch (service.GetValidationType())
+            switch (Program.GetValidationType())
             {
-                case DefaultValidator:
+                case ValidationType.Default:
                     if (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 2 || firstName.Length > 60)
                     {
                         validationSuccess = false;
                     }
 
                     break;
-                case CustomValidator:
+                case ValidationType.Custom:
                     if (string.IsNullOrWhiteSpace(firstName) || firstName.Length < 1 || firstName.Length > 20)
                     {
                         validationSuccess = false;
@@ -187,16 +187,16 @@ namespace FileCabinetApp.CommandHandlers
         public static Tuple<bool, string> LastNameValidator(string lastName)
         {
             bool validationSuccess = true;
-            switch (service.GetValidationType())
+            switch (Program.GetValidationType())
             {
-                case DefaultValidator:
+                case ValidationType.Default:
                     if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 2 || lastName.Length > 60)
                     {
                         validationSuccess = false;
                     }
 
                     break;
-                case CustomValidator:
+                case ValidationType.Custom:
                     if (string.IsNullOrWhiteSpace(lastName) || lastName.Length < 1 || lastName.Length > 20)
                     {
                         validationSuccess = false;
@@ -216,9 +216,9 @@ namespace FileCabinetApp.CommandHandlers
         public static Tuple<bool, string> DateOfBirthValidator(DateTime birthday)
         {
             bool validationSuccess = true;
-            switch (service.GetValidationType())
+            switch (Program.GetValidationType())
             {
-                case DefaultValidator:
+                case ValidationType.Default:
                     DateTime oldest = new DateTime(1950, 1, 1);
                     DateTime now = DateTime.Now;
                     if (birthday < oldest || birthday > now)
@@ -227,7 +227,7 @@ namespace FileCabinetApp.CommandHandlers
                     }
 
                     break;
-                case CustomValidator:
+                case ValidationType.Custom:
                     oldest = new DateTime(1900, 1, 1);
                     now = DateTime.Now;
                     if (birthday < oldest || birthday > now)
@@ -249,16 +249,16 @@ namespace FileCabinetApp.CommandHandlers
         public static Tuple<bool, string> NumberOfChildrenValidator(short children)
         {
             bool validationSuccess = true;
-            switch (service.GetValidationType())
+            switch (Program.GetValidationType())
             {
-                case DefaultValidator:
+                case ValidationType.Default:
                     if (children < 0)
                     {
                         validationSuccess = false;
                     }
 
                     break;
-                case CustomValidator:
+                case ValidationType.Custom:
                     if (children < 1)
                     {
                         validationSuccess = false;
@@ -278,16 +278,16 @@ namespace FileCabinetApp.CommandHandlers
         public static Tuple<bool, string> AverageSalaryValidator(decimal salary)
         {
             bool validationSuccess = true;
-            switch (service.GetValidationType())
+            switch (Program.GetValidationType())
             {
-                case DefaultValidator:
+                case ValidationType.Default:
                     if (salary < 0 || salary > 1000000000)
                     {
                         validationSuccess = false;
                     }
 
                     break;
-                case CustomValidator:
+                case ValidationType.Custom:
                     if (salary < 500 || salary > 1000000)
                     {
                         validationSuccess = false;

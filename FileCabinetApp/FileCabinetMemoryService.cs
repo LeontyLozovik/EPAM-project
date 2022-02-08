@@ -25,15 +25,6 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Returns validator.
-        /// </summary>
-        /// <returns>type of validation.</returns>
-        public IRecordValidator GetValidationType()
-        {
-            return this.validator;
-        }
-
-        /// <summary>
         /// Check if currient Id exist.
         /// </summary>
         /// /// <param name="id">Id to check.</param>

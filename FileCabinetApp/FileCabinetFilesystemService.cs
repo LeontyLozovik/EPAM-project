@@ -12,16 +12,7 @@ namespace FileCabinetApp
     {
         private const long RECORDSIZE = 277;
         private FileStream fileStream;
-        private IRecordValidator validator = new DefaultValidator();
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FileCabinetFilesystemService"/> class.
-        /// </summary>
-        /// <param name="fileStream">param to initialization fileStream fild.</param>
-        public FileCabinetFilesystemService(FileStream fileStream)
-        {
-            this.fileStream = fileStream;
-        }
+        private IRecordValidator validator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetFilesystemService"/> class.
@@ -32,15 +23,6 @@ namespace FileCabinetApp
         {
             this.fileStream = fileStream;
             this.validator = validator;
-        }
-
-        /// <summary>
-        /// Returns validator.
-        /// </summary>
-        /// <returns>type of validation.</returns>
-        public IRecordValidator GetValidationType()
-        {
-            return this.validator;
         }
 
         /// <summary>

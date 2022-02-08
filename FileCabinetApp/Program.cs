@@ -11,7 +11,8 @@ namespace FileCabinetApp
         private const string DeveloperName = "Leontiy Lozovik";
         private const string HintMessage = "Enter your command, or enter 'help' to get help.";
         private static bool isRunning = true;
-        private static IFileCabinetService fileCabinetService = new FileCabinetMemoryService(new DefaultValidator());
+        private static ValidationType validationType;
+        private static IFileCabinetService fileCabinetService = new FileCabinetMemoryService(new ValidatorBuilder().CreateDefault(SetValidationType));
 
         /// <summary>
         /// Get user comand from cmd and call functions to process them.
@@ -53,6 +54,20 @@ namespace FileCabinetApp
                         });
             }
             while (isRunning);
+        }
+
+        /// <summary>
+        /// Get currient validation type.
+        /// </summary>
+        /// <returns>Validation type.</returns>
+        public static ValidationType GetValidationType()
+        {
+            return validationType;
+        }
+
+        private static void SetValidationType(ValidationType type)
+        {
+            validationType = type;
         }
 
         private static void ChangeRunning(bool setRunnig)
@@ -102,13 +117,13 @@ namespace FileCabinetApp
             {
                 case "DEFAULT":
                     Console.WriteLine("Using default validation rules.");
-                    return new DefaultValidator();
+                    return new ValidatorBuilder().CreateDefault(SetValidationType);
                 case "CUSTOM":
                     Console.WriteLine("Using custom validation rules.");
-                    return new CustomValidator();
+                    return new ValidatorBuilder().CreateCustom(SetValidationType);
                 default:
                     Console.WriteLine("There is only default and custom validation. Default rules will be set.");
-                    return new DefaultValidator();
+                    return new ValidatorBuilder().CreateDefault(SetValidationType);
             }
         }
 
@@ -158,7 +173,7 @@ namespace FileCabinetApp
                                 break;
                             case "--storage":
                                 argument = inputLine[1].ToUpperInvariant();
-                                fileCabinetService = SwitchStorageVariant(argument, new DefaultValidator());
+                                fileCabinetService = SwitchStorageVariant(argument, new ValidatorBuilder().CreateDefault(SetValidationType));
                                 break;
                             default:
                                 Console.WriteLine("Unknown comand. Default validation rules and memory servise will be used.");
@@ -200,7 +215,7 @@ namespace FileCabinetApp
                                             break;
                                         default:
                                             firstArgument = firstAtribute[1].ToUpperInvariant();
-                                            fileCabinetService = SwitchStorageVariant(firstArgument, new DefaultValidator());
+                                            fileCabinetService = SwitchStorageVariant(firstArgument, new ValidatorBuilder().CreateDefault(SetValidationType));
                                             break;
                                     }
 
@@ -221,7 +236,7 @@ namespace FileCabinetApp
                                     break;
                                 case "-s":
                                     argument = args[1].ToUpperInvariant();
-                                    fileCabinetService = SwitchStorageVariant(argument, new DefaultValidator());
+                                    fileCabinetService = SwitchStorageVariant(argument, new ValidatorBuilder().CreateDefault(SetValidationType));
                                     break;
 
                                 default:
@@ -261,7 +276,7 @@ namespace FileCabinetApp
                                         break;
                                     default:
                                         firstArgument = args[1].ToUpperInvariant();
-                                        fileCabinetService = SwitchStorageVariant(firstArgument, new DefaultValidator());
+                                        fileCabinetService = SwitchStorageVariant(firstArgument, new ValidatorBuilder().CreateDefault(SetValidationType));
                                         break;
                                 }
 
