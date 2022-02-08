@@ -8,12 +8,6 @@ namespace FileCabinetApp
     public interface IFileCabinetService
     {
         /// <summary>
-        /// Returns validator.
-        /// </summary>
-        /// <returns>type of validation.</returns>
-        public IRecordValidator GetValidationType();
-
-        /// <summary>
         /// Check if currient Id exist.
         /// </summary>
         /// <param name="id">Id to check.</param>

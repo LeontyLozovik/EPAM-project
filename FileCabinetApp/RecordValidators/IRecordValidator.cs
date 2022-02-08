@@ -1,4 +1,4 @@
-﻿namespace FileCabinetApp
+﻿namespace FileCabinetApp.RecordValidators
 {
     /// <summary>
     /// Discribes the rules for creating validation classes.

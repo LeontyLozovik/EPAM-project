@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
+using FileCabinetApp.RecordValidators;
 
 namespace FileCabinetApp
 {
@@ -11,16 +12,7 @@ namespace FileCabinetApp
     {
         private const long RECORDSIZE = 277;
         private FileStream fileStream;
-        private IRecordValidator validator = new DefaultValidator();
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FileCabinetFilesystemService"/> class.
-        /// </summary>
-        /// <param name="fileStream">param to initialization fileStream fild.</param>
-        public FileCabinetFilesystemService(FileStream fileStream)
-        {
-            this.fileStream = fileStream;
-        }
+        private IRecordValidator validator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetFilesystemService"/> class.
@@ -31,15 +23,6 @@ namespace FileCabinetApp
         {
             this.fileStream = fileStream;
             this.validator = validator;
-        }
-
-        /// <summary>
-        /// Returns validator.
-        /// </summary>
-        /// <returns>type of validation.</returns>
-        public IRecordValidator GetValidationType()
-        {
-            return this.validator;
         }
 
         /// <summary>
@@ -64,6 +47,11 @@ namespace FileCabinetApp
         /// <returns>Id of created record.</returns>
         public int CreateRecord(FileCabinetRecord record)
         {
+            if (record is null)
+            {
+                throw new ArgumentNullException(nameof(record));
+            }
+
             this.validator.ValidateParameters(record);
             record.Id = this.FirstFreeId();
             this.fileStream.Seek(0, SeekOrigin.End);
@@ -119,6 +107,11 @@ namespace FileCabinetApp
         /// <param name="newRecord">New record that replace old record.</param>
         public void EditRecord(FileCabinetRecord newRecord)
         {
+            if (newRecord is null)
+            {
+                throw new ArgumentNullException(nameof(newRecord), "Instance doesn't exist.");
+            }
+
             long offset = this.GetOffsetOfRecord(newRecord.Id);
             if (offset < 0)
             {
@@ -264,7 +257,7 @@ namespace FileCabinetApp
         /// <returns>instance of FileCabinetServiceSnapshot class.</returns>
         public FileCabinetServiceSnapshot MakeSnapshot()
         {
-            return new FileCabinetServiceSnapshot(this.GetRecords().ToArray<FileCabinetRecord>());
+            return new FileCabinetServiceSnapshot(this.GetRecords().ToArray());
         }
 
         /// <summary>
@@ -276,18 +269,18 @@ namespace FileCabinetApp
         {
             if (snapshot is null)
             {
-                throw new ArgumentNullException(nameof(FileCabinetServiceSnapshot));
+                throw new ArgumentNullException(nameof(snapshot));
             }
 
             var recordsFromFile = snapshot.Records;
             if (recordsFromFile is null)
             {
-                throw new ArgumentNullException(nameof(IReadOnlyCollection<FileCabinetRecord>));
+                throw new ArgumentNullException(nameof(snapshot));
             }
 
-            int numberOfRecords = recordsFromFile.Count;
             var recordEnumerator = recordsFromFile.GetEnumerator();
             recordEnumerator.MoveNext();
+            int numberOfRecords = recordsFromFile.Count;
 
             for (int i = 0; i < numberOfRecords; i++)
             {
@@ -331,7 +324,7 @@ namespace FileCabinetApp
             long offset = this.GetOffsetOfRecord(recordId);
             if (offset < 0)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(recordId));
             }
 
             this.fileStream.Seek(offset, SeekOrigin.Begin);
@@ -348,11 +341,11 @@ namespace FileCabinetApp
         public int Defragment()
         {
             this.SetCorrectOrder();
-            int numberOfRemovedRecords = 0;
             FileInfo fileInfo = new FileInfo(this.fileStream.Name);
             List<FileCabinetRecord> listOfExistingRecords = new List<FileCabinetRecord>();
             int numberOfRecords = (int)(fileInfo.Length / RECORDSIZE);
             this.fileStream.Seek(0, SeekOrigin.Begin);
+            int numberOfRemovedRecords = 0;
             for (int i = 0; i < numberOfRecords; i++)
             {
                 try
@@ -590,6 +583,10 @@ namespace FileCabinetApp
             }
         }
 
+        /// <summary>
+        /// Get number of removed records in file.
+        /// </summary>
+        /// <returns>number of removed records.</returns>
         private int GetNumberOfRemovedRecords()
         {
             FileInfo fileInfo = new FileInfo(this.fileStream.Name);

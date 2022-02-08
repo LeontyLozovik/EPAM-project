@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.Globalization;
+using System.Xml;
 
 namespace FileCabinetApp
 {
@@ -27,31 +28,38 @@ namespace FileCabinetApp
         /// <param name="record">record to write.</param>
         public void Write(FileCabinetRecord record)
         {
-            this.writer.WriteStartElement("record");
-            this.writer.WriteAttributeString("id", record.Id.ToString());
+            if (record is null)
+            {
+                Console.WriteLine("Instance doesn't exist.");
+            }
+            else
+            {
+                this.writer.WriteStartElement("record");
+                this.writer.WriteAttributeString("id", record.Id.ToString(CultureInfo.InvariantCulture));
 
-            this.writer.WriteStartElement("name");
-            this.writer.WriteAttributeString("first", record.FirstName);
-            this.writer.WriteAttributeString("last", record.LastName);
-            this.writer.WriteEndElement();
+                this.writer.WriteStartElement("name");
+                this.writer.WriteAttributeString("first", record.FirstName);
+                this.writer.WriteAttributeString("last", record.LastName);
+                this.writer.WriteEndElement();
 
-            this.writer.WriteStartElement("dateofbirth");
-            this.writer.WriteString(record.DateOfBirth.ToString("dd.MM.yyyy"));
-            this.writer.WriteEndElement();
+                this.writer.WriteStartElement("dateofbirth");
+                this.writer.WriteString(record.DateOfBirth.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture));
+                this.writer.WriteEndElement();
 
-            this.writer.WriteStartElement("children");
-            this.writer.WriteString(record.Children.ToString());
-            this.writer.WriteEndElement();
+                this.writer.WriteStartElement("children");
+                this.writer.WriteString(record.Children.ToString(CultureInfo.InvariantCulture));
+                this.writer.WriteEndElement();
 
-            this.writer.WriteStartElement("salary");
-            this.writer.WriteString(record.AverageSalary.ToString());
-            this.writer.WriteEndElement();
+                this.writer.WriteStartElement("salary");
+                this.writer.WriteString(record.AverageSalary.ToString(CultureInfo.InvariantCulture));
+                this.writer.WriteEndElement();
 
-            this.writer.WriteStartElement("sex");
-            this.writer.WriteString(record.Sex.ToString());
-            this.writer.WriteEndElement();
+                this.writer.WriteStartElement("sex");
+                this.writer.WriteString(record.Sex.ToString());
+                this.writer.WriteEndElement();
 
-            this.writer.WriteEndElement();
+                this.writer.WriteEndElement();
+            }
         }
 
         /// <summary>

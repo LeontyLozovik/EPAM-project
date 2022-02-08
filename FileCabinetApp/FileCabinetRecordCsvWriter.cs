@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 
 namespace FileCabinetApp
 {
@@ -27,14 +28,21 @@ namespace FileCabinetApp
         /// <param name="record">record to write.</param>
         public void Write(FileCabinetRecord record)
         {
-            StringBuilder stringToWrite = new StringBuilder();
-            object[] fildsOfRecord =
+            if (record is null)
             {
-                record.Id, record.FirstName, record.LastName, record.DateOfBirth.ToString("dd/MM/yyyy"),
-                record.Children, record.AverageSalary, record.Sex,
-            };
-            stringToWrite.AppendJoin(',', fildsOfRecord);
-            this.writer.WriteLine(stringToWrite);
+                Console.WriteLine("Instance doesn't exist.");
+            }
+            else
+            {
+                StringBuilder stringToWrite = new StringBuilder();
+                object[] fildsOfRecord =
+                {
+                    record.Id, record.FirstName, record.LastName, record.DateOfBirth.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    record.Children, record.AverageSalary, record.Sex,
+                };
+                stringToWrite.AppendJoin(',', fildsOfRecord);
+                this.writer.WriteLine(stringToWrite);
+            }
         }
 
         /// <summary>

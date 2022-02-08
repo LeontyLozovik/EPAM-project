@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
+using FileCabinetApp.RecordValidators;
 
 namespace FileCabinetApp
 {
@@ -24,15 +25,6 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Returns validator.
-        /// </summary>
-        /// <returns>type of validation.</returns>
-        public IRecordValidator GetValidationType()
-        {
-            return this.validator;
-        }
-
-        /// <summary>
         /// Check if currient Id exist.
         /// </summary>
         /// /// <param name="id">Id to check.</param>
@@ -54,13 +46,18 @@ namespace FileCabinetApp
         /// <returns>Id of created record.</returns>
         public int CreateRecord(FileCabinetRecord record)
         {
+            if (record is null)
+            {
+                throw new ArgumentNullException(nameof(record), "Instance doesn't exist.");
+            }
+
             this.validator.ValidateParameters(record);
             record.Id = this.list.Count + 1;
 
             this.list.Add(record);
-            this.AddNamesToDictionary(record.FirstName, record, this.firstNameDictionary);
-            this.AddNamesToDictionary(record.LastName, record, this.lastNameDictionary);
-            this.AddDateToDictionary(record.DateOfBirth, record, this.dateofbirthDictionary);
+            AddNamesToDictionary(record.FirstName, record, this.firstNameDictionary);
+            AddNamesToDictionary(record.LastName, record, this.lastNameDictionary);
+            AddDateToDictionary(record.DateOfBirth, record, this.dateofbirthDictionary);
             return record.Id;
         }
 
@@ -95,6 +92,11 @@ namespace FileCabinetApp
         /// <param name="newRecord">New record that replace old record.</param>
         public void EditRecord(FileCabinetRecord newRecord)
         {
+            if (newRecord is null)
+            {
+                throw new ArgumentNullException(nameof(newRecord), "Instance doesn't exist.");
+            }
+
             this.validator.ValidateParameters(newRecord);
             if (newRecord.Id > this.list.Count)
             {
@@ -106,9 +108,9 @@ namespace FileCabinetApp
             this.list.RemoveAt(newRecord.Id - 1);
             this.list.Insert(newRecord.Id - 1, newRecord);
             this.RemoveFromDictionaries(incorrectRecord);
-            this.AddNamesToDictionary(newRecord.FirstName, newRecord, this.firstNameDictionary);
-            this.AddNamesToDictionary(newRecord.LastName, newRecord, this.lastNameDictionary);
-            this.AddDateToDictionary(newRecord.DateOfBirth, newRecord, this.dateofbirthDictionary);
+            AddNamesToDictionary(newRecord.FirstName, newRecord, this.firstNameDictionary);
+            AddNamesToDictionary(newRecord.LastName, newRecord, this.lastNameDictionary);
+            AddDateToDictionary(newRecord.DateOfBirth, newRecord, this.dateofbirthDictionary);
         }
 
         /// <summary>
@@ -118,12 +120,17 @@ namespace FileCabinetApp
         /// <returns>all records with entered firstname.</returns>
         public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            if (!this.firstNameDictionary.ContainsKey(firstName.ToLowerInvariant()))
+            if (firstName is null)
+            {
+                throw new ArgumentNullException(nameof(firstName), "Instance doesn't exist.");
+            }
+
+            if (!this.firstNameDictionary.ContainsKey(firstName.ToUpperInvariant()))
             {
                 throw new ArgumentException("Nothing found for your request.");
             }
 
-            var selectedRecords = this.firstNameDictionary[firstName.ToLowerInvariant()];
+            var selectedRecords = this.firstNameDictionary[firstName.ToUpperInvariant()];
             ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(selectedRecords);
             return foundRecords;
         }
@@ -135,12 +142,17 @@ namespace FileCabinetApp
         /// <returns>all records with entered lastname.</returns>
         public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
         {
-            if (!this.lastNameDictionary.ContainsKey(lastName.ToLowerInvariant()))
+            if (lastName is null)
+            {
+                throw new ArgumentNullException(nameof(lastName), "Instance doesn't exist.");
+            }
+
+            if (!this.lastNameDictionary.ContainsKey(lastName.ToUpperInvariant()))
             {
                 throw new ArgumentException("Nothing found for your request.");
             }
 
-            var selectedRecords = this.lastNameDictionary[lastName.ToLowerInvariant()];
+            var selectedRecords = this.lastNameDictionary[lastName.ToUpperInvariant()];
             ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(selectedRecords);
             return foundRecords;
         }
@@ -185,18 +197,18 @@ namespace FileCabinetApp
         {
             if (snapshot is null)
             {
-                throw new ArgumentNullException(nameof(FileCabinetServiceSnapshot));
+                throw new ArgumentNullException(nameof(snapshot));
             }
 
             var recordsFromFile = snapshot.Records;
             if (recordsFromFile is null)
             {
-                throw new ArgumentNullException(nameof(IReadOnlyCollection<FileCabinetRecord>));
+                throw new ArgumentNullException(nameof(snapshot));
             }
 
-            int numberOfRecords = recordsFromFile.Count;
             var recordEnumerator = recordsFromFile.GetEnumerator();
             recordEnumerator.MoveNext();
+            int numberOfRecords = recordsFromFile.Count;
 
             for (int i = 0; i < numberOfRecords; i++)
             {
@@ -259,27 +271,14 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Reindecsing records in list.
-        /// </summary>
-        private void ReindecsingId()
-        {
-            int startId = 1;
-            foreach (var record in this.list)
-            {
-                record.Id = startId;
-                startId++;
-            }
-        }
-
-        /// <summary>
         /// Add records with firtname or lastname key to the dictionary.
         /// </summary>
         /// <param name="name">firstname or lastname key.</param>
         /// <param name="record">record to add.</param>
         /// <param name="dictionary">dictionary to add.</param>
-        private void AddNamesToDictionary(string name, FileCabinetRecord record, Dictionary<string, List<FileCabinetRecord>> dictionary)
+        private static void AddNamesToDictionary(string name, FileCabinetRecord record, Dictionary<string, List<FileCabinetRecord>> dictionary)
         {
-            string keyName = name.ToLowerInvariant();
+            string keyName = name.ToUpperInvariant();
             if (dictionary.ContainsKey(keyName))
             {
                 List<FileCabinetRecord> valueList = dictionary[keyName];
@@ -300,7 +299,7 @@ namespace FileCabinetApp
         /// <param name="date">dateofbirth key.</param>
         /// <param name="record">record to add.</param>
         /// <param name="dictionary">dictionary to add.</param>
-        private void AddDateToDictionary(DateTime date, FileCabinetRecord record, Dictionary<DateTime, List<FileCabinetRecord>> dictionary)
+        private static void AddDateToDictionary(DateTime date, FileCabinetRecord record, Dictionary<DateTime, List<FileCabinetRecord>> dictionary)
         {
             if (dictionary.ContainsKey(date))
             {
@@ -317,16 +316,29 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Reindecsing records in list.
+        /// </summary>
+        private void ReindecsingId()
+        {
+            int startId = 1;
+            foreach (var record in this.list)
+            {
+                record.Id = startId;
+                startId++;
+            }
+        }
+
+        /// <summary>
         /// Edit values in all dictionaries after user edited record.
         /// </summary>
         /// <param name="incorrectRecord">Record to remove from dictionaries.</param>
         private void RemoveFromDictionaries(FileCabinetRecord incorrectRecord)
         {
-            List<FileCabinetRecord> recordToRemove = this.firstNameDictionary[incorrectRecord.FirstName.ToLowerInvariant()];
+            List<FileCabinetRecord> recordToRemove = this.firstNameDictionary[incorrectRecord.FirstName.ToUpperInvariant()];
             int removeIndex = recordToRemove.FindIndex(0, recordToRemove.Count, record => record.Id == incorrectRecord.Id);
             recordToRemove.RemoveAt(removeIndex);
 
-            recordToRemove = this.lastNameDictionary[incorrectRecord.LastName.ToLowerInvariant()];
+            recordToRemove = this.lastNameDictionary[incorrectRecord.LastName.ToUpperInvariant()];
             removeIndex = recordToRemove.FindIndex(0, recordToRemove.Count, record => record.Id == incorrectRecord.Id);
             recordToRemove.RemoveAt(removeIndex);
 
