@@ -175,6 +175,9 @@ namespace FileCabinetApp
                                 argument = inputLine[1].ToUpperInvariant();
                                 fileCabinetService = SwitchStorageVariant(argument, new ValidatorBuilder().CreateDefault(SetValidationType));
                                 break;
+                            case "use-stopwatch":
+                                fileCabinetService = new ServiceMeter(fileCabinetService);
+                                break;
                             default:
                                 Console.WriteLine("Unknown comand. Default validation rules and memory servise will be used.");
                                 break;
@@ -182,6 +185,7 @@ namespace FileCabinetApp
 
                         break;
                     case 2:
+                    case 3:
                         if (args[0].StartsWith("--", StringComparison.OrdinalIgnoreCase) && args[0].Contains('=', StringComparison.OrdinalIgnoreCase))
                         {
                             var firstAtribute = args[0] != null ? args[0].Split('=', 2) : new string[] { string.Empty, string.Empty };
@@ -198,6 +202,9 @@ namespace FileCabinetApp
                                             string secondArgument = secondAtribute[1].ToUpperInvariant();
                                             fileCabinetService = SwitchStorageVariant(secondArgument, SwitchValidationRules(firstArgument));
                                             break;
+                                        case "use-stopwatch":
+                                            fileCabinetService = new ServiceMeter(fileCabinetService);
+                                            break;
                                         default:
                                             firstArgument = firstAtribute[1].ToUpperInvariant();
                                             fileCabinetService = new FileCabinetMemoryService(SwitchValidationRules(firstArgument));
@@ -212,6 +219,9 @@ namespace FileCabinetApp
                                             string firstArgument = firstAtribute[1].ToUpperInvariant();
                                             string secondArgument = secondAtribute[1].ToUpperInvariant();
                                             fileCabinetService = SwitchStorageVariant(firstArgument, SwitchValidationRules(secondArgument));
+                                            break;
+                                        case "use-stopwatch":
+                                            fileCabinetService = new ServiceMeter(fileCabinetService);
                                             break;
                                         default:
                                             firstArgument = firstAtribute[1].ToUpperInvariant();
@@ -243,10 +253,19 @@ namespace FileCabinetApp
                                     Console.WriteLine("Unknown comand. Default validation rules and memory servise will be used.");
                                     break;
                             }
+
+                            if (args.Length == 3)
+                            {
+                                if (string.Equals(args[2], "use-stopwatch", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    fileCabinetService = new ServiceMeter(fileCabinetService);
+                                }
+                            }
                         }
 
                         break;
                     case 4:
+                    case 5:
                         string firstCommand = args[0];
                         string secondCommand = args[2];
                         switch (firstCommand)
@@ -263,6 +282,14 @@ namespace FileCabinetApp
                                         firstArgument = args[1].ToUpperInvariant();
                                         fileCabinetService = new FileCabinetMemoryService(SwitchValidationRules(firstArgument));
                                         break;
+                                }
+
+                                if (args.Length == 5)
+                                {
+                                    if (string.Equals(args[4], "use-stopwatch", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        fileCabinetService = new ServiceMeter(fileCabinetService);
+                                    }
                                 }
 
                                 break;
