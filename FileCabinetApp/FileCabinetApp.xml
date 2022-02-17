@@ -903,12 +903,29 @@
             Validate average selary.
             </summary>
         </member>
+        <member name="M:FileCabinetApp.RecordValidators.AverageSalaryValidator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.RecordValidators.AverageSalaryValidator"/> class.
+            </summary>
+        </member>
         <member name="M:FileCabinetApp.RecordValidators.AverageSalaryValidator.#ctor(System.Int32,System.Int32)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.RecordValidators.AverageSalaryValidator"/> class.
             </summary>
             <param name="min">min salary.</param>
             <param name="max">max selary.</param>
+        </member>
+        <member name="P:FileCabinetApp.RecordValidators.AverageSalaryValidator.MaxSalary">
+            <summary>
+            Gets or sets MaxSalary.
+            </summary>
+            <value>max selary.</value>
+        </member>
+        <member name="P:FileCabinetApp.RecordValidators.AverageSalaryValidator.MinSalary">
+            <summary>
+            Gets or sets MinSalary.
+            </summary>
+            <value>min salary.</value>
         </member>
         <member name="M:FileCabinetApp.RecordValidators.AverageSalaryValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
             <summary>
@@ -966,12 +983,29 @@
             Validate date of birth.
             </summary>
         </member>
+        <member name="M:FileCabinetApp.RecordValidators.DateOfBirthValidator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.RecordValidators.DateOfBirthValidator"/> class.
+            </summary>
+        </member>
         <member name="M:FileCabinetApp.RecordValidators.DateOfBirthValidator.#ctor(System.DateTime,System.DateTime)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.RecordValidators.DateOfBirthValidator"/> class.
             </summary>
             <param name="from">earliest date.</param>
             <param name="to">latest date.</param>
+        </member>
+        <member name="P:FileCabinetApp.RecordValidators.DateOfBirthValidator.From">
+            <summary>
+            Gets or sets latest date.
+            </summary>
+            <value>latest date.</value>
+        </member>
+        <member name="P:FileCabinetApp.RecordValidators.DateOfBirthValidator.To">
+            <summary>
+            Gets or sets earliest date.
+            </summary>
+            <value>earliest date.</value>
         </member>
         <member name="M:FileCabinetApp.RecordValidators.DateOfBirthValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
             <summary>
@@ -984,12 +1018,29 @@
             Validate firstname.
             </summary>
         </member>
+        <member name="M:FileCabinetApp.RecordValidators.FirstNameValidator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.RecordValidators.FirstNameValidator"/> class.
+            </summary>
+        </member>
         <member name="M:FileCabinetApp.RecordValidators.FirstNameValidator.#ctor(System.Int32,System.Int32)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.RecordValidators.FirstNameValidator"/> class.
             </summary>
             <param name="min">min lenght of firstname.</param>
             <param name="max">max lenght of firstname.</param>
+        </member>
+        <member name="P:FileCabinetApp.RecordValidators.FirstNameValidator.MaxLenght">
+            <summary>
+            Gets or sets MaxLenght.
+            </summary>
+            <value>max lenght of firstname.</value>
+        </member>
+        <member name="P:FileCabinetApp.RecordValidators.FirstNameValidator.MinLenght">
+            <summary>
+            Gets or sets MinLenght.
+            </summary>
+            <value>min lenght of firstname.</value>
         </member>
         <member name="M:FileCabinetApp.RecordValidators.FirstNameValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
             <summary>
@@ -1013,12 +1064,29 @@
             Validate lastname.
             </summary>
         </member>
+        <member name="M:FileCabinetApp.RecordValidators.LastNameValidator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.RecordValidators.LastNameValidator"/> class.
+            </summary>
+        </member>
         <member name="M:FileCabinetApp.RecordValidators.LastNameValidator.#ctor(System.Int32,System.Int32)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.RecordValidators.LastNameValidator"/> class.
             </summary>
             <param name="min">min lenght of lastname.</param>
             <param name="max">max lenght of lastname.</param>
+        </member>
+        <member name="P:FileCabinetApp.RecordValidators.LastNameValidator.MaxLenght">
+            <summary>
+            Gets or sets MaxLenght.
+            </summary>
+            <value>max lenght of lastname.</value>
+        </member>
+        <member name="P:FileCabinetApp.RecordValidators.LastNameValidator.MinLenght">
+            <summary>
+            Gets or sets MinLenght.
+            </summary>
+            <value>min lenght of firstname.</value>
         </member>
         <member name="M:FileCabinetApp.RecordValidators.LastNameValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
             <summary>
@@ -1031,11 +1099,22 @@
             Validate number of children.
             </summary>
         </member>
+        <member name="M:FileCabinetApp.RecordValidators.NumberOfChildrenValidator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.RecordValidators.NumberOfChildrenValidator"/> class.
+            </summary>
+        </member>
         <member name="M:FileCabinetApp.RecordValidators.NumberOfChildrenValidator.#ctor(System.Int32)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.RecordValidators.NumberOfChildrenValidator"/> class.
             </summary>
             <param name="number">min number of children.</param>
+        </member>
+        <member name="P:FileCabinetApp.RecordValidators.NumberOfChildrenValidator.MinNumber">
+            <summary>
+            Gets or sets min number of children.
+            </summary>
+            <value>number of children.</value>
         </member>
         <member name="M:FileCabinetApp.RecordValidators.NumberOfChildrenValidator.ValidateParameters(FileCabinetApp.FileCabinetRecord)">
             <summary>
@@ -1074,49 +1153,46 @@
             Build validator.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateFirstName(System.Int32,System.Int32)">
+        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateFirstName(FileCabinetApp.RecordValidators.FirstNameValidator)">
             <summary>
             Add firstname validator to list of validators.
             </summary>
-            <param name="minLenght">min lenghts of firstname.</param>
-            <param name="maxLenght">max lenghts of firstname.</param>
+            <param name="validator">validator to add.</param>
             <returns>Object of ValidatorBuilder with added firstname validator.</returns>
         </member>
-        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateLastName(System.Int32,System.Int32)">
+        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateLastName(FileCabinetApp.RecordValidators.LastNameValidator)">
             <summary>
             Add lastname validator to list of validators.
             </summary>
-            <param name="minLenght">min lenghts of lastname.</param>
-            <param name="maxLenght">max lenghts of lastname.</param>
+            <param name="validator">validator to add.</param>
             <returns>Object of ValidatorBuilder with added lastname validator.</returns>
         </member>
-        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateDateOfBirth(System.DateTime,System.DateTime)">
+        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateDateOfBirth(FileCabinetApp.RecordValidators.DateOfBirthValidator)">
             <summary>
             Add date of birth validator to list of validators.
             </summary>
-            <param name="from">earliest date.</param>
-            <param name="to">latest date.</param>
+            <param name="validator">validator to add.</param>
             <returns>Object of ValidatorBuilder with added date of birth validator.</returns>
         </member>
-        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateNumberOfChildren(System.Int32)">
+        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateNumberOfChildren(FileCabinetApp.RecordValidators.NumberOfChildrenValidator)">
             <summary>
             Add number of children validator to list of validators.
             </summary>
-            <param name="minNumber">min number of children.</param>
+            <param name="validator">validator to add.</param>
             <returns>Object of ValidatorBuilder with added number of children validator.</returns>
         </member>
-        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateAveragesalary(System.Int32,System.Int32)">
+        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateAveragesalary(FileCabinetApp.RecordValidators.AverageSalaryValidator)">
             <summary>
             Add average salary validator to list of validators.
             </summary>
-            <param name="min">min salary.</param>
-            <param name="max">max salary.</param>
+            <param name="validator">validator to add.</param>
             <returns>Object of ValidatorBuilder with added average salary validator.</returns>
         </member>
-        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateSex">
+        <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.ValidateSex(FileCabinetApp.RecordValidators.SexValidator)">
             <summary>
             Add sex validator to list of validators.
             </summary>
+            <param name="validator">validator to add.</param>
             <returns>Object of ValidatorBuilder with added sex validator.</returns>
         </member>
         <member name="M:FileCabinetApp.RecordValidators.ValidatorBuilder.Create">

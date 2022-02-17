@@ -1,0 +1,44 @@
+{
+  "default": {
+    "firstName": {
+      "minLenght": 2,
+      "maxLenght": 60
+    },
+    "lastName": {
+      "minLenght": 2,
+      "maxLenght": 60
+    },
+    "dateOfBirth": {
+      "from": "1/1/1950",
+      "to": "2/17/2022"
+    },
+    "numberOfChildren": {
+      "minNumber": "0"
+    },
+    "averageSalary": {
+      "minSalary": "0",
+      "maxSalary": "1000000000"
+    }
+  },
+  "custom": {
+    "firstName": {
+      "minLenght": 1,
+      "maxLenght": 20
+    },
+    "lastName": {
+      "minLenght": 1,
+      "maxLenght": 20
+    },
+    "dateOfBirth": {
+      "from": "1/1/1900",
+      "to": "2/17/2022"
+    },
+    "numberOfChildren": {
+      "minNumber": "1"
+    },
+    "averageSalary": {
+      "minSalary": "500",
+      "maxSalary": "1000000"
+    }
+  }
+}

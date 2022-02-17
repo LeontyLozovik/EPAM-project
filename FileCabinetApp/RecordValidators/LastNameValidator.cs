@@ -5,8 +5,14 @@
     /// </summary>
     public class LastNameValidator : IRecordValidator
     {
-        private int maxLenght;
-        private int minLenght;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LastNameValidator"/> class.
+        /// </summary>
+        public LastNameValidator()
+        {
+            this.MaxLenght = 0;
+            this.MinLenght = 0;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LastNameValidator"/> class.
@@ -15,9 +21,21 @@
         /// <param name="max">max lenght of lastname.</param>
         public LastNameValidator(int min, int max)
         {
-            this.maxLenght = max;
-            this.minLenght = min;
+            this.MaxLenght = max;
+            this.MinLenght = min;
         }
+
+        /// <summary>
+        /// Gets or sets MaxLenght.
+        /// </summary>
+        /// <value>max lenght of lastname.</value>
+        public int MaxLenght { get; set; }
+
+        /// <summary>
+        /// Gets or sets MinLenght.
+        /// </summary>
+        /// <value>min lenght of firstname.</value>
+        public int MinLenght { get; set; }
 
         /// <summary>
         /// Validate lastname.
@@ -34,9 +52,9 @@
             {
                 throw new ArgumentNullException(record.LastName, "Last name can't be null.");
             }
-            else if (string.IsNullOrWhiteSpace(record.LastName) || record.LastName.Length < this.minLenght || record.LastName.Length > this.maxLenght)
+            else if (string.IsNullOrWhiteSpace(record.LastName) || record.LastName.Length < this.MinLenght || record.LastName.Length > this.MaxLenght)
             {
-                throw new ArgumentException($"Incorrect last name! Last name should be grater then {this.minLenght}, less then {this.maxLenght} and can't be white space.", record.LastName);
+                throw new ArgumentException($"Incorrect last name! Last name should be grater then {this.MinLenght}, less then {this.MaxLenght} and can't be white space.", record.LastName);
             }
         }
     }
