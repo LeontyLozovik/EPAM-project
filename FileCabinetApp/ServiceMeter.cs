@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace FileCabinetApp
 {
@@ -25,7 +26,12 @@ namespace FileCabinetApp
         /// <returns>Id of created record.</returns>
         public int CreateRecord(FileCabinetRecord record)
         {
-            return this.service.CreateRecord(record);
+            var watches = new Stopwatch();
+            watches.Start();
+            int toReturn = this.service.CreateRecord(record);
+            watches.Stop();
+            Console.WriteLine($"Create method execution duration is {watches.ElapsedTicks} ticks.");
+            return toReturn;
         }
 
         /// <summary>
@@ -34,7 +40,12 @@ namespace FileCabinetApp
         /// <returns>Number of difragmented records.</returns>
         public int Defragment()
         {
-            return this.service.Defragment();
+            var watches = new Stopwatch();
+            watches.Start();
+            int toReturn = this.service.Defragment();
+            watches.Stop();
+            Console.WriteLine($"Purge method execution duration is {watches.ElapsedTicks} ticks.");
+            return toReturn;
         }
 
         /// <summary>
@@ -43,7 +54,11 @@ namespace FileCabinetApp
         /// <param name="newRecord">New record that replace old record.</param>
         public void EditRecord(FileCabinetRecord newRecord)
         {
+            var watches = new Stopwatch();
+            watches.Start();
             this.service.EditRecord(newRecord);
+            watches.Stop();
+            Console.WriteLine($"Edit method execution duration is {watches.ElapsedTicks} ticks.");
         }
 
         /// <summary>
@@ -53,7 +68,12 @@ namespace FileCabinetApp
         /// <returns>all records with entered dateofbirth.</returns>
         public ReadOnlyCollection<FileCabinetRecord> FindByBirthday(string birthday)
         {
-            return this.service.FindByBirthday(birthday);
+            var watches = new Stopwatch();
+            watches.Start();
+            var toReturn = this.service.FindByBirthday(birthday);
+            watches.Stop();
+            Console.WriteLine($"Find method execution duration is {watches.ElapsedTicks} ticks.");
+            return toReturn;
         }
 
         /// <summary>
@@ -63,7 +83,12 @@ namespace FileCabinetApp
         /// <returns>all records with entered firstname.</returns>
         public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
         {
-            return this.service.FindByFirstName(firstName);
+            var watches = new Stopwatch();
+            watches.Start();
+            var toReturn = this.service.FindByFirstName(firstName);
+            watches.Stop();
+            Console.WriteLine($"Find method execution duration is {watches.ElapsedTicks} ticks.");
+            return toReturn;
         }
 
         /// <summary>
@@ -73,7 +98,12 @@ namespace FileCabinetApp
         /// <returns>all records with entered lastname.</returns>
         public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
         {
-            return this.service.FindByLastName(lastName);
+            var watches = new Stopwatch();
+            watches.Start();
+            var toReturn = this.service.FindByLastName(lastName);
+            watches.Stop();
+            Console.WriteLine($"Find method execution duration is {watches.ElapsedTicks} ticks.");
+            return toReturn;
         }
 
         /// <summary>
@@ -82,7 +112,12 @@ namespace FileCabinetApp
         /// <returns>all existing records.</returns>
         public ReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            return this.service.GetRecords();
+            var watches = new Stopwatch();
+            watches.Start();
+            var toReturn = this.service.GetRecords();
+            watches.Stop();
+            Console.WriteLine($"List method execution duration is {watches.ElapsedTicks} ticks.");
+            return toReturn;
         }
 
         /// <summary>
@@ -92,7 +127,12 @@ namespace FileCabinetApp
         /// <param name="writeNumberRemoverRecords">Write or don't write number of removedrecords.</param>
         public int GetStat(bool writeNumberRemoverRecords = true)
         {
-            return this.service.GetStat(writeNumberRemoverRecords);
+            var watches = new Stopwatch();
+            watches.Start();
+            var toReturn = this.service.GetStat(writeNumberRemoverRecords);
+            watches.Stop();
+            Console.WriteLine($"Stat method execution duration is {watches.ElapsedTicks} ticks.");
+            return toReturn;
         }
 
         /// <summary>
@@ -120,7 +160,11 @@ namespace FileCabinetApp
         /// <param name="recordId">Id of record to remove.</param>
         public void Remove(int recordId)
         {
+            var watches = new Stopwatch();
+            watches.Start();
             this.service.Remove(recordId);
+            watches.Stop();
+            Console.WriteLine($"Remove method execution duration is {watches.ElapsedTicks} ticks.");
         }
 
         /// <summary>
@@ -130,7 +174,12 @@ namespace FileCabinetApp
         /// <returns>number of imported records.</returns>
         public int Restore(FileCabinetServiceSnapshot snapshot)
         {
-            return this.service.Restore(snapshot);
+            var watches = new Stopwatch();
+            watches.Start();
+            var toReturn = this.service.Restore(snapshot);
+            watches.Stop();
+            Console.WriteLine($"restore method execution duration is {watches.ElapsedTicks} ticks.");
+            return toReturn;
         }
     }
 }
