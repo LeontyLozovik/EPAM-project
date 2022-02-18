@@ -13,7 +13,7 @@ namespace FileCabinetApp
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceMeter"/> class.
         /// </summary>
-        /// <param name="service">one of FileCabinet services.</param>
+        /// <param name="service">one of the FileCabinet services.</param>
         public ServiceMeter(IFileCabinetService service)
         {
             this.service = service;
@@ -124,7 +124,7 @@ namespace FileCabinetApp
         /// Return number of existing records.
         /// </summary>
         /// <returns>number of existing records.</returns>
-        /// <param name="writeNumberRemoverRecords">Write or don't write number of removedrecords.</param>
+        /// <param name="writeNumberRemoverRecords">Write or don't write number of removed records.</param>
         public int GetStat(bool writeNumberRemoverRecords = true)
         {
             var watches = new Stopwatch();
@@ -178,7 +178,7 @@ namespace FileCabinetApp
             watches.Start();
             var toReturn = this.service.Restore(snapshot);
             watches.Stop();
-            Console.WriteLine($"restore method execution duration is {watches.ElapsedTicks} ticks.");
+            Console.WriteLine($"Restore method execution duration is {watches.ElapsedTicks} ticks.");
             return toReturn;
         }
     }
