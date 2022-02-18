@@ -5,8 +5,14 @@
     /// </summary>
     public class FirstNameValidator : IRecordValidator
     {
-        private int maxLenght;
-        private int minLenght;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FirstNameValidator"/> class.
+        /// </summary>
+        public FirstNameValidator()
+        {
+            this.MaxLenght = 0;
+            this.MinLenght = 0;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FirstNameValidator"/> class.
@@ -15,9 +21,21 @@
         /// <param name="max">max lenght of firstname.</param>
         public FirstNameValidator(int min, int max)
         {
-            this.maxLenght = max;
-            this.minLenght = min;
+            this.MaxLenght = max;
+            this.MinLenght = min;
         }
+
+        /// <summary>
+        /// Gets or sets MaxLenght.
+        /// </summary>
+        /// <value>max lenght of firstname.</value>
+        public int MaxLenght { get; set; }
+
+        /// <summary>
+        /// Gets or sets MinLenght.
+        /// </summary>
+        /// <value>min lenght of firstname.</value>
+        public int MinLenght { get; set; }
 
         /// <summary>
         /// Validate firstname.
@@ -34,9 +52,9 @@
             {
                 throw new ArgumentNullException(record.FirstName, "First name can't be null.");
             }
-            else if (string.IsNullOrWhiteSpace(record.FirstName) || record.FirstName.Length < this.minLenght || record.FirstName.Length > this.maxLenght)
+            else if (string.IsNullOrWhiteSpace(record.FirstName) || record.FirstName.Length < this.MinLenght || record.FirstName.Length > this.MaxLenght)
             {
-                throw new ArgumentException($"Incorrect first name! First name should be grater then {this.minLenght}, less then {this.maxLenght} and can't be white space. ", record.FirstName);
+                throw new ArgumentException($"Incorrect first name! First name should be grater then {this.MinLenght}, less then {this.MaxLenght} and can't be white space. ", record.FirstName);
             }
         }
     }

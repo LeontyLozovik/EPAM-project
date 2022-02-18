@@ -1,4 +1,6 @@
-﻿namespace FileCabinetApp.RecordValidators
+﻿using Microsoft.Extensions.Configuration;
+
+namespace FileCabinetApp.RecordValidators
 {
     /// <summary>
     /// Extantion methods for creation validators.
@@ -23,12 +25,13 @@
             }
 
             setValidation.Invoke(ValidationType.Default);
-            var validator = validatorBuilder.ValidateFirstName(2, 60)
-                .ValidateLastName(2, 60)
-                .ValidateDateOfBirth(new DateTime(1950, 1, 1), DateTime.Now)
-                .ValidateNumberOfChildren(0)
-                .ValidateAveragesalary(0, 100000000)
-                .ValidateSex()
+            var allValidators = ReturnValidators(ValidationType.Default);
+            var validator = validatorBuilder.ValidateFirstName(allValidators.Item1)
+                .ValidateLastName(allValidators.Item2)
+                .ValidateDateOfBirth(allValidators.Item3)
+                .ValidateNumberOfChildren(allValidators.Item4)
+                .ValidateAveragesalary(allValidators.Item5)
+                .ValidateSex(new SexValidator())
                 .Create();
             return (CompositeValidator)validator;
         }
@@ -45,12 +48,13 @@
                 throw new ArgumentNullException(nameof(validatorBuilder));
             }
 
-            var validator = validatorBuilder.ValidateFirstName(2, 60)
-                .ValidateLastName(2, 60)
-                .ValidateDateOfBirth(new DateTime(1950, 1, 1), DateTime.Now)
-                .ValidateNumberOfChildren(0)
-                .ValidateAveragesalary(0, 100000000)
-                .ValidateSex()
+            var allValidators = ReturnValidators(ValidationType.Default);
+            var validator = validatorBuilder.ValidateFirstName(allValidators.Item1)
+                .ValidateLastName(allValidators.Item2)
+                .ValidateDateOfBirth(allValidators.Item3)
+                .ValidateNumberOfChildren(allValidators.Item4)
+                .ValidateAveragesalary(allValidators.Item5)
+                .ValidateSex(new SexValidator())
                 .Create();
             return (CompositeValidator)validator;
         }
@@ -73,14 +77,40 @@
             }
 
             setValidation.Invoke(ValidationType.Custom);
-            var validator = validatorBuilder.ValidateFirstName(1, 20)
-                .ValidateLastName(1, 20)
-                .ValidateDateOfBirth(new DateTime(1900, 1, 1), DateTime.Now)
-                .ValidateNumberOfChildren(1)
-                .ValidateAveragesalary(500, 100000)
-                .ValidateSex()
+            var allValidators = ReturnValidators(ValidationType.Custom);
+            var validator = validatorBuilder.ValidateFirstName(allValidators.Item1)
+                .ValidateLastName(allValidators.Item2)
+                .ValidateDateOfBirth(allValidators.Item3)
+                .ValidateNumberOfChildren(allValidators.Item4)
+                .ValidateAveragesalary(allValidators.Item5)
+                .ValidateSex(new SexValidator())
                 .Create();
             return (CompositeValidator)validator;
+        }
+
+        private static Tuple<FirstNameValidator, LastNameValidator, DateOfBirthValidator, NumberOfChildrenValidator, AverageSalaryValidator> ReturnValidators(ValidationType type)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("validation-rules.json")
+                .Build();
+            IConfigurationSection section;
+            if (type == ValidationType.Default)
+            {
+                section = builder.GetSection("default");
+            }
+            else
+            {
+                section = builder.GetSection("custom");
+            }
+
+            var firstnameValidator = section.GetSection("firstName").Get<FirstNameValidator>();
+            var lastnnameValidator = section.GetSection("lastName").Get<LastNameValidator>();
+            var birthdayValidator = section.GetSection("dateOfBirth").Get<DateOfBirthValidator>();
+            var childrenValidator = section.GetSection("numberOfChildren").Get<NumberOfChildrenValidator>();
+            var salaryValidator = section.GetSection("averageSalary").Get<AverageSalaryValidator>();
+            return new Tuple<FirstNameValidator, LastNameValidator, DateOfBirthValidator, NumberOfChildrenValidator,
+                AverageSalaryValidator>(firstnameValidator, lastnnameValidator, birthdayValidator, childrenValidator, salaryValidator);
         }
     }
 }

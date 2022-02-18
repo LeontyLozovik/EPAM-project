@@ -5,8 +5,14 @@
     /// </summary>
     public class DateOfBirthValidator : IRecordValidator
     {
-        private DateTime from;
-        private DateTime to;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateOfBirthValidator"/> class.
+        /// </summary>
+        public DateOfBirthValidator()
+        {
+            this.From = DateTime.Now;
+            this.To = DateTime.Now;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DateOfBirthValidator"/> class.
@@ -15,9 +21,21 @@
         /// <param name="to">latest date.</param>
         public DateOfBirthValidator(DateTime from, DateTime to)
         {
-            this.from = from;
-            this.to = to;
+            this.From = from;
+            this.To = to;
         }
+
+        /// <summary>
+        /// Gets or sets latest date.
+        /// </summary>
+        /// <value>latest date.</value>
+        public DateTime From { get; set; }
+
+        /// <summary>
+        /// Gets or sets earliest date.
+        /// </summary>
+        /// <value>earliest date.</value>
+        public DateTime To { get; set; }
 
         /// <summary>
         /// Validate date of birth.
@@ -30,9 +48,9 @@
                 throw new ArgumentNullException(nameof(record));
             }
 
-            if (record.DateOfBirth < this.from || record.DateOfBirth > this.to)
+            if (record.DateOfBirth < this.From || record.DateOfBirth > this.To)
             {
-                throw new ArgumentException($"Sorry but minimal date of birth - {this.from} and maxsimum - {this.to}");
+                throw new ArgumentException($"Sorry but minimal date of birth - {this.From} and maxsimum - {this.To}");
             }
         }
     }

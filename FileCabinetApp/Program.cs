@@ -155,146 +155,82 @@ namespace FileCabinetApp
             }
         }
 
+        private static void SetValidator(string inputLine)
+        {
+            string argument = inputLine.ToUpperInvariant();
+            fileCabinetService = new FileCabinetMemoryService(SwitchValidationRules(argument));
+        }
+
+        private static void SetStorage(string inputLine)
+        {
+            string argument = inputLine.ToUpperInvariant();
+            IRecordValidator validator = new ValidatorBuilder().CreateDefault(SetValidationType);
+            if (GetValidationType() == ValidationType.Custom)
+            {
+                validator = new ValidatorBuilder().CreateCustom(SetValidationType);
+            }
+
+            fileCabinetService = SwitchStorageVariant(argument, validator);
+        }
+
+        private static void SetAddServices(string inputLine, ref bool priorityArguments)
+        {
+            switch (inputLine)
+            {
+                case "use-stopwatch":
+                    fileCabinetService = new ServiceMeter(fileCabinetService);
+                    priorityArguments = false;
+                    Console.WriteLine("Using service meter.");
+                    break;
+                case "use-logger":
+                    fileCabinetService = new ServiceLogger(fileCabinetService);
+                    Console.WriteLine("Using logging");
+                    priorityArguments = false;
+                    break;
+            }
+        }
+
         private static void ReadCmdArgument(string[] args, ref IFileCabinetService fileCabinetService)
         {
-            if (args.Length > 0)
+            List<string> cmdComands = new List<string>() { "--validation-rules", "--storage", "-v", "-s", "use-stopwatch", "use-logger" };
+            bool priorityArguments = true;
+            for (int i = 0; i < args.Length; i++)
             {
-                switch (args.Length)
+                string[] inputLine = new string[2];
+                if (args[i].Contains('=', StringComparison.OrdinalIgnoreCase))
                 {
-                    case 1:
-                        var inputLine = args[0] != null ? args[0].Split('=', 2) : new string[] { string.Empty, string.Empty };
-                        string command = inputLine[0];
-
-                        switch (command)
-                        {
-                            case "--validation-rules":
-                                string argument = inputLine[1].ToUpperInvariant();
-                                fileCabinetService = new FileCabinetMemoryService(SwitchValidationRules(argument));
-                                break;
-                            case "--storage":
-                                argument = inputLine[1].ToUpperInvariant();
-                                fileCabinetService = SwitchStorageVariant(argument, new ValidatorBuilder().CreateDefault(SetValidationType));
-                                break;
-                            default:
-                                Console.WriteLine("Unknown comand. Default validation rules and memory servise will be used.");
-                                break;
-                        }
-
-                        break;
-                    case 2:
-                        if (args[0].StartsWith("--", StringComparison.OrdinalIgnoreCase) && args[0].Contains('=', StringComparison.OrdinalIgnoreCase))
-                        {
-                            var firstAtribute = args[0] != null ? args[0].Split('=', 2) : new string[] { string.Empty, string.Empty };
-                            var secondAtribute = args[1] != null ? args[1].Split('=', 2) : new string[] { string.Empty, string.Empty };
-                            string commandFirst = firstAtribute[0];
-                            string commandSecond = secondAtribute[0];
-                            switch (commandFirst)
-                            {
-                                case "--validation-rules":
-                                    switch (commandSecond)
-                                    {
-                                        case "--storage":
-                                            string firstArgument = firstAtribute[1].ToUpperInvariant();
-                                            string secondArgument = secondAtribute[1].ToUpperInvariant();
-                                            fileCabinetService = SwitchStorageVariant(secondArgument, SwitchValidationRules(firstArgument));
-                                            break;
-                                        default:
-                                            firstArgument = firstAtribute[1].ToUpperInvariant();
-                                            fileCabinetService = new FileCabinetMemoryService(SwitchValidationRules(firstArgument));
-                                            break;
-                                    }
-
-                                    break;
-                                case "--storage":
-                                    switch (commandSecond)
-                                    {
-                                        case "--validation-rules":
-                                            string firstArgument = firstAtribute[1].ToUpperInvariant();
-                                            string secondArgument = secondAtribute[1].ToUpperInvariant();
-                                            fileCabinetService = SwitchStorageVariant(firstArgument, SwitchValidationRules(secondArgument));
-                                            break;
-                                        default:
-                                            firstArgument = firstAtribute[1].ToUpperInvariant();
-                                            fileCabinetService = SwitchStorageVariant(firstArgument, new ValidatorBuilder().CreateDefault(SetValidationType));
-                                            break;
-                                    }
-
-                                    break;
-                                default:
-                                    Console.WriteLine("Unknown comand. Default validation rules and memory servise will be used.");
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            command = args[0];
-                            switch (command)
-                            {
-                                case "-v":
-                                    string argument = args[1].ToUpperInvariant();
-                                    fileCabinetService = new FileCabinetMemoryService(SwitchValidationRules(argument));
-                                    break;
-                                case "-s":
-                                    argument = args[1].ToUpperInvariant();
-                                    fileCabinetService = SwitchStorageVariant(argument, new ValidatorBuilder().CreateDefault(SetValidationType));
-                                    break;
-
-                                default:
-                                    Console.WriteLine("Unknown comand. Default validation rules and memory servise will be used.");
-                                    break;
-                            }
-                        }
-
-                        break;
-                    case 4:
-                        string firstCommand = args[0];
-                        string secondCommand = args[2];
-                        switch (firstCommand)
-                        {
-                            case "-v":
-                                switch (secondCommand)
-                                {
-                                    case "-s":
-                                        string firstArgument = args[1].ToUpperInvariant();
-                                        string secondArgument = args[3].ToUpperInvariant();
-                                        fileCabinetService = SwitchStorageVariant(secondArgument, SwitchValidationRules(firstArgument));
-                                        break;
-                                    default:
-                                        firstArgument = args[1].ToUpperInvariant();
-                                        fileCabinetService = new FileCabinetMemoryService(SwitchValidationRules(firstArgument));
-                                        break;
-                                }
-
-                                break;
-                            case "-s":
-                                switch (secondCommand)
-                                {
-                                    case "-v":
-                                        string firstArgument = args[1].ToUpperInvariant();
-                                        string secondArgument = args[3].ToUpperInvariant();
-                                        fileCabinetService = SwitchStorageVariant(firstArgument, SwitchValidationRules(secondArgument));
-                                        break;
-                                    default:
-                                        firstArgument = args[1].ToUpperInvariant();
-                                        fileCabinetService = SwitchStorageVariant(firstArgument, new ValidatorBuilder().CreateDefault(SetValidationType));
-                                        break;
-                                }
-
-                                break;
-                            default:
-                                Console.WriteLine("Unknown comand. Default validation rules and memory servise will be used.");
-                                break;
-                        }
-
-                        break;
-                    default:
-                        Console.WriteLine("Invalid parameters. Default validation rules and memory servise will be used.");
-                        break;
+                    inputLine = args[i] != null ? args[i].Split('=', 2) : new string[] { string.Empty, string.Empty };
                 }
-            }
-            else
-            {
-                Console.WriteLine("Using default validation rules and memory service.");
+                else
+                {
+                    inputLine[0] = args[i];
+                }
+
+                if (cmdComands.Contains(inputLine[0]) && priorityArguments)
+                {
+                    switch (inputLine[0])
+                    {
+                        case "--validation-rules":
+                            SetValidator(inputLine[1]);
+                            break;
+                        case "--storage":
+                            SetStorage(inputLine[1]);
+                            break;
+                        case "-v":
+                            SetValidator(args[i + 1]);
+                            break;
+                        case "-s":
+                            SetStorage(args[i + 1]);
+                            break;
+                        default:
+                            SetAddServices(inputLine[0], ref priorityArguments);
+                            break;
+                    }
+                }
+                else if (cmdComands.Contains(inputLine[0]))
+                {
+                    SetAddServices(inputLine[0], ref priorityArguments);
+                }
             }
         }
     }

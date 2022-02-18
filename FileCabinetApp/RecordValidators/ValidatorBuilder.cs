@@ -10,69 +10,66 @@
         /// <summary>
         /// Add firstname validator to list of validators.
         /// </summary>
-        /// <param name="minLenght">min lenghts of firstname.</param>
-        /// <param name="maxLenght">max lenghts of firstname.</param>
+        /// <param name="validator">validator to add.</param>
         /// <returns>Object of ValidatorBuilder with added firstname validator.</returns>
-        public ValidatorBuilder ValidateFirstName(int minLenght, int maxLenght)
+        public ValidatorBuilder ValidateFirstName(FirstNameValidator validator) // сюда можно сразу передавать FirstNameValidator
         {
-            this.validators.Add(new FirstNameValidator(minLenght, maxLenght));
+            this.validators.Add(validator);
             return this;
         }
 
         /// <summary>
         /// Add lastname validator to list of validators.
         /// </summary>
-        /// <param name="minLenght">min lenghts of lastname.</param>
-        /// <param name="maxLenght">max lenghts of lastname.</param>
+        /// <param name="validator">validator to add.</param>
         /// <returns>Object of ValidatorBuilder with added lastname validator.</returns>
-        public ValidatorBuilder ValidateLastName(int minLenght, int maxLenght)
+        public ValidatorBuilder ValidateLastName(LastNameValidator validator)
         {
-            this.validators.Add(new LastNameValidator(minLenght, maxLenght));
+            this.validators.Add(validator);
             return this;
         }
 
         /// <summary>
         /// Add date of birth validator to list of validators.
         /// </summary>
-        /// <param name="from">earliest date.</param>
-        /// <param name="to">latest date.</param>
+        /// <param name="validator">validator to add.</param>
         /// <returns>Object of ValidatorBuilder with added date of birth validator.</returns>
-        public ValidatorBuilder ValidateDateOfBirth(DateTime from, DateTime to)
+        public ValidatorBuilder ValidateDateOfBirth(DateOfBirthValidator validator)
         {
-            this.validators.Add(new DateOfBirthValidator(from, to));
+            this.validators.Add(validator);
             return this;
         }
 
         /// <summary>
         /// Add number of children validator to list of validators.
         /// </summary>
-        /// <param name="minNumber">min number of children.</param>
+        /// <param name="validator">validator to add.</param>
         /// <returns>Object of ValidatorBuilder with added number of children validator.</returns>
-        public ValidatorBuilder ValidateNumberOfChildren(int minNumber)
+        public ValidatorBuilder ValidateNumberOfChildren(NumberOfChildrenValidator validator)
         {
-            this.validators.Add(new NumberOfChildrenValidator(minNumber));
+            this.validators.Add(validator);
             return this;
         }
 
         /// <summary>
         /// Add average salary validator to list of validators.
         /// </summary>
-        /// <param name="min">min salary.</param>
-        /// <param name="max">max salary.</param>
+        /// <param name="validator">validator to add.</param>
         /// <returns>Object of ValidatorBuilder with added average salary validator.</returns>
-        public ValidatorBuilder ValidateAveragesalary(int min, int max)
+        public ValidatorBuilder ValidateAveragesalary(AverageSalaryValidator validator)
         {
-            this.validators.Add(new AverageSalaryValidator(min, max));
+            this.validators.Add(validator);
             return this;
         }
 
         /// <summary>
         /// Add sex validator to list of validators.
         /// </summary>
+        /// <param name="validator">validator to add.</param>
         /// <returns>Object of ValidatorBuilder with added sex validator.</returns>
-        public ValidatorBuilder ValidateSex()
+        public ValidatorBuilder ValidateSex(SexValidator validator)
         {
-            this.validators.Add(new SexValidator());
+            this.validators.Add(validator);
             return this;
         }
 
