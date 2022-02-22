@@ -116,7 +116,7 @@
             Handle find command.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.FindCommandHandler.#ctor(FileCabinetApp.IFileCabinetService,System.Action{System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord}})">
+        <member name="M:FileCabinetApp.CommandHandlers.FindCommandHandler.#ctor(FileCabinetApp.IFileCabinetService,System.Action{FileCabinetApp.FileCabinetRecord})">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.FindCommandHandler"/> class.
             </summary>
@@ -903,6 +903,85 @@
             Difragment file with records in FileCabinetFilesystemService.
             </summary>
             <returns>Number of difragmented records.</returns>
+        </member>
+        <member name="T:FileCabinetApp.Iterators.FilesystemIterator">
+            <summary>
+            Iterrator for FileCabinetFilesystemService.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.FilesystemIterator.#ctor(System.Collections.ObjectModel.ReadOnlyCollection{System.Int64},System.IO.FileStream)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Iterators.FilesystemIterator"/> class.
+            </summary>
+            <param name="collection">collection to iterrate.</param>
+            <param name="fileStream">filestream where find record.</param>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.FilesystemIterator.GetNext">
+            <summary>
+            Get next element in collection.
+            </summary>
+            <returns>collection element with current index.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.FilesystemIterator.HasMore">
+            <summary>
+            Return if contain any elements more.
+            </summary>
+            <returns>true - contains more, false - not contains more.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.FilesystemIterator.Reset">
+            <summary>
+            Reset index.
+            </summary>
+        </member>
+        <member name="T:FileCabinetApp.Iterators.IRecordIterator">
+            <summary>
+            Represent rules for creating iterators.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.IRecordIterator.GetNext">
+            <summary>
+            Get next element in collection.
+            </summary>
+            <returns>collection element with current index.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.IRecordIterator.HasMore">
+            <summary>
+            Return if contain any elements more.
+            </summary>
+            <returns>true - contains more, false - not contains more.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.IRecordIterator.Reset">
+            <summary>
+            Reset index.
+            </summary>
+        </member>
+        <member name="T:FileCabinetApp.Iterators.MemoryIterator">
+            <summary>
+            Iterrator for FileCabinetMemoryService.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.MemoryIterator.#ctor(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Iterators.MemoryIterator"/> class.
+            </summary>
+            <param name="collection">collection to iterate.</param>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.MemoryIterator.GetNext">
+            <summary>
+            Get next element in collection.
+            </summary>
+            <returns>collection element with current index.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.MemoryIterator.HasMore">
+            <summary>
+            Return if contain any elements more.
+            </summary>
+            <returns>true - contains more, false - not contains more.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.MemoryIterator.Reset">
+            <summary>
+            Reset index.
+            </summary>
         </member>
         <member name="T:FileCabinetApp.Program">
             <summary>

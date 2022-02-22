@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using FileCabinetApp.Iterators;
 
 namespace FileCabinetApp
 {
@@ -66,7 +67,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="birthday">dateofbirth to find.</param>
         /// <returns>all records with entered dateofbirth.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByBirthday(string birthday)
+        public IRecordIterator FindByBirthday(string birthday)
         {
             var watches = new Stopwatch();
             watches.Start();
@@ -81,7 +82,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">firstname to find.</param>
         /// <returns>all records with entered firstname.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public IRecordIterator FindByFirstName(string firstName)
         {
             var watches = new Stopwatch();
             watches.Start();
@@ -96,7 +97,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="lastName">lastname to find.</param>
         /// <returns>all records with entered lastname.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public IRecordIterator FindByLastName(string lastName)
         {
             var watches = new Stopwatch();
             watches.Start();

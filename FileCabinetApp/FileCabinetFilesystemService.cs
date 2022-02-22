@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
+using FileCabinetApp.Iterators;
 using FileCabinetApp.RecordValidators;
 
 namespace FileCabinetApp
@@ -140,7 +141,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">firstname to find.</param>
         /// <returns>all records with entered firstname.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public IRecordIterator FindByFirstName(string firstName)
         {
             if (firstName is null)
             {
@@ -153,15 +154,9 @@ namespace FileCabinetApp
             }
 
             var selectedOffsets = this.firstNameDictionary[firstName.ToUpperInvariant()];
-            List<FileCabinetRecord> selectedRecords = new List<FileCabinetRecord>();
-            foreach (long offset in selectedOffsets)
-            {
-                this.fileStream.Seek(offset, SeekOrigin.Begin);
-                selectedRecords.Add(this.GetOneRecord());
-            }
-
-            ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(selectedRecords);
-            return foundRecords;
+            ReadOnlyCollection<long> offsets = new ReadOnlyCollection<long>(selectedOffsets);
+            IRecordIterator iterator = new FilesystemIterator(offsets, this.fileStream);
+            return iterator;
         }
 
         /// <summary>
@@ -169,7 +164,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="lastName">lastname to find.</param>
         /// <returns>all records with entered lastname.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public IRecordIterator FindByLastName(string lastName)
         {
             if (lastName is null)
             {
@@ -182,15 +177,9 @@ namespace FileCabinetApp
             }
 
             var selectedOffsets = this.lastNameDictionary[lastName.ToUpperInvariant()];
-            List<FileCabinetRecord> selectedRecords = new List<FileCabinetRecord>();
-            foreach (long offset in selectedOffsets)
-            {
-                this.fileStream.Seek(offset, SeekOrigin.Begin);
-                selectedRecords.Add(this.GetOneRecord());
-            }
-
-            ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(selectedRecords);
-            return foundRecords;
+            ReadOnlyCollection<long> offsets = new ReadOnlyCollection<long>(selectedOffsets);
+            IRecordIterator iterator = new FilesystemIterator(offsets, this.fileStream);
+            return iterator;
         }
 
         /// <summary>
@@ -198,7 +187,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="birthday">dateofbirth to find.</param>
         /// <returns>all records with entered dateofbirth.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByBirthday(string birthday)
+        public IRecordIterator FindByBirthday(string birthday)
         {
             DateTime dateToFind;
             if (!DateTime.TryParse(birthday, CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out dateToFind))
@@ -211,15 +200,9 @@ namespace FileCabinetApp
             }
 
             var selectedOffsets = this.dateofbirthDictionary[dateToFind];
-            List<FileCabinetRecord> selectedRecords = new List<FileCabinetRecord>();
-            foreach (long offset in selectedOffsets)
-            {
-                this.fileStream.Seek(offset, SeekOrigin.Begin);
-                selectedRecords.Add(this.GetOneRecord());
-            }
-
-            ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(selectedRecords);
-            return foundRecords;
+            ReadOnlyCollection<long> offsets = new ReadOnlyCollection<long>(selectedOffsets);
+            IRecordIterator iterator = new FilesystemIterator(offsets, this.fileStream);
+            return iterator;
         }
 
         /// <summary>
