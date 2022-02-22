@@ -167,7 +167,7 @@ namespace FileCabinetApp
             DateTime dateToFind;
             if (!DateTime.TryParse(birthday, CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out dateToFind))
             {
-                Console.WriteLine("Please check your input.");
+                throw new ArgumentException("Please check your input.");
             }
             else if (!this.dateofbirthDictionary.ContainsKey(dateToFind))
             {
@@ -271,7 +271,7 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Add records with firtname or lastname key to the dictionary.
+        /// Add records with firstname or lastname key to the dictionary.
         /// </summary>
         /// <param name="name">firstname or lastname key.</param>
         /// <param name="record">record to add.</param>

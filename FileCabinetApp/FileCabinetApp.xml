@@ -458,6 +458,29 @@
             </summary>
             <param name="disposing">dispose or not dispose.</param>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.AddNamesToDictionary(System.String,System.Int64,System.Collections.Generic.SortedDictionary{System.String,System.Collections.Generic.List{System.Int64}})">
+            <summary>
+            Add records with firstname or lastname key to the dictionary.
+            </summary>
+            <param name="name">firstname or lastname key.</param>
+            <param name="offset">offset to add.</param>
+            <param name="dictionary">dictionary to add.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.AddDateToDictionary(System.DateTime,System.Int64,System.Collections.Generic.SortedDictionary{System.DateTime,System.Collections.Generic.List{System.Int64}})">
+            <summary>
+            Add records with dateofbirth key to the dictionary.
+            </summary>
+            <param name="date">dateofbirth key.</param>
+            <param name="offset">offset to add.</param>
+            <param name="dictionary">dictionary to add.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.RemoveFromDictionaries(FileCabinetApp.FileCabinetRecord,System.Int64)">
+            <summary>
+            Edit values in all dictionaries after user edited record.
+            </summary>
+            <param name="incorrectRecord">Record with incorrect params.</param>
+            <param name="offset">offset to remove from dictionaries.</param>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.WriteOneRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Write one record to file from currient position.
@@ -586,7 +609,7 @@
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
             <summary>
-            Add records with firtname or lastname key to the dictionary.
+            Add records with firstname or lastname key to the dictionary.
             </summary>
             <param name="name">firstname or lastname key.</param>
             <param name="record">record to add.</param>
