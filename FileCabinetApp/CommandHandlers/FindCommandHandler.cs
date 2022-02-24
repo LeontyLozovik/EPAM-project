@@ -52,9 +52,9 @@
                                 try
                                 {
                                     var iterator = service.FindByFirstName(textToFind);
-                                    while (iterator.HasMore())
+                                    foreach (var item in iterator)
                                     {
-                                        this.print.Invoke(iterator.GetNext());
+                                        this.print.Invoke((FileCabinetRecord)item);
                                     }
                                 }
                                 catch (ArgumentNullException exeption)
@@ -71,9 +71,9 @@
                                 try
                                 {
                                     var iterator = service.FindByLastName(textToFind);
-                                    while (iterator.HasMore())
+                                    foreach (var item in iterator)
                                     {
-                                        this.print.Invoke(iterator.GetNext());
+                                        this.print.Invoke((FileCabinetRecord)item);
                                     }
                                 }
                                 catch (ArgumentNullException exeption)
@@ -90,9 +90,9 @@
                                 try
                                 {
                                     var iterator = service.FindByBirthday(textToFind);
-                                    while (iterator.HasMore())
+                                    foreach (var item in iterator)
                                     {
-                                        this.print.Invoke(iterator.GetNext());
+                                        this.print.Invoke((FileCabinetRecord)item);
                                     }
                                 }
                                 catch (ArgumentException ex)

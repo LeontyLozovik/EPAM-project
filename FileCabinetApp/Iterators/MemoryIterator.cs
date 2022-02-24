@@ -1,14 +1,15 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 
 namespace FileCabinetApp.Iterators
 {
     /// <summary>
     /// Iterrator for FileCabinetMemoryService.
     /// </summary>
-    public class MemoryIterator : IRecordIterator
+    public class MemoryIterator : IEnumerator, IEnumerable
     {
         private ReadOnlyCollection<FileCabinetRecord> collection;
-        private int index;
+        private int index = -1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MemoryIterator"/> class.
@@ -17,30 +18,45 @@ namespace FileCabinetApp.Iterators
         public MemoryIterator(ReadOnlyCollection<FileCabinetRecord> collection)
         {
             this.collection = collection;
-            this.index = -1;
         }
 
         /// <summary>
-        /// Get next element in collection.
+        /// Gets current element of collection.
         /// </summary>
-        /// <returns>collection element with current index.</returns>
-        public FileCabinetRecord GetNext()
+        /// <value>Current element of collection.</value>
+        public object Current
         {
-            return this.collection[++this.index];
+            get
+            {
+                return this.collection[this.index];
+            }
         }
 
         /// <summary>
-        /// Return if contain any elements more.
+        /// Returns enumerator.
         /// </summary>
-        /// <returns>true - contains more, false - not contains more.</returns>
-        public bool HasMore()
+        /// <returns>Enumerator.</returns>
+        public IEnumerator GetEnumerator()
+        {
+            return this;
+        }
+
+        /// <summary>
+        /// Moves the pointer to the next element.
+        /// </summary>
+        /// <returns>true - if element exist, false if not.</returns>
+        public bool MoveNext()
         {
             if (this.index + 1 < this.collection.Count)
             {
+                this.index++;
                 return true;
             }
-
-            return false;
+            else
+            {
+                this.Reset();
+                return false;
+            }
         }
 
         /// <summary>

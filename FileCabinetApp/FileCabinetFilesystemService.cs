@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
 using FileCabinetApp.Iterators;
@@ -141,7 +142,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">firstname to find.</param>
         /// <returns>all records with entered firstname.</returns>
-        public IRecordIterator FindByFirstName(string firstName)
+        public IEnumerable FindByFirstName(string firstName)
         {
             if (firstName is null)
             {
@@ -155,7 +156,7 @@ namespace FileCabinetApp
 
             var selectedOffsets = this.firstNameDictionary[firstName.ToUpperInvariant()];
             ReadOnlyCollection<long> offsets = new ReadOnlyCollection<long>(selectedOffsets);
-            IRecordIterator iterator = new FilesystemIterator(offsets, this.fileStream);
+            FilesystemIterator iterator = new FilesystemIterator(offsets, this.fileStream);
             return iterator;
         }
 
@@ -164,7 +165,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="lastName">lastname to find.</param>
         /// <returns>all records with entered lastname.</returns>
-        public IRecordIterator FindByLastName(string lastName)
+        public IEnumerable FindByLastName(string lastName)
         {
             if (lastName is null)
             {
@@ -178,7 +179,7 @@ namespace FileCabinetApp
 
             var selectedOffsets = this.lastNameDictionary[lastName.ToUpperInvariant()];
             ReadOnlyCollection<long> offsets = new ReadOnlyCollection<long>(selectedOffsets);
-            IRecordIterator iterator = new FilesystemIterator(offsets, this.fileStream);
+            FilesystemIterator iterator = new FilesystemIterator(offsets, this.fileStream);
             return iterator;
         }
 
@@ -187,7 +188,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="birthday">dateofbirth to find.</param>
         /// <returns>all records with entered dateofbirth.</returns>
-        public IRecordIterator FindByBirthday(string birthday)
+        public IEnumerable FindByBirthday(string birthday)
         {
             DateTime dateToFind;
             if (!DateTime.TryParse(birthday, CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out dateToFind))
@@ -201,7 +202,7 @@ namespace FileCabinetApp
 
             var selectedOffsets = this.dateofbirthDictionary[dateToFind];
             ReadOnlyCollection<long> offsets = new ReadOnlyCollection<long>(selectedOffsets);
-            IRecordIterator iterator = new FilesystemIterator(offsets, this.fileStream);
+            FilesystemIterator iterator = new FilesystemIterator(offsets, this.fileStream);
             return iterator;
         }
 

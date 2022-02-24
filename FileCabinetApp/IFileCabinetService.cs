@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 using FileCabinetApp.Iterators;
 
 namespace FileCabinetApp
@@ -46,21 +47,21 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">firstname to find.</param>
         /// <returns>all records with entered firstname.</returns>
-        public IRecordIterator FindByFirstName(string firstName);
+        public IEnumerable FindByFirstName(string firstName);
 
         /// <summary>
         /// Find all records with entered lastname.
         /// </summary>
         /// <param name="lastName">lastname to find.</param>
         /// <returns>all records with entered lastname.</returns>
-        public IRecordIterator FindByLastName(string lastName);
+        public IEnumerable FindByLastName(string lastName);
 
         /// <summary>
         /// Find all records with entered dateofbirth.
         /// </summary>
         /// <param name="birthday">dateofbirth to find.</param>
         /// <returns>all records with entered dateofbirth.</returns>
-        public IRecordIterator FindByBirthday(string birthday);
+        public IEnumerable FindByBirthday(string birthday);
 
         /// <summary>
         /// Make a snapshot of current state.

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using FileCabinetApp.Iterators;
 
@@ -67,7 +68,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="birthday">dateofbirth to find.</param>
         /// <returns>all records with entered dateofbirth.</returns>
-        public IRecordIterator FindByBirthday(string birthday)
+        public IEnumerable FindByBirthday(string birthday)
         {
             var watches = new Stopwatch();
             watches.Start();
@@ -82,7 +83,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">firstname to find.</param>
         /// <returns>all records with entered firstname.</returns>
-        public IRecordIterator FindByFirstName(string firstName)
+        public IEnumerable FindByFirstName(string firstName)
         {
             var watches = new Stopwatch();
             watches.Start();
@@ -97,7 +98,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="lastName">lastname to find.</param>
         /// <returns>all records with entered lastname.</returns>
-        public IRecordIterator FindByLastName(string lastName)
+        public IEnumerable FindByLastName(string lastName)
         {
             var watches = new Stopwatch();
             watches.Start();
