@@ -83,6 +83,11 @@ namespace FileCabinetApp
             }
         }
 
+        private static void DefaultRecordPrint(FileCabinetRecord record)
+        {
+            Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
+        }
+
         private static ICommandHandler CreateCommandHandlers()
         {
             var helpCommandHandler = new HelpCommandHandler();

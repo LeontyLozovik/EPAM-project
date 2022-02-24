@@ -5,14 +5,14 @@
     /// </summary>
     public class FindCommandHandler : ServiceCommandHandlerBase
     {
-        private Action<IEnumerable<FileCabinetRecord>> print;
+        private Action<FileCabinetRecord> print;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FindCommandHandler"/> class.
         /// </summary>
         /// <param name="service">service to work with.</param>
         /// <param name="print">print function.</param>
-        public FindCommandHandler(IFileCabinetService service, Action<IEnumerable<FileCabinetRecord>> print)
+        public FindCommandHandler(IFileCabinetService service, Action<FileCabinetRecord> print)
             : base(service)
         {
             this.print = print;
@@ -51,8 +51,11 @@
                             case "FIRSTNAME":
                                 try
                                 {
-                                    var firstNameReturnedRecords = service.FindByFirstName(textToFind);
-                                    this.print.Invoke(firstNameReturnedRecords);
+                                    var iterator = service.FindByFirstName(textToFind);
+                                    foreach (var item in iterator)
+                                    {
+                                        this.print.Invoke((FileCabinetRecord)item);
+                                    }
                                 }
                                 catch (ArgumentNullException exeption)
                                 {
@@ -67,8 +70,11 @@
                             case "LASTNAME":
                                 try
                                 {
-                                    var lastNameReturnedRecords = service.FindByLastName(textToFind);
-                                    this.print.Invoke(lastNameReturnedRecords);
+                                    var iterator = service.FindByLastName(textToFind);
+                                    foreach (var item in iterator)
+                                    {
+                                        this.print.Invoke((FileCabinetRecord)item);
+                                    }
                                 }
                                 catch (ArgumentNullException exeption)
                                 {
@@ -83,8 +89,11 @@
                             case "DATEOFBIRTH":
                                 try
                                 {
-                                    var birthdayReturnedRecords = service.FindByBirthday(textToFind);
-                                    this.print.Invoke(birthdayReturnedRecords);
+                                    var iterator = service.FindByBirthday(textToFind);
+                                    foreach (var item in iterator)
+                                    {
+                                        this.print.Invoke((FileCabinetRecord)item);
+                                    }
                                 }
                                 catch (ArgumentException ex)
                                 {

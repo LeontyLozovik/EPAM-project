@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
+using FileCabinetApp.Iterators;
 using FileCabinetApp.RecordValidators;
 
 namespace FileCabinetApp
@@ -11,6 +13,9 @@ namespace FileCabinetApp
     public class FileCabinetFilesystemService : IFileCabinetService, IDisposable
     {
         private const long RECORDSIZE = 277;
+        private readonly SortedDictionary<string, List<long>> firstNameDictionary = new SortedDictionary<string, List<long>>();
+        private readonly SortedDictionary<string, List<long>> lastNameDictionary = new SortedDictionary<string, List<long>>();
+        private readonly SortedDictionary<DateTime, List<long>> dateofbirthDictionary = new SortedDictionary<DateTime, List<long>>();
         private FileStream fileStream;
         private IRecordValidator validator;
 
@@ -54,8 +59,11 @@ namespace FileCabinetApp
 
             this.validator.ValidateParameters(record);
             record.Id = this.FirstFreeId();
-            this.fileStream.Seek(0, SeekOrigin.End);
+            long offset = this.fileStream.Seek(0, SeekOrigin.End);
             this.WriteOneRecord(record);
+            AddNamesToDictionary(record.FirstName, offset, this.firstNameDictionary);
+            AddNamesToDictionary(record.LastName, offset, this.lastNameDictionary);
+            AddDateToDictionary(record.DateOfBirth, offset, this.dateofbirthDictionary);
             return record.Id;
         }
 
@@ -119,7 +127,14 @@ namespace FileCabinetApp
             }
 
             this.fileStream.Seek(offset, SeekOrigin.Begin);
+            FileCabinetRecord incorrectRecord = this.GetOneRecord();
+            this.fileStream.Seek(offset, SeekOrigin.Begin);
             this.WriteOneRecord(newRecord);
+
+            this.RemoveFromDictionaries(incorrectRecord, offset);
+            AddNamesToDictionary(newRecord.FirstName, offset, this.firstNameDictionary);
+            AddNamesToDictionary(newRecord.LastName, offset, this.lastNameDictionary);
+            AddDateToDictionary(newRecord.DateOfBirth, offset, this.dateofbirthDictionary);
         }
 
         /// <summary>
@@ -127,38 +142,22 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">firstname to find.</param>
         /// <returns>all records with entered firstname.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public IEnumerable FindByFirstName(string firstName)
         {
-            List<FileCabinetRecord> list = new List<FileCabinetRecord>();
-            FileInfo fileInfo = new FileInfo(this.fileStream.Name);
-            long offset = 6;
-            do
+            if (firstName is null)
             {
-                this.fileStream.Seek(offset, SeekOrigin.Begin);
-                using (BinaryReader reader = new BinaryReader(this.fileStream, Encoding.Default, true))
-                {
-                    string firstnameInRecord = reader.ReadString();
-                    if (string.Equals(firstName, firstnameInRecord, StringComparison.OrdinalIgnoreCase))
-                    {
-                        this.fileStream.Seek(-6 - (firstnameInRecord.Length + 1), SeekOrigin.Current);
-                        try
-                        {
-                            FileCabinetRecord foundRecord = this.GetOneRecord();
-                            list.Add(foundRecord);
-                        }
-                        catch (ArgumentException)
-                        {
-                            offset += RECORDSIZE;
-                            continue;
-                        }
-                    }
-
-                    offset += RECORDSIZE;
-                }
+                throw new ArgumentNullException(nameof(firstName), "Instance doesn't exist.");
             }
-            while (offset < fileInfo.Length);
-            ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(list);
-            return foundRecords;
+
+            if (!this.firstNameDictionary.ContainsKey(firstName.ToUpperInvariant()))
+            {
+                throw new ArgumentException("Nothing found for your request.");
+            }
+
+            var selectedOffsets = this.firstNameDictionary[firstName.ToUpperInvariant()];
+            ReadOnlyCollection<long> offsets = new ReadOnlyCollection<long>(selectedOffsets);
+            FilesystemIterator iterator = new FilesystemIterator(offsets, this.fileStream);
+            return iterator;
         }
 
         /// <summary>
@@ -166,38 +165,22 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="lastName">lastname to find.</param>
         /// <returns>all records with entered lastname.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public IEnumerable FindByLastName(string lastName)
         {
-            List<FileCabinetRecord> list = new List<FileCabinetRecord>();
-            FileInfo fileInfo = new FileInfo(this.fileStream.Name);
-            long offset = 126;
-            do
+            if (lastName is null)
             {
-                this.fileStream.Seek(offset, SeekOrigin.Begin);
-                using (BinaryReader reader = new BinaryReader(this.fileStream, Encoding.Default, true))
-                {
-                    string lastnameInRecord = reader.ReadString();
-                    if (string.Equals(lastName, lastnameInRecord, StringComparison.OrdinalIgnoreCase))
-                    {
-                        this.fileStream.Seek(-126 - (lastnameInRecord.Length + 1), SeekOrigin.Current);
-                        try
-                        {
-                            FileCabinetRecord foundRecord = this.GetOneRecord();
-                            list.Add(foundRecord);
-                        }
-                        catch (ArgumentException)
-                        {
-                            offset += RECORDSIZE;
-                            continue;
-                        }
-                    }
-
-                    offset += RECORDSIZE;
-                }
+                throw new ArgumentNullException(nameof(lastName), "Instance doesn't exist.");
             }
-            while (offset < fileInfo.Length);
-            ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(list);
-            return foundRecords;
+
+            if (!this.lastNameDictionary.ContainsKey(lastName.ToUpperInvariant()))
+            {
+                throw new ArgumentException("Nothing found for your request.");
+            }
+
+            var selectedOffsets = this.lastNameDictionary[lastName.ToUpperInvariant()];
+            ReadOnlyCollection<long> offsets = new ReadOnlyCollection<long>(selectedOffsets);
+            FilesystemIterator iterator = new FilesystemIterator(offsets, this.fileStream);
+            return iterator;
         }
 
         /// <summary>
@@ -205,50 +188,22 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="birthday">dateofbirth to find.</param>
         /// <returns>all records with entered dateofbirth.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByBirthday(string birthday)
+        public IEnumerable FindByBirthday(string birthday)
         {
-            List<FileCabinetRecord> list = new List<FileCabinetRecord>();
             DateTime dateToFind;
             if (!DateTime.TryParse(birthday, CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out dateToFind))
             {
-                Console.WriteLine("Please check your input.");
+                throw new ArgumentException("Please check your input.");
             }
-            else
+            else if (!this.dateofbirthDictionary.ContainsKey(dateToFind))
             {
-                FileInfo fileInfo = new FileInfo(this.fileStream.Name);
-                long offset = 246;
-                do
-                {
-                    this.fileStream.Seek(offset, SeekOrigin.Begin);
-                    using (BinaryReader reader = new BinaryReader(this.fileStream, Encoding.Default, true))
-                    {
-                        int year = reader.ReadInt32();
-                        int month = reader.ReadInt32();
-                        int day = reader.ReadInt32();
-                        DateTime dateInRecord = new DateTime(year, month, day);
-                        if (DateTime.Compare(dateToFind, dateInRecord) == 0)
-                        {
-                            this.fileStream.Seek(-258, SeekOrigin.Current);
-                            try
-                            {
-                                FileCabinetRecord foundRecord = this.GetOneRecord();
-                                list.Add(foundRecord);
-                            }
-                            catch (ArgumentException)
-                            {
-                                offset += RECORDSIZE;
-                                continue;
-                            }
-                        }
-
-                        offset += RECORDSIZE;
-                    }
-                }
-                while (offset < fileInfo.Length);
+                throw new ArgumentException("Nothing found for your request.");
             }
 
-            ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(list);
-            return foundRecords;
+            var selectedOffsets = this.dateofbirthDictionary[dateToFind];
+            ReadOnlyCollection<long> offsets = new ReadOnlyCollection<long>(selectedOffsets);
+            FilesystemIterator iterator = new FilesystemIterator(offsets, this.fileStream);
+            return iterator;
         }
 
         /// <summary>
@@ -390,6 +345,71 @@ namespace FileCabinetApp
             {
                 this.fileStream.Dispose();
             }
+        }
+
+        /// <summary>
+        /// Add records with firstname or lastname key to the dictionary.
+        /// </summary>
+        /// <param name="name">firstname or lastname key.</param>
+        /// <param name="offset">offset to add.</param>
+        /// <param name="dictionary">dictionary to add.</param>
+        private static void AddNamesToDictionary(string name, long offset, SortedDictionary<string, List<long>> dictionary)
+        {
+            string keyName = name.ToUpperInvariant();
+            if (dictionary.ContainsKey(keyName))
+            {
+                List<long> valueList = dictionary[keyName];
+                valueList.Add(offset);
+                dictionary[keyName] = valueList;
+            }
+            else
+            {
+                List<long> valueList = new List<long>();
+                valueList.Add(offset);
+                dictionary.Add(keyName, valueList);
+            }
+        }
+
+        /// <summary>
+        /// Add records with dateofbirth key to the dictionary.
+        /// </summary>
+        /// <param name="date">dateofbirth key.</param>
+        /// <param name="offset">offset to add.</param>
+        /// <param name="dictionary">dictionary to add.</param>
+        private static void AddDateToDictionary(DateTime date, long offset, SortedDictionary<DateTime, List<long>> dictionary)
+        {
+            if (dictionary.ContainsKey(date))
+            {
+                List<long> valueList = dictionary[date];
+                valueList.Add(offset);
+                dictionary[date] = valueList;
+            }
+            else
+            {
+                List<long> valueList = new List<long>();
+                valueList.Add(offset);
+                dictionary.Add(date, valueList);
+            }
+        }
+
+        /// <summary>
+        /// Edit values in all dictionaries after user edited record.
+        /// </summary>
+        /// <param name="incorrectRecord">Record with incorrect params.</param>
+        /// <param name="offset">offset to remove from dictionaries.</param>
+        private void RemoveFromDictionaries(FileCabinetRecord incorrectRecord, long offset)
+        {
+            List<long> offsetToRemove = this.firstNameDictionary[incorrectRecord.FirstName.ToUpperInvariant()];
+            int removeIndex = offsetToRemove.FindIndex(0, offsetToRemove.Count, value => value == offset);
+            offsetToRemove.RemoveAt(removeIndex);
+
+            offsetToRemove = this.lastNameDictionary[incorrectRecord.LastName.ToUpperInvariant()];
+            removeIndex = offsetToRemove.FindIndex(0, offsetToRemove.Count, value => value == offset);
+            offsetToRemove.RemoveAt(removeIndex);
+
+            offsetToRemove = this.dateofbirthDictionary[incorrectRecord.DateOfBirth];
+            removeIndex = offsetToRemove.FindIndex(0, offsetToRemove.Count, value => value == offset);
+            offsetToRemove.RemoveAt(removeIndex);
         }
 
         /// <summary>

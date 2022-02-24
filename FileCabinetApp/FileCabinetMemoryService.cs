@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 using System.Globalization;
+using FileCabinetApp.Iterators;
 using FileCabinetApp.RecordValidators;
 
 namespace FileCabinetApp
@@ -118,7 +120,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="firstName">firstname to find.</param>
         /// <returns>all records with entered firstname.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByFirstName(string firstName)
+        public IEnumerable FindByFirstName(string firstName)
         {
             if (firstName is null)
             {
@@ -132,7 +134,8 @@ namespace FileCabinetApp
 
             var selectedRecords = this.firstNameDictionary[firstName.ToUpperInvariant()];
             ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(selectedRecords);
-            return foundRecords;
+            MemoryIterator iterator = new MemoryIterator(foundRecords);
+            return iterator;
         }
 
         /// <summary>
@@ -140,7 +143,7 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="lastName">lastname to find.</param>
         /// <returns>all records with entered lastname.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByLastName(string lastName)
+        public IEnumerable FindByLastName(string lastName)
         {
             if (lastName is null)
             {
@@ -154,7 +157,8 @@ namespace FileCabinetApp
 
             var selectedRecords = this.lastNameDictionary[lastName.ToUpperInvariant()];
             ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(selectedRecords);
-            return foundRecords;
+            MemoryIterator iterator = new MemoryIterator(foundRecords);
+            return iterator;
         }
 
         /// <summary>
@@ -162,12 +166,12 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="birthday">dateofbirth to find.</param>
         /// <returns>all records with entered dateofbirth.</returns>
-        public ReadOnlyCollection<FileCabinetRecord> FindByBirthday(string birthday)
+        public IEnumerable FindByBirthday(string birthday)
         {
             DateTime dateToFind;
             if (!DateTime.TryParse(birthday, CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out dateToFind))
             {
-                Console.WriteLine("Please check your input.");
+                throw new ArgumentException("Please check your input.");
             }
             else if (!this.dateofbirthDictionary.ContainsKey(dateToFind))
             {
@@ -176,7 +180,8 @@ namespace FileCabinetApp
 
             var selectedRecords = this.dateofbirthDictionary[dateToFind];
             ReadOnlyCollection<FileCabinetRecord> foundRecords = new ReadOnlyCollection<FileCabinetRecord>(selectedRecords);
-            return foundRecords;
+            MemoryIterator iterator = new MemoryIterator(foundRecords);
+            return iterator;
         }
 
         /// <summary>
@@ -271,7 +276,7 @@ namespace FileCabinetApp
         }
 
         /// <summary>
-        /// Add records with firtname or lastname key to the dictionary.
+        /// Add records with firstname or lastname key to the dictionary.
         /// </summary>
         /// <param name="name">firstname or lastname key.</param>
         /// <param name="record">record to add.</param>

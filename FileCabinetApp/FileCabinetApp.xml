@@ -116,7 +116,7 @@
             Handle find command.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.FindCommandHandler.#ctor(FileCabinetApp.IFileCabinetService,System.Action{System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord}})">
+        <member name="M:FileCabinetApp.CommandHandlers.FindCommandHandler.#ctor(FileCabinetApp.IFileCabinetService,System.Action{FileCabinetApp.FileCabinetRecord})">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.FindCommandHandler"/> class.
             </summary>
@@ -458,6 +458,29 @@
             </summary>
             <param name="disposing">dispose or not dispose.</param>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.AddNamesToDictionary(System.String,System.Int64,System.Collections.Generic.SortedDictionary{System.String,System.Collections.Generic.List{System.Int64}})">
+            <summary>
+            Add records with firstname or lastname key to the dictionary.
+            </summary>
+            <param name="name">firstname or lastname key.</param>
+            <param name="offset">offset to add.</param>
+            <param name="dictionary">dictionary to add.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.AddDateToDictionary(System.DateTime,System.Int64,System.Collections.Generic.SortedDictionary{System.DateTime,System.Collections.Generic.List{System.Int64}})">
+            <summary>
+            Add records with dateofbirth key to the dictionary.
+            </summary>
+            <param name="date">dateofbirth key.</param>
+            <param name="offset">offset to add.</param>
+            <param name="dictionary">dictionary to add.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.RemoveFromDictionaries(FileCabinetApp.FileCabinetRecord,System.Int64)">
+            <summary>
+            Edit values in all dictionaries after user edited record.
+            </summary>
+            <param name="incorrectRecord">Record with incorrect params.</param>
+            <param name="offset">offset to remove from dictionaries.</param>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.WriteOneRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Write one record to file from currient position.
@@ -586,7 +609,7 @@
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
             <summary>
-            Add records with firtname or lastname key to the dictionary.
+            Add records with firstname or lastname key to the dictionary.
             </summary>
             <param name="name">firstname or lastname key.</param>
             <param name="record">record to add.</param>
@@ -880,6 +903,58 @@
             Difragment file with records in FileCabinetFilesystemService.
             </summary>
             <returns>Number of difragmented records.</returns>
+        </member>
+        <member name="T:FileCabinetApp.Iterators.FilesystemIterator">
+            <summary>
+            Iterrator for FileCabinetFilesystemService.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.FilesystemIterator.#ctor(System.Collections.ObjectModel.ReadOnlyCollection{System.Int64},System.IO.FileStream)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Iterators.FilesystemIterator"/> class.
+            </summary>
+            <param name="collection">collection to iterrate.</param>
+            <param name="fileStream">filestream where find record.</param>
+        </member>
+        <member name="P:FileCabinetApp.Iterators.FilesystemIterator.Current">
+            <summary>
+            Gets current element of collection.
+            </summary>
+            <value>Current element of collection.</value>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.FilesystemIterator.GetEnumerator">
+            <summary>
+            Returns enumerator.
+            </summary>
+            <returns>Enumerator.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.FilesystemIterator.MoveNext">
+            <summary>
+            Moves the pointer to the next element.
+            </summary>
+            <returns>true - if element exist, false if not.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.FilesystemIterator.Reset">
+            <summary>
+            Reset index.
+            </summary>
+        </member>
+        <member name="T:FileCabinetApp.Iterators.MemoryIterator">
+            <summary>
+            Iterrator for FileCabinetMemoryService.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.MemoryIterator.#ctor(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Iterators.MemoryIterator"/> class.
+            </summary>
+            <param name="collection">collection to iterate.</param>
+        </member>
+        <member name="M:FileCabinetApp.Iterators.MemoryIterator.GetEnumerator">
+            <summary>
+            Returns enumerator.
+            </summary>
+            <returns>Enumerator.</returns>
         </member>
         <member name="T:FileCabinetApp.Program">
             <summary>
