@@ -939,28 +939,6 @@
             Reset index.
             </summary>
         </member>
-        <member name="T:FileCabinetApp.Iterators.IRecordIterator">
-            <summary>
-            Represent rules for creating iterators.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.Iterators.IRecordIterator.GetNext">
-            <summary>
-            Get next element in collection.
-            </summary>
-            <returns>collection element with current index.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Iterators.IRecordIterator.HasMore">
-            <summary>
-            Return if contain any elements more.
-            </summary>
-            <returns>true - contains more, false - not contains more.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Iterators.IRecordIterator.Reset">
-            <summary>
-            Reset index.
-            </summary>
-        </member>
         <member name="T:FileCabinetApp.Iterators.MemoryIterator">
             <summary>
             Iterrator for FileCabinetMemoryService.
@@ -972,28 +950,11 @@
             </summary>
             <param name="collection">collection to iterate.</param>
         </member>
-        <member name="P:FileCabinetApp.Iterators.MemoryIterator.Current">
-            <summary>
-            Gets current element of collection.
-            </summary>
-            <value>Current element of collection.</value>
-        </member>
         <member name="M:FileCabinetApp.Iterators.MemoryIterator.GetEnumerator">
             <summary>
             Returns enumerator.
             </summary>
             <returns>Enumerator.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Iterators.MemoryIterator.MoveNext">
-            <summary>
-            Moves the pointer to the next element.
-            </summary>
-            <returns>true - if element exist, false if not.</returns>
-        </member>
-        <member name="M:FileCabinetApp.Iterators.MemoryIterator.Reset">
-            <summary>
-            Reset index.
-            </summary>
         </member>
         <member name="T:FileCabinetApp.Program">
             <summary>
