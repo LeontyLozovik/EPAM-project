@@ -33,12 +33,7 @@ namespace FileCabinetApp
         /// <returns>True if record with this id exist, false if not exist.</returns>
         public bool IsIdExist(int id)
         {
-            if (this.GetStat(false) >= id)
-            {
-                return true;
-            }
-
-            return false;
+            return this.list.Exists(record => record.Id == id);
         }
 
         /// <summary>
@@ -54,7 +49,10 @@ namespace FileCabinetApp
             }
 
             this.validator.ValidateParameters(record);
-            record.Id = this.list.Count + 1;
+            if (record.Id == 0)
+            {
+                record.Id = this.FirstFreeId();
+            }
 
             this.list.Add(record);
             AddNamesToDictionary(record.FirstName, record, this.firstNameDictionary);
@@ -100,15 +98,15 @@ namespace FileCabinetApp
             }
 
             this.validator.ValidateParameters(newRecord);
-            if (newRecord.Id > this.list.Count)
+            FileCabinetRecord? incorrectRecord = this.list.Find(record => record.Id == newRecord.Id);
+            if (incorrectRecord is null)
             {
                 throw new ArgumentException("There is no record with this Id.");
             }
 
-            FileCabinetRecord incorrectRecord = this.list[newRecord.Id - 1];
-
-            this.list.RemoveAt(newRecord.Id - 1);
-            this.list.Insert(newRecord.Id - 1, newRecord);
+            int index = this.list.IndexOf(incorrectRecord);
+            this.list.RemoveAt(index);
+            this.list.Insert(index, newRecord);
             this.RemoveFromDictionaries(incorrectRecord);
             AddNamesToDictionary(newRecord.FirstName, newRecord, this.firstNameDictionary);
             AddNamesToDictionary(newRecord.LastName, newRecord, this.lastNameDictionary);
@@ -217,7 +215,7 @@ namespace FileCabinetApp
 
             for (int i = 0; i < numberOfRecords; i++)
             {
-                if (recordEnumerator.Current.Id <= this.GetStat(false))
+                if (this.IsIdExist(recordEnumerator.Current.Id))
                 {
                     try
                     {
@@ -234,6 +232,7 @@ namespace FileCabinetApp
                 {
                     try
                     {
+                        recordEnumerator.Current.Id = this.FirstFreeId();
                         this.CreateRecord(recordEnumerator.Current);
                     }
                     catch (ArgumentException)
@@ -254,7 +253,7 @@ namespace FileCabinetApp
         /// <param name="recordId">Id of record to remove.</param>
         public void Remove(int recordId)
         {
-            FileCabinetRecord? incorrectRecord = this.list[recordId - 1];
+            FileCabinetRecord? incorrectRecord = this.list.Find(record => record.Id == recordId);
             if (incorrectRecord is null)
             {
                 throw new ArgumentNullException($"Record #{recordId} doesn't exists");
@@ -262,7 +261,6 @@ namespace FileCabinetApp
 
             this.list.Remove(incorrectRecord);
             this.RemoveFromDictionaries(incorrectRecord);
-            this.ReindecsingId();
         }
 
         /// <summary>
@@ -273,6 +271,42 @@ namespace FileCabinetApp
         {
             Console.WriteLine("Memory service don't support 'purge' command");
             return 0;
+        }
+
+        /// <summary>
+        /// Insert records with given filds and values.
+        /// </summary>
+        /// <param name="record">record to insert.</param>
+        public void Insert(FileCabinetRecord record)
+        {
+            if (record is null)
+            {
+                throw new ArgumentNullException(nameof(record), "Instance doesn't exist.");
+            }
+
+            if (this.IsIdExist(record.Id))
+            {
+                Console.WriteLine("Record with this Id already exists. Rewrite? [y/n]");
+                bool notEnd = true;
+                do
+                {
+                    switch (Console.ReadLine())
+                    {
+                        case "y":
+                            this.EditRecord(record);
+                            notEnd = false;
+                            break;
+                        case "n":
+                            notEnd = false;
+                            break;
+                    }
+                }
+                while (notEnd);
+            }
+            else
+            {
+                this.CreateRecord(record);
+            }
         }
 
         /// <summary>
@@ -320,17 +354,26 @@ namespace FileCabinetApp
             }
         }
 
-        /// <summary>
-        /// Reindecsing records in list.
-        /// </summary>
-        private void ReindecsingId()
+        private int FirstFreeId()
         {
-            int startId = 1;
+            List<int> freeId = new List<int>() { 1 };
+            int nextExpectedId = 1;
             foreach (var record in this.list)
             {
-                record.Id = startId;
-                startId++;
+                if (freeId.Contains(record.Id))
+                {
+                    freeId.Remove(record.Id);
+                }
+                else if (record.Id != nextExpectedId)
+                {
+                    nextExpectedId++;
+                }
+
+                nextExpectedId++;
+                freeId.Add(nextExpectedId);
             }
+
+            return freeId[0];
         }
 
         /// <summary>

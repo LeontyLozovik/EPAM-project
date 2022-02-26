@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using FileCabinetApp.Iterators;
 
 namespace FileCabinetApp
 {
@@ -135,6 +134,19 @@ namespace FileCabinetApp
             watches.Stop();
             Console.WriteLine($"Stat method execution duration is {watches.ElapsedTicks} ticks.");
             return toReturn;
+        }
+
+        /// <summary>
+        /// Insert records with given filds and values.
+        /// </summary>
+        /// <param name="record">record to insert.</param>
+        public void Insert(FileCabinetRecord record)
+        {
+            var watches = new Stopwatch();
+            watches.Start();
+            this.service.Insert(record);
+            watches.Stop();
+            Console.WriteLine($"Insert method execution duration is {watches.ElapsedTicks} ticks");
         }
 
         /// <summary>

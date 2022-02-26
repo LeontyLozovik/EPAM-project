@@ -157,6 +157,23 @@
             </summary>
             <param name="request">request with command and param.</param>
         </member>
+        <member name="T:FileCabinetApp.CommandHandlers.InsertCommandHandler">
+            <summary>
+            Handle insert command.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.InsertCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.InsertCommandHandler"/> class.
+            </summary>
+            <param name="service">service to work with.</param>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.InsertCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
+            <summary>
+            Handle create command.
+            </summary>
+            <param name="request">request with command and param.</param>
+        </member>
         <member name="T:FileCabinetApp.CommandHandlers.ListCommandHandler">
             <summary>
             Handle list command.
@@ -452,6 +469,12 @@
             Implement method of IDispose.
             </summary>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.Insert(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Insert records with given filds and values.
+            </summary>
+            <param name="record">record to insert.</param>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.Dispose(System.Boolean)">
             <summary>
             Implement method of IDispose.
@@ -607,6 +630,12 @@
             </summary>
             <returns>0 - because there is nothing to defragment.</returns>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.Insert(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Insert records with given filds and values.
+            </summary>
+            <param name="record">record to insert.</param>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
             <summary>
             Add records with firstname or lastname key to the dictionary.
@@ -622,11 +651,6 @@
             <param name="date">dateofbirth key.</param>
             <param name="record">record to add.</param>
             <param name="dictionary">dictionary to add.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.ReindecsingId">
-            <summary>
-            Reindecsing records in list.
-            </summary>
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.RemoveFromDictionaries(FileCabinetApp.FileCabinetRecord)">
             <summary>
@@ -903,6 +927,12 @@
             Difragment file with records in FileCabinetFilesystemService.
             </summary>
             <returns>Number of difragmented records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.Insert(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Insert records with given filds and values.
+            </summary>
+            <param name="record">record to insert.</param>
         </member>
         <member name="T:FileCabinetApp.Iterators.FilesystemIterator">
             <summary>
@@ -1366,6 +1396,12 @@
             <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
             <returns>number of imported records.</returns>
         </member>
+        <member name="M:FileCabinetApp.ServiceLogger.Insert(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Insert records with given filds and values.
+            </summary>
+            <param name="record">record to insert.</param>
+        </member>
         <member name="T:FileCabinetApp.ServiceMeter">
             <summary>
             Wrapper for FileCabinet services for measuring run time.
@@ -1429,6 +1465,12 @@
             </summary>
             <returns>number of existing records.</returns>
             <param name="writeNumberRemoverRecords">Write or don't write number of removed records.</param>
+        </member>
+        <member name="M:FileCabinetApp.ServiceMeter.Insert(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Insert records with given filds and values.
+            </summary>
+            <param name="record">record to insert.</param>
         </member>
         <member name="M:FileCabinetApp.ServiceMeter.IsIdExist(System.Int32)">
             <summary>

@@ -58,7 +58,11 @@ namespace FileCabinetApp
             }
 
             this.validator.ValidateParameters(record);
-            record.Id = this.FirstFreeId();
+            if (record.Id == 0)
+            {
+                record.Id = this.FirstFreeId();
+            }
+
             long offset = this.fileStream.Seek(0, SeekOrigin.End);
             this.WriteOneRecord(record);
             AddNamesToDictionary(record.FirstName, offset, this.firstNameDictionary);
@@ -256,6 +260,7 @@ namespace FileCabinetApp
                 {
                     try
                     {
+                        recordEnumerator.Current.Id = this.FirstFreeId();
                         this.CreateRecord(recordEnumerator.Current);
                     }
                     catch (ArgumentException)
@@ -333,6 +338,42 @@ namespace FileCabinetApp
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Insert records with given filds and values.
+        /// </summary>
+        /// <param name="record">record to insert.</param>
+        public void Insert(FileCabinetRecord record)
+        {
+            if (record is null)
+            {
+                throw new ArgumentNullException(nameof(record), "Instance doesn't exist.");
+            }
+
+            if (this.IsIdExist(record.Id))
+            {
+                Console.WriteLine("Record with this Id already exists. Rewrite? [y/n]");
+                bool notEnd = true;
+                do
+                {
+                    switch (Console.ReadLine())
+                    {
+                        case "y":
+                            this.EditRecord(record);
+                            notEnd = false;
+                            break;
+                        case "n":
+                            notEnd = false;
+                            break;
+                    }
+                }
+                while (notEnd);
+            }
+            else
+            {
+                this.CreateRecord(record);
+            }
         }
 
         /// <summary>

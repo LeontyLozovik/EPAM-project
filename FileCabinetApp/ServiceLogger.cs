@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.Text;
-using FileCabinetApp.Iterators;
 
 namespace FileCabinetApp
 {
@@ -225,6 +224,25 @@ namespace FileCabinetApp
             string endLog = $"{now:MM/dd/yyyy HH:mm} - Restore() returned '{toReturn}'";
             Write(endLog);
             return toReturn;
+        }
+
+        /// <summary>
+        /// Insert records with given filds and values.
+        /// </summary>
+        /// <param name="record">record to insert.</param>
+        public void Insert(FileCabinetRecord record)
+        {
+            if (record is null)
+            {
+                throw new ArgumentNullException(nameof(record), "Instance doesn't exist.");
+            }
+
+            DateTime now = DateTime.Now;
+            string startLog = $"{now:MM/dd/yyyy HH:mm} - Calling Insert() with FirstName = '{record.FirstName}'," +
+                $" LastName = '{record.LastName}', DateOfBirth = '{record.DateOfBirth:MM/dd/yyyy}'," +
+                $" Children = '{record.Children}', Salary = '{record.AverageSalary}, Sex = '{record.Sex}'";
+            Write(startLog);
+            this.service.Insert(record);
         }
 
         private static void Write(string logToWrite)

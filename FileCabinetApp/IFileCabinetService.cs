@@ -87,5 +87,11 @@ namespace FileCabinetApp
         /// </summary>
         /// <returns>Number of difragmented records.</returns>
         public int Defragment();
+
+        /// <summary>
+        /// Insert records with given filds and values.
+        /// </summary>
+        /// <param name="record">record to insert.</param>
+        public void Insert(FileCabinetRecord record);
     }
 }

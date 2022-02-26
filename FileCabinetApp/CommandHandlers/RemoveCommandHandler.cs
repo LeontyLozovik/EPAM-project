@@ -33,12 +33,11 @@
                     Console.WriteLine("Error! Please check inputed Id.");
                 }
 
-                var recordsCount = service.GetStat(false);
                 if (enteredId <= 0)
                 {
                     Console.WriteLine("Id should be grater then 0");
                 }
-                else if (recordsCount < enteredId)
+                else if (!service.IsIdExist(enteredId))
                 {
                     Console.WriteLine($"#{enteredId} record is not exists.");
                 }
