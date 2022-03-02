@@ -377,6 +377,35 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Delete records.
+        /// </summary>
+        /// <param name="ids">Ids of records to delete.</param>
+        /// <returns>Ids of deleted records.</returns>
+        public ReadOnlyCollection<int> Delete(ReadOnlyCollection<int> ids)
+        {
+            List<int> idofDeletedRecords = new List<int>();
+            if (ids is null)
+            {
+                return new ReadOnlyCollection<int>(idofDeletedRecords);
+            }
+
+            foreach (var id in ids)
+            {
+                try
+                {
+                    this.Remove(id);
+                    idofDeletedRecords.Add(id);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            return new ReadOnlyCollection<int>(idofDeletedRecords);
+        }
+
+        /// <summary>
         /// Implement method of IDispose.
         /// </summary>
         /// <param name="disposing">dispose or not dispose.</param>

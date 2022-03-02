@@ -21,6 +21,8 @@
             new string[] { "import", "importing service records from files of a certain type", "The 'import' command importing service records from files of a certain type" },
             new string[] { "remove", "remove records from service", "The 'remove' command remove records from service" },
             new string[] { "purge", "defragments the data file", "The 'purge' command defragments the data file" },
+            new string[] { "insert", "insert records with given filds and values", "The 'insert' command insert records with given filds and values" },
+            new string[] { "delete", "delete records with given criteries", "The 'delete' command delete records with given criteries" },
         };
 
         /// <summary>

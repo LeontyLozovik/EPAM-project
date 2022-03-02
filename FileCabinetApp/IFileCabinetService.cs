@@ -93,5 +93,12 @@ namespace FileCabinetApp
         /// </summary>
         /// <param name="record">record to insert.</param>
         public void Insert(FileCabinetRecord record);
+
+        /// <summary>
+        /// Delete record with given values.
+        /// </summary>
+        /// <param name="ids">Ids of records to delete.</param>
+        /// <returns>Ids of deleted records.</returns>
+        public ReadOnlyCollection<int> Delete(ReadOnlyCollection<int> ids);
     }
 }

@@ -245,6 +245,29 @@ namespace FileCabinetApp
             this.service.Insert(record);
         }
 
+        /// <summary>
+        /// Delete records.
+        /// </summary>
+        /// <param name="ids">Ids of records to delete.</param>
+        /// <returns>Ids of deleted records.</returns>
+        public ReadOnlyCollection<int> Delete(ReadOnlyCollection<int> ids)
+        {
+            DateTime now = DateTime.Now;
+            string startLog = $"{now:MM/dd/yyyy HH:mm} - Calling Restore()";
+            Write(startLog);
+            var toReturn = this.service.Delete(ids);
+            now = DateTime.Now;
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (var item in toReturn)
+            {
+                stringBuilder.Append(item);
+            }
+
+            string endLog = $"{now:MM/dd/yyyy HH:mm} - Restore() returned '{stringBuilder}'";
+            Write(endLog);
+            return toReturn;
+        }
+
         private static void Write(string logToWrite)
         {
             string path = "C:\\EPAM-project\\logs.txt";

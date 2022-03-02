@@ -20,7 +20,7 @@ namespace FileCabinetApp.CommandHandlers
         /// <summary>
         /// Handle create command.
         /// </summary>
-        /// <param name="request">request with command and param.</param>
+        /// <param name="request">request with filds and values.</param>
         public override void Handle(AppCommandRequest request)
         {
             if (request is null)

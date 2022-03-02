@@ -195,5 +195,20 @@ namespace FileCabinetApp
             Console.WriteLine($"Restore method execution duration is {watches.ElapsedTicks} ticks.");
             return toReturn;
         }
+
+        /// <summary>
+        /// Delete records.
+        /// </summary>
+        /// <param name="ids">Ids of records to delete.</param>
+        /// <returns>Ids of deleted records.</returns>
+        public ReadOnlyCollection<int> Delete(ReadOnlyCollection<int> ids)
+        {
+            var watches = new Stopwatch();
+            watches.Start();
+            var toReturn = this.service.Delete(ids);
+            watches.Stop();
+            Console.WriteLine($"Restore method execution duration is {watches.ElapsedTicks} ticks.");
+            return toReturn;
+        }
     }
 }

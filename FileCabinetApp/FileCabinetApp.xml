@@ -60,6 +60,23 @@
             </summary>
             <param name="request">request with command and param.</param>
         </member>
+        <member name="T:FileCabinetApp.CommandHandlers.DeleteCommandHandler">
+            <summary>
+            Handle delete command.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.DeleteCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.DeleteCommandHandler"/> class.
+            </summary>
+            <param name="service">service to work with.</param>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.DeleteCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
+            <summary>
+            Handle delete command.
+            </summary>
+            <param name="request">request with values to delete.</param>
+        </member>
         <member name="T:FileCabinetApp.CommandHandlers.EditCommandHandler">
             <summary>
             Handle edit command.
@@ -172,7 +189,7 @@
             <summary>
             Handle create command.
             </summary>
-            <param name="request">request with command and param.</param>
+            <param name="request">request with filds and values.</param>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.ListCommandHandler">
             <summary>
@@ -475,6 +492,13 @@
             </summary>
             <param name="record">record to insert.</param>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.Delete(System.Collections.ObjectModel.ReadOnlyCollection{System.Int32})">
+            <summary>
+            Delete records.
+            </summary>
+            <param name="ids">Ids of records to delete.</param>
+            <returns>Ids of deleted records.</returns>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.Dispose(System.Boolean)">
             <summary>
             Implement method of IDispose.
@@ -635,6 +659,13 @@
             Insert records with given filds and values.
             </summary>
             <param name="record">record to insert.</param>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.Delete(System.Collections.ObjectModel.ReadOnlyCollection{System.Int32})">
+            <summary>
+            Delete records.
+            </summary>
+            <param name="ids">Ids of records to delete.</param>
+            <returns>Ids of deleted records.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
             <summary>
@@ -933,6 +964,13 @@
             Insert records with given filds and values.
             </summary>
             <param name="record">record to insert.</param>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.Delete(System.Collections.ObjectModel.ReadOnlyCollection{System.Int32})">
+            <summary>
+            Delete record with given values.
+            </summary>
+            <param name="ids">Ids of records to delete.</param>
+            <returns>Ids of deleted records.</returns>
         </member>
         <member name="T:FileCabinetApp.Iterators.FilesystemIterator">
             <summary>
@@ -1402,6 +1440,13 @@
             </summary>
             <param name="record">record to insert.</param>
         </member>
+        <member name="M:FileCabinetApp.ServiceLogger.Delete(System.Collections.ObjectModel.ReadOnlyCollection{System.Int32})">
+            <summary>
+            Delete records.
+            </summary>
+            <param name="ids">Ids of records to delete.</param>
+            <returns>Ids of deleted records.</returns>
+        </member>
         <member name="T:FileCabinetApp.ServiceMeter">
             <summary>
             Wrapper for FileCabinet services for measuring run time.
@@ -1497,6 +1542,13 @@
             </summary>
             <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
             <returns>number of imported records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.ServiceMeter.Delete(System.Collections.ObjectModel.ReadOnlyCollection{System.Int32})">
+            <summary>
+            Delete records.
+            </summary>
+            <param name="ids">Ids of records to delete.</param>
+            <returns>Ids of deleted records.</returns>
         </member>
     </members>
 </doc>
