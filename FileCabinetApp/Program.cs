@@ -106,11 +106,9 @@ namespace FileCabinetApp
             var statCommandHandler = new StatCommandHandle(Program.fileCabinetService);
             var listCommandHandler = new ListCommandHandler(Program.fileCabinetService, DefaultRecordPrint);
             var createCommandHandler = new CreateCommandHandler(Program.fileCabinetService);
-            var editCommandHandler = new EditCommandHandler(Program.fileCabinetService);
             var findCommandHandler = new FindCommandHandler(Program.fileCabinetService, DefaultRecordPrint);
             var importCommandHandler = new ImportCommandHandler(Program.fileCabinetService);
             var exportCommandHandler = new ExportCommandHandler(Program.fileCabinetService);
-            var removeCommandHandler = new RemoveCommandHandler(Program.fileCabinetService);
             var purgeCommandHandler = new PurgeCommandHandler(Program.fileCabinetService);
             var insertCommandHandler = new InsertCommandHandler(Program.fileCabinetService);
             var deleteCommandHandler = new DeleteCommandHandler(Program.fileCabinetService);
@@ -118,9 +116,7 @@ namespace FileCabinetApp
             var missedCommandHandler = new MissedCommandHandler();
             listCommandHandler.SetNext(createCommandHandler);
             createCommandHandler.SetNext(importCommandHandler);
-            importCommandHandler.SetNext(removeCommandHandler);
-            removeCommandHandler.SetNext(editCommandHandler);
-            editCommandHandler.SetNext(findCommandHandler);
+            importCommandHandler.SetNext(findCommandHandler);
             findCommandHandler.SetNext(purgeCommandHandler);
             purgeCommandHandler.SetNext(statCommandHandler);
             statCommandHandler.SetNext(exportCommandHandler);

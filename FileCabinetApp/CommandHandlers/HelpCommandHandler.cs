@@ -15,14 +15,13 @@
             new string[] { "stat", "prints records statistics", "The 'stat' command prints records statistics." },
             new string[] { "create", "create record with information about you", "The 'create' command create record with information about you." },
             new string[] { "list", "prints all existing records", "The 'list' command prints all existing records" },
-            new string[] { "edit", "edit your record by Id", "The 'edit' command edit your record by Id" },
             new string[] { "find", "find records by one parameter", "The 'find' command find records by one parameter" },
             new string[] { "export", "exporting service records to files of a certain type", "The 'export' command exporting service records to files of a certain type" },
             new string[] { "import", "importing service records from files of a certain type", "The 'import' command importing service records from files of a certain type" },
-            new string[] { "remove", "remove records from service", "The 'remove' command remove records from service" },
             new string[] { "purge", "defragments the data file", "The 'purge' command defragments the data file" },
             new string[] { "insert", "insert records with given filds and values", "The 'insert' command insert records with given filds and values" },
             new string[] { "delete", "delete records with given criteries", "The 'delete' command delete records with given criteries" },
+            new string[] { "update", "update records with given criteries", "The 'update' command delete records with given criteries" },
         };
 
         /// <summary>
