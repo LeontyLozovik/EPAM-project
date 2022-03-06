@@ -37,6 +37,16 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Return record with current id if it exist.
+        /// </summary>
+        /// <param name="id">id to find.</param>
+        /// <returns>Record with current id.</returns>
+        public FileCabinetRecord? GetRecordById(int id)
+        {
+            return this.list.Find(record => record.Id == id);
+        }
+
+        /// <summary>
         /// Create a new record with inputed parameters.
         /// </summary>
         /// <param name="record">Record to create.</param>
@@ -101,7 +111,7 @@ namespace FileCabinetApp
             FileCabinetRecord? incorrectRecord = this.list.Find(record => record.Id == newRecord.Id);
             if (incorrectRecord is null)
             {
-                throw new ArgumentException("There is no record with this Id.");
+                throw new ArgumentException($"There is no record with id = {newRecord.Id}.");
             }
 
             int index = this.list.IndexOf(incorrectRecord);
@@ -336,6 +346,35 @@ namespace FileCabinetApp
             }
 
             return new ReadOnlyCollection<int>(idofDeletedRecords);
+        }
+
+        /// <summary>
+        /// Update record.
+        /// </summary>
+        /// <param name="records">list of new records.</param>
+        /// <returns>true - updated successfuly, false - not successfuly.</returns>
+        public bool Update(ReadOnlyCollection<FileCabinetRecord> records)
+        {
+            if (records is null)
+            {
+                throw new ArgumentNullException(nameof(records), "Instance doesn't exist.");
+            }
+
+            bool allUpdeted = true;
+            foreach (var record in records)
+            {
+                try
+                {
+                    this.EditRecord(record);
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    allUpdeted = false;
+                }
+            }
+
+            return allUpdeted;
         }
 
         /// <summary>

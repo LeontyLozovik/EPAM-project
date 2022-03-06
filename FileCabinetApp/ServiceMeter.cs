@@ -160,6 +160,16 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Return record with current id if it exist.
+        /// </summary>
+        /// <param name="id">id to find.</param>
+        /// <returns>Record with current id.</returns>
+        public FileCabinetRecord? GetRecordById(int id)
+        {
+            return this.service.GetRecordById(id);
+        }
+
+        /// <summary>
         /// Make a snapshot of current state.
         /// </summary>
         /// <returns>instance of FileCabinetServiceSnapshot class.</returns>
@@ -207,7 +217,22 @@ namespace FileCabinetApp
             watches.Start();
             var toReturn = this.service.Delete(ids);
             watches.Stop();
-            Console.WriteLine($"Restore method execution duration is {watches.ElapsedTicks} ticks.");
+            Console.WriteLine($"Delete method execution duration is {watches.ElapsedTicks} ticks.");
+            return toReturn;
+        }
+
+        /// <summary>
+        /// Update record.
+        /// </summary>
+        /// <param name="records">list of new records.</param>
+        /// <returns>true - updated successfuly, false - not successfuly.</returns>
+        public bool Update(ReadOnlyCollection<FileCabinetRecord> records)
+        {
+            var watches = new Stopwatch();
+            watches.Start();
+            var toReturn = this.service.Update(records);
+            watches.Stop();
+            Console.WriteLine($"Update method execution duration is {watches.ElapsedTicks} ticks.");
             return toReturn;
         }
     }

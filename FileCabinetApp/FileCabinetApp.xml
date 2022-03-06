@@ -187,7 +187,7 @@
         </member>
         <member name="M:FileCabinetApp.CommandHandlers.InsertCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
             <summary>
-            Handle create command.
+            Handle insert command.
             </summary>
             <param name="request">request with filds and values.</param>
         </member>
@@ -373,6 +373,23 @@
             </summary>
             <param name="request">request with command and param.</param>
         </member>
+        <member name="T:FileCabinetApp.CommandHandlers.UpdateCommandHandler">
+            <summary>
+            Handle update command.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.UpdateCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.UpdateCommandHandler"/> class.
+            </summary>
+            <param name="service">service to work with.</param>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.UpdateCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
+            <summary>
+            Handle update command.
+            </summary>
+            <param name="request">request with filds and values.</param>
+        </member>
         <member name="T:FileCabinetApp.ICommandHandler">
             <summary>
             Represent hendlers of app commonds.
@@ -408,6 +425,13 @@
             </summary>
             /// <param name="id">Id to check.</param>
             <returns>True if record with this id exist, false if not exist.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetRecordById(System.Int32)">
+            <summary>
+            Return record with current id if it exist.
+            </summary>
+            <param name="id">id to find.</param>
+            <returns>Record with current id.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
@@ -499,6 +523,13 @@
             <param name="ids">Ids of records to delete.</param>
             <returns>Ids of deleted records.</returns>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.Update(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Update record.
+            </summary>
+            <param name="records">list of new records.</param>
+            <returns>true - updated successfuly, false - not successfuly.</returns>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.Dispose(System.Boolean)">
             <summary>
             Implement method of IDispose.
@@ -581,6 +612,13 @@
             </summary>
             /// <param name="id">Id to check.</param>
             <returns>True if record with this id exist, false if not exist.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.GetRecordById(System.Int32)">
+            <summary>
+            Return record with current id if it exist.
+            </summary>
+            <param name="id">id to find.</param>
+            <returns>Record with current id.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
@@ -667,6 +705,13 @@
             <param name="ids">Ids of records to delete.</param>
             <returns>Ids of deleted records.</returns>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.Update(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Update record.
+            </summary>
+            <param name="records">list of new records.</param>
+            <returns>true - updated successfuly, false - not successfuly.</returns>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
             <summary>
             Add records with firstname or lastname key to the dictionary.
@@ -740,6 +785,12 @@
             Gets or sets sex in record.
             </summary>
             <value>Sex in record.</value>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetRecord.Clone">
+            <summary>
+            Return copy of object.
+            </summary>
+            <returns>Copy of record.</returns>
         </member>
         <member name="T:FileCabinetApp.FileCabinetRecordCsvReader">
             <summary>
@@ -887,6 +938,13 @@
             <param name="id">Id to check.</param>
             <returns>True if record with this id exist, false if not exist.</returns>
         </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.GetRecordById(System.Int32)">
+            <summary>
+            Return record with current id if it exist.
+            </summary>
+            <param name="id">id to find.</param>
+            <returns>Record with current id.</returns>
+        </member>
         <member name="M:FileCabinetApp.IFileCabinetService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Create a new record with inputed parameters.
@@ -971,6 +1029,13 @@
             </summary>
             <param name="ids">Ids of records to delete.</param>
             <returns>Ids of deleted records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.Update(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Update record.
+            </summary>
+            <param name="records">list of new records.</param>
+            <returns>true - updated successfuly, false - not successfuly.</returns>
         </member>
         <member name="T:FileCabinetApp.Iterators.FilesystemIterator">
             <summary>
@@ -1415,6 +1480,13 @@
             <param name="id">Id to check.</param>
             <returns>True if record with this id exist, false if not exist.</returns>
         </member>
+        <member name="M:FileCabinetApp.ServiceLogger.GetRecordById(System.Int32)">
+            <summary>
+            Return record with current id if it exist.
+            </summary>
+            <param name="id">id to find.</param>
+            <returns>Record with current id.</returns>
+        </member>
         <member name="M:FileCabinetApp.ServiceLogger.MakeSnapshot">
             <summary>
             Make a snapshot of current state.
@@ -1446,6 +1518,13 @@
             </summary>
             <param name="ids">Ids of records to delete.</param>
             <returns>Ids of deleted records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.ServiceLogger.Update(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Update record.
+            </summary>
+            <param name="records">list of new records.</param>
+            <returns>true - updated successfuly, false - not successfuly.</returns>
         </member>
         <member name="T:FileCabinetApp.ServiceMeter">
             <summary>
@@ -1524,6 +1603,13 @@
             <param name="id">Id to check.</param>
             <returns>True if record with this id exist, false if not exist.</returns>
         </member>
+        <member name="M:FileCabinetApp.ServiceMeter.GetRecordById(System.Int32)">
+            <summary>
+            Return record with current id if it exist.
+            </summary>
+            <param name="id">id to find.</param>
+            <returns>Record with current id.</returns>
+        </member>
         <member name="M:FileCabinetApp.ServiceMeter.MakeSnapshot">
             <summary>
             Make a snapshot of current state.
@@ -1549,6 +1635,13 @@
             </summary>
             <param name="ids">Ids of records to delete.</param>
             <returns>Ids of deleted records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.ServiceMeter.Update(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Update record.
+            </summary>
+            <param name="records">list of new records.</param>
+            <returns>true - updated successfuly, false - not successfuly.</returns>
         </member>
     </members>
 </doc>

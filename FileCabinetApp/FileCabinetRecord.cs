@@ -6,7 +6,7 @@ namespace FileCabinetApp
     /// Represents records.
     /// </summary>
     [XmlType(TypeName = "record")]
-    public class FileCabinetRecord
+    public class FileCabinetRecord : ICloneable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetRecord"/> class.
@@ -19,7 +19,7 @@ namespace FileCabinetApp
             this.DateOfBirth = default(DateTime);
             this.Children = 0;
             this.AverageSalary = 0;
-            this.Sex = ' ';
+            this.Sex = 'm';
         }
 
         /// <summary>
@@ -70,5 +70,22 @@ namespace FileCabinetApp
         /// <value>Sex in record.</value>
         [XmlElement]
         public char Sex { get; set; }
+
+        /// <summary>
+        /// Return copy of object.
+        /// </summary>
+        /// <returns>Copy of record.</returns>
+        public object Clone()
+        {
+            var newRecord = new FileCabinetRecord();
+            newRecord.Id = this.Id;
+            newRecord.FirstName = this.FirstName;
+            newRecord.LastName = this.LastName;
+            newRecord.DateOfBirth = this.DateOfBirth;
+            newRecord.Children = this.Children;
+            newRecord.AverageSalary = this.AverageSalary;
+            newRecord.Sex = this.Sex;
+            return newRecord;
+        }
     }
 }

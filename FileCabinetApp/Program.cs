@@ -46,12 +46,23 @@ namespace FileCabinetApp
                 const int parametersIndex = 1;
                 var parameters = inputs.Length > 1 ? inputs[parametersIndex] : string.Empty;
                 var commandHandler = CreateCommandHandlers();
-                commandHandler.Handle(
+                try
+                {
+                    commandHandler.Handle(
                         new AppCommandRequest
                         {
                             Command = command,
                             Parameters = parameters,
                         });
+                }
+                catch (ArgumentNullException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
             while (isRunning);
         }
@@ -103,6 +114,7 @@ namespace FileCabinetApp
             var purgeCommandHandler = new PurgeCommandHandler(Program.fileCabinetService);
             var insertCommandHandler = new InsertCommandHandler(Program.fileCabinetService);
             var deleteCommandHandler = new DeleteCommandHandler(Program.fileCabinetService);
+            var updateCommandHandler = new UpdateCommandHandler(Program.fileCabinetService);
             var missedCommandHandler = new MissedCommandHandler();
             listCommandHandler.SetNext(createCommandHandler);
             createCommandHandler.SetNext(importCommandHandler);
@@ -115,7 +127,8 @@ namespace FileCabinetApp
             exportCommandHandler.SetNext(helpCommandHandler);
             helpCommandHandler.SetNext(insertCommandHandler);
             insertCommandHandler.SetNext(deleteCommandHandler);
-            deleteCommandHandler.SetNext(exitCommandHandler);
+            deleteCommandHandler.SetNext(updateCommandHandler);
+            updateCommandHandler.SetNext(exitCommandHandler);
             exitCommandHandler.SetNext(missedCommandHandler);
             return listCommandHandler;
         }

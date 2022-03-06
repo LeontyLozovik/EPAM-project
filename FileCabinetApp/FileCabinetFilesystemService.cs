@@ -46,6 +46,38 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Return record with current id if it exist.
+        /// </summary>
+        /// <param name="id">id to find.</param>
+        /// <returns>Record with current id.</returns>
+        public FileCabinetRecord? GetRecordById(int id)
+        {
+            using (BinaryReader binaryReader = new BinaryReader(this.fileStream, Encoding.Default, true))
+            {
+                this.fileStream.Seek(0, SeekOrigin.Begin);
+                FileInfo info = new FileInfo(this.fileStream.Name);
+                long currentOffset = 0;
+                do
+                {
+                    short status = binaryReader.ReadInt16();
+                    if (status == 0)
+                    {
+                        int currentId = binaryReader.ReadInt32();
+                        if (currentId == id)
+                        {
+                            this.fileStream.Seek(-sizeof(short) - sizeof(int), SeekOrigin.Current);
+                            return this.GetOneRecord();
+                        }
+                    }
+
+                    currentOffset += RECORDSIZE - sizeof(short) - sizeof(int);
+                }
+                while (info.Length > currentOffset);
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Create a new record with inputed parameters.
         /// </summary>
         /// <param name="record">Record to create.</param>
@@ -403,6 +435,35 @@ namespace FileCabinetApp
             }
 
             return new ReadOnlyCollection<int>(idofDeletedRecords);
+        }
+
+        /// <summary>
+        /// Update record.
+        /// </summary>
+        /// <param name="records">list of new records.</param>
+        /// <returns>true - updated successfuly, false - not successfuly.</returns>
+        public bool Update(ReadOnlyCollection<FileCabinetRecord> records)
+        {
+            if (records is null)
+            {
+                throw new ArgumentNullException(nameof(records), "Instance doesn't exist.");
+            }
+
+            bool allUpdeted = true;
+            foreach (var record in records)
+            {
+                try
+                {
+                    this.EditRecord(record);
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    allUpdeted = false;
+                }
+            }
+
+            return allUpdeted;
         }
 
         /// <summary>

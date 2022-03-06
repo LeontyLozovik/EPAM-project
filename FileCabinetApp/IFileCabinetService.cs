@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
-using FileCabinetApp.Iterators;
 
 namespace FileCabinetApp
 {
@@ -15,6 +14,13 @@ namespace FileCabinetApp
         /// <param name="id">Id to check.</param>
         /// <returns>True if record with this id exist, false if not exist.</returns>
         public bool IsIdExist(int id);
+
+        /// <summary>
+        /// Return record with current id if it exist.
+        /// </summary>
+        /// <param name="id">id to find.</param>
+        /// <returns>Record with current id.</returns>
+        public FileCabinetRecord? GetRecordById(int id);
 
         /// <summary>
         /// Create a new record with inputed parameters.
@@ -100,5 +106,12 @@ namespace FileCabinetApp
         /// <param name="ids">Ids of records to delete.</param>
         /// <returns>Ids of deleted records.</returns>
         public ReadOnlyCollection<int> Delete(ReadOnlyCollection<int> ids);
+
+        /// <summary>
+        /// Update record.
+        /// </summary>
+        /// <param name="records">list of new records.</param>
+        /// <returns>true - updated successfuly, false - not successfuly.</returns>
+        public bool Update(ReadOnlyCollection<FileCabinetRecord> records);
     }
 }

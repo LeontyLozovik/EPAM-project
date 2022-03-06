@@ -189,6 +189,16 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Return record with current id if it exist.
+        /// </summary>
+        /// <param name="id">id to find.</param>
+        /// <returns>Record with current id.</returns>
+        public FileCabinetRecord? GetRecordById(int id)
+        {
+            return this.service.GetRecordById(id);
+        }
+
+        /// <summary>
         /// Make a snapshot of current state.
         /// </summary>
         /// <returns>instance of FileCabinetServiceSnapshot class.</returns>
@@ -253,7 +263,7 @@ namespace FileCabinetApp
         public ReadOnlyCollection<int> Delete(ReadOnlyCollection<int> ids)
         {
             DateTime now = DateTime.Now;
-            string startLog = $"{now:MM/dd/yyyy HH:mm} - Calling Restore()";
+            string startLog = $"{now:MM/dd/yyyy HH:mm} - Calling Delete()";
             Write(startLog);
             var toReturn = this.service.Delete(ids);
             now = DateTime.Now;
@@ -263,7 +273,24 @@ namespace FileCabinetApp
                 stringBuilder.Append(item);
             }
 
-            string endLog = $"{now:MM/dd/yyyy HH:mm} - Restore() returned '{stringBuilder}'";
+            string endLog = $"{now:MM/dd/yyyy HH:mm} - Delete() returned '{stringBuilder}'";
+            Write(endLog);
+            return toReturn;
+        }
+
+        /// <summary>
+        /// Update record.
+        /// </summary>
+        /// <param name="records">list of new records.</param>
+        /// <returns>true - updated successfuly, false - not successfuly.</returns>
+        public bool Update(ReadOnlyCollection<FileCabinetRecord> records)
+        {
+            DateTime now = DateTime.Now;
+            string startLog = $"{now:MM/dd/yyyy HH:mm} - Calling Update()";
+            Write(startLog);
+            var toReturn = this.service.Update(records);
+            now = DateTime.Now;
+            string endLog = $"{now:MM/dd/yyyy HH:mm} - Update() returned '{toReturn}'";
             Write(endLog);
             return toReturn;
         }

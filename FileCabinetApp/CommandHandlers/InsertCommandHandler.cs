@@ -18,7 +18,7 @@ namespace FileCabinetApp.CommandHandlers
         }
 
         /// <summary>
-        /// Handle create command.
+        /// Handle insert command.
         /// </summary>
         /// <param name="request">request with filds and values.</param>
         public override void Handle(AppCommandRequest request)
@@ -45,6 +45,8 @@ namespace FileCabinetApp.CommandHandlers
                 {
                     Console.WriteLine(ex.Message);
                 }
+
+                Console.WriteLine("Successfuly inserted!");
             }
             else if (this.nextHandler != null)
             {
