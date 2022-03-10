@@ -286,10 +286,10 @@ namespace FileCabinetApp.CommandHandlers
             {
                 return x.Id.CompareTo(y.Id);
             });
-            return GetIdOfRecordsToUpdate(new ReadOnlyCollection<FileCabinetRecord>(listOfRecords), id, count);
+            return GetRecordsToUpdate(new ReadOnlyCollection<FileCabinetRecord>(listOfRecords), id, count);
         }
 
-        private static ReadOnlyCollection<FileCabinetRecord> GetIdOfRecordsToUpdate(ReadOnlyCollection<FileCabinetRecord> listOfRecords, int id, int minCount)
+        private static ReadOnlyCollection<FileCabinetRecord> GetRecordsToUpdate(ReadOnlyCollection<FileCabinetRecord> listOfRecords, int id, int minCount)
         {
             var result = new List<FileCabinetRecord>();
             if (listOfRecords.Count < minCount)

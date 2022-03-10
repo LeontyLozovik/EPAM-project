@@ -220,6 +220,23 @@
             </summary>
             <param name="request">request with command and param.</param>
         </member>
+        <member name="T:FileCabinetApp.CommandHandlers.SelectCommandHandler">
+            <summary>
+            Handle select command.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.SelectCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.SelectCommandHandler"/> class.
+            </summary>
+            <param name="service">service to work with.</param>
+        </member>
+        <member name="M:FileCabinetApp.CommandHandlers.SelectCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
+            <summary>
+            Handle update command.
+            </summary>
+            <param name="request">request with filds and values.</param>
+        </member>
         <member name="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase">
             <summary>
             Handler for commands that uses IFileCabinetServise.
@@ -496,6 +513,14 @@
             <param name="records">list of new records.</param>
             <returns>true - updated successfuly, false - not successfuly.</returns>
         </member>
+        <member name="M:FileCabinetApp.FileCabinetFilesystemService.SelectCommand(System.String[],System.Boolean)">
+            <summary>
+            Select records by criteries.
+            </summary>
+            <param name="fildsToFind">filds to find by.</param>
+            <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
+            <returns>selected records.</returns>
+        </member>
         <member name="M:FileCabinetApp.FileCabinetFilesystemService.Dispose(System.Boolean)">
             <summary>
             Implement method of IDispose.
@@ -677,6 +702,14 @@
             </summary>
             <param name="records">list of new records.</param>
             <returns>true - updated successfuly, false - not successfuly.</returns>
+        </member>
+        <member name="M:FileCabinetApp.FileCabinetMemoryService.SelectCommand(System.String[],System.Boolean)">
+            <summary>
+            Select records by criteries.
+            </summary>
+            <param name="fildsToFind">filds to find by.</param>
+            <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
+            <returns>selected records.</returns>
         </member>
         <member name="M:FileCabinetApp.FileCabinetMemoryService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
             <summary>
@@ -1002,6 +1035,14 @@
             </summary>
             <param name="records">list of new records.</param>
             <returns>true - updated successfuly, false - not successfuly.</returns>
+        </member>
+        <member name="M:FileCabinetApp.IFileCabinetService.SelectCommand(System.String[],System.Boolean)">
+            <summary>
+            Select records by criteries.
+            </summary>
+            <param name="fildsToFind">filds to find by.</param>
+            <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
+            <returns>selected records.</returns>
         </member>
         <member name="T:FileCabinetApp.Iterators.FilesystemIterator">
             <summary>
@@ -1492,6 +1533,14 @@
             <param name="records">list of new records.</param>
             <returns>true - updated successfuly, false - not successfuly.</returns>
         </member>
+        <member name="M:FileCabinetApp.ServiceLogger.SelectCommand(System.String[],System.Boolean)">
+            <summary>
+            Select records by criteries.
+            </summary>
+            <param name="fildsToFind">filds to find by.</param>
+            <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
+            <returns>selected records.</returns>
+        </member>
         <member name="T:FileCabinetApp.ServiceMeter">
             <summary>
             Wrapper for FileCabinet services for measuring run time.
@@ -1608,6 +1657,14 @@
             </summary>
             <param name="records">list of new records.</param>
             <returns>true - updated successfuly, false - not successfuly.</returns>
+        </member>
+        <member name="M:FileCabinetApp.ServiceMeter.SelectCommand(System.String[],System.Boolean)">
+            <summary>
+            Select records by criteries.
+            </summary>
+            <param name="fildsToFind">filds to find by.</param>
+            <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
+            <returns>selected records.</returns>
         </member>
     </members>
 </doc>

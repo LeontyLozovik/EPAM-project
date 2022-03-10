@@ -22,6 +22,7 @@
             new string[] { "insert", "insert records with given filds and values", "The 'insert' command insert records with given filds and values" },
             new string[] { "delete", "delete records with given criteries", "The 'delete' command delete records with given criteries" },
             new string[] { "update", "update records with given criteries", "The 'update' command delete records with given criteries" },
+            new string[] { "select", "displays required filds that satisfy the search criteria", "The 'select' command displays required filds that satisfy the search criteria" },
         };
 
         /// <summary>

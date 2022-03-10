@@ -235,5 +235,21 @@ namespace FileCabinetApp
             Console.WriteLine($"Update method execution duration is {watches.ElapsedTicks} ticks.");
             return toReturn;
         }
+
+        /// <summary>
+        /// Select records by criteries.
+        /// </summary>
+        /// <param name="fildsToFind">filds to find by.</param>
+        /// <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
+        /// <returns>selected records.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> SelectCommand(string[] fildsToFind, bool andKeyword)
+        {
+            var watches = new Stopwatch();
+            watches.Start();
+            var toReturn = this.service.SelectCommand(fildsToFind, andKeyword);
+            watches.Stop();
+            Console.WriteLine($"List method execution duration is {watches.ElapsedTicks} ticks.");
+            return toReturn;
+        }
     }
 }
