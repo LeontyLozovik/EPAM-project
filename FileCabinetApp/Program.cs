@@ -86,27 +86,12 @@ namespace FileCabinetApp
             isRunning = setRunnig;
         }
 
-        private static void DefaultRecordPrint(IEnumerable<FileCabinetRecord> records)
-        {
-            foreach (var record in records)
-            {
-                Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
-            }
-        }
-
-        private static void DefaultRecordPrint(FileCabinetRecord record)
-        {
-            Console.WriteLine($"#{record.Id}, {record.FirstName}, {record.LastName}, {record.DateOfBirth:yyyy-MMM-dd}, {record.Children}, {record.AverageSalary}, {record.Sex}");
-        }
-
         private static ICommandHandler CreateCommandHandlers()
         {
             var helpCommandHandler = new HelpCommandHandler();
             var exitCommandHandler = new ExitCommandHandler(ChangeRunning);
             var statCommandHandler = new StatCommandHandle(Program.fileCabinetService);
-            var listCommandHandler = new ListCommandHandler(Program.fileCabinetService, DefaultRecordPrint);
             var createCommandHandler = new CreateCommandHandler(Program.fileCabinetService);
-            var findCommandHandler = new FindCommandHandler(Program.fileCabinetService, DefaultRecordPrint);
             var importCommandHandler = new ImportCommandHandler(Program.fileCabinetService);
             var exportCommandHandler = new ExportCommandHandler(Program.fileCabinetService);
             var purgeCommandHandler = new PurgeCommandHandler(Program.fileCabinetService);
@@ -115,10 +100,8 @@ namespace FileCabinetApp
             var updateCommandHandler = new UpdateCommandHandler(Program.fileCabinetService);
             var selectCommandHandler = new SelectCommandHandler(Program.fileCabinetService);
             var missedCommandHandler = new MissedCommandHandler();
-            listCommandHandler.SetNext(createCommandHandler);
             createCommandHandler.SetNext(importCommandHandler);
-            importCommandHandler.SetNext(findCommandHandler);
-            findCommandHandler.SetNext(purgeCommandHandler);
+            importCommandHandler.SetNext(purgeCommandHandler);
             purgeCommandHandler.SetNext(statCommandHandler);
             statCommandHandler.SetNext(exportCommandHandler);
             exportCommandHandler.SetNext(helpCommandHandler);
@@ -128,7 +111,7 @@ namespace FileCabinetApp
             selectCommandHandler.SetNext(updateCommandHandler);
             updateCommandHandler.SetNext(exitCommandHandler);
             exitCommandHandler.SetNext(missedCommandHandler);
-            return listCommandHandler;
+            return createCommandHandler;
         }
 
         private static IRecordValidator SwitchValidationRules(string argument)

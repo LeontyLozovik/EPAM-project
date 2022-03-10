@@ -111,24 +111,6 @@
             </summary>
             <param name="request">request with command and param.</param>
         </member>
-        <member name="T:FileCabinetApp.CommandHandlers.FindCommandHandler">
-            <summary>
-            Handle find command.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.FindCommandHandler.#ctor(FileCabinetApp.IFileCabinetService,System.Action{FileCabinetApp.FileCabinetRecord})">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.FindCommandHandler"/> class.
-            </summary>
-            <param name="service">service to work with.</param>
-            <param name="print">print function.</param>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.FindCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
-            <summary>
-            Handle find command.
-            </summary>
-            <param name="request">request with command and param.</param>
-        </member>
         <member name="T:FileCabinetApp.CommandHandlers.HelpCommandHandler">
             <summary>
             Handle help command.
@@ -173,24 +155,6 @@
             Handle insert command.
             </summary>
             <param name="request">request with filds and values.</param>
-        </member>
-        <member name="T:FileCabinetApp.CommandHandlers.ListCommandHandler">
-            <summary>
-            Handle list command.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ListCommandHandler.#ctor(FileCabinetApp.IFileCabinetService,System.Action{System.Collections.Generic.IEnumerable{FileCabinetApp.FileCabinetRecord}})">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ListCommandHandler"/> class.
-            </summary>
-            <param name="service">service to work with.</param>
-            <param name="print">print function.</param>
-        </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ListCommandHandler.Handle(FileCabinetApp.AppCommandRequest)">
-            <summary>
-            Handle list command.
-            </summary>
-            <param name="request">request with command and param.</param>
         </member>
         <member name="T:FileCabinetApp.CommandHandlers.MissedCommandHandler">
             <summary>
