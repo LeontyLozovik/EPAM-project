@@ -467,6 +467,134 @@ namespace FileCabinetApp
         }
 
         /// <summary>
+        /// Select records by criteries.
+        /// </summary>
+        /// <param name="fildsToFind">filds to find by.</param>
+        /// <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
+        /// <returns>selected records.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> SelectCommand(string[] fildsToFind, bool andKeyword)
+        {
+            if (fildsToFind is null)
+            {
+                throw new ArgumentNullException(nameof(fildsToFind), "Filds to select can't be null.");
+            }
+
+            int id = 0;
+            int count = 1;
+            var listOfRecords = new List<FileCabinetRecord>();
+            for (int i = 0; i < fildsToFind.Length; i++)
+            {
+                if (string.Equals("and", fildsToFind[i], StringComparison.OrdinalIgnoreCase))
+                {
+                    count++;
+                }
+                else if (!string.Equals("or", fildsToFind[i], StringComparison.OrdinalIgnoreCase))
+                {
+                    switch (fildsToFind[i].ToUpperInvariant())
+                    {
+                        case "ID":
+                            if (!int.TryParse(fildsToFind[i + 1], out id))
+                            {
+                                throw new ArgumentException("Incorrect Id.");
+                            }
+
+                            FileCabinetRecord? recordById = this.GetRecordById(id);
+                            if (!(recordById is null))
+                            {
+                                listOfRecords.Add(recordById);
+                            }
+
+                            i++;
+                            break;
+                        case "FIRSTNAME":
+                            try
+                            {
+                                var withFirstnameRecords = this.FindByFirstName(fildsToFind[i + 1]);
+                                foreach (FileCabinetRecord record in withFirstnameRecords)
+                                {
+                                    listOfRecords.Add(record);
+                                }
+                            }
+                            catch (ArgumentNullException exeption)
+                            {
+                                Console.WriteLine(exeption.Message);
+                            }
+                            catch (ArgumentException)
+                            {
+                            }
+
+                            i++;
+                            break;
+                        case "LASTNAME":
+                            try
+                            {
+                                var withLastnameRecords = this.FindByLastName(fildsToFind[i + 1]);
+                                foreach (FileCabinetRecord record in withLastnameRecords)
+                                {
+                                    listOfRecords.Add(record);
+                                }
+                            }
+                            catch (ArgumentNullException exeption)
+                            {
+                                Console.WriteLine(exeption.Message);
+                            }
+                            catch (ArgumentException)
+                            {
+                            }
+
+                            i++;
+                            break;
+                        case "DATEOFBIRTH":
+                            try
+                            {
+                                var withDateOfBirthRecords = this.FindByBirthday(fildsToFind[i + 1]);
+                                foreach (FileCabinetRecord record in withDateOfBirthRecords)
+                                {
+                                    listOfRecords.Add(record);
+                                }
+                            }
+                            catch (ArgumentNullException exeption)
+                            {
+                                Console.WriteLine(exeption.Message);
+                            }
+                            catch (ArgumentException)
+                            {
+                            }
+
+                            i++;
+                            break;
+                        default:
+                            Console.WriteLine($"Incorrect name of field: {fildsToFind[i]}");
+                            i++;
+                            break;
+                    }
+                }
+            }
+
+            if (andKeyword)
+            {
+                listOfRecords.Sort((x, y) =>
+                {
+                    return x.Id.CompareTo(y.Id);
+                });
+                return GetRecordsToSelect(new ReadOnlyCollection<FileCabinetRecord>(listOfRecords), id, count);
+            }
+            else
+            {
+                List<FileCabinetRecord> uniqueList = new List<FileCabinetRecord>();
+                foreach (var record in listOfRecords)
+                {
+                    if (!uniqueList.Exists(item => item.Id == record.Id))
+                    {
+                        uniqueList.Add(record);
+                    }
+                }
+
+                return new ReadOnlyCollection<FileCabinetRecord>(uniqueList);
+            }
+        }
+
+        /// <summary>
         /// Implement method of IDispose.
         /// </summary>
         /// <param name="disposing">dispose or not dispose.</param>
@@ -521,6 +649,107 @@ namespace FileCabinetApp
                 valueList.Add(offset);
                 dictionary.Add(date, valueList);
             }
+        }
+
+        private static ReadOnlyCollection<FileCabinetRecord> GetRecordsToSelect(ReadOnlyCollection<FileCabinetRecord> listOfRecords, int id, int minCount)
+        {
+            var result = new List<FileCabinetRecord>();
+            if (listOfRecords.Count < minCount)
+            {
+                return new ReadOnlyCollection<FileCabinetRecord>(result);
+            }
+
+            if (listOfRecords.Count == 1)
+            {
+                return listOfRecords;
+            }
+
+            int counter = 1;
+            int maxCount = 0;
+            for (int i = 0; i < listOfRecords.Count; i++)
+            {
+                if (i + 1 == listOfRecords.Count)
+                {
+                    if (listOfRecords[i].Id == listOfRecords[i - 1].Id)
+                    {
+                        if (counter == maxCount)
+                        {
+                            if (counter >= minCount)
+                            {
+                                result.Add(listOfRecords[i]);
+                            }
+
+                            counter = 1;
+                        }
+                        else if (counter > maxCount)
+                        {
+                            if (counter >= minCount)
+                            {
+                                result.Clear();
+                                result.Add(listOfRecords[i]);
+                            }
+
+                            maxCount = counter;
+                            counter = 1;
+                        }
+                    }
+                    else
+                    {
+                        if (counter == maxCount)
+                        {
+                            if (counter >= minCount)
+                            {
+                                result.Add(listOfRecords[i]);
+                            }
+
+                            counter = 1;
+                        }
+                        else if (counter > maxCount)
+                        {
+                            if (counter >= minCount)
+                            {
+                                result.Clear();
+                                result.Add(listOfRecords[i]);
+                            }
+
+                            maxCount = counter;
+                            counter = 1;
+                        }
+                    }
+
+                    return new ReadOnlyCollection<FileCabinetRecord>(result);
+                }
+
+                if (listOfRecords[i].Id == listOfRecords[i + 1].Id)
+                {
+                    counter++;
+                }
+                else
+                {
+                    if (counter == maxCount)
+                    {
+                        if (counter >= minCount)
+                        {
+                            result.Add(listOfRecords[i]);
+                        }
+
+                        counter = 1;
+                    }
+                    else if (counter > maxCount)
+                    {
+                        if (counter >= minCount)
+                        {
+                            result.Clear();
+                            result.Add(listOfRecords[i]);
+                        }
+
+                        maxCount = counter;
+                        counter = 1;
+                    }
+                }
+            }
+
+            return new ReadOnlyCollection<FileCabinetRecord>(result);
         }
 
         /// <summary>

@@ -5,7 +5,7 @@
     /// </summary>
     public class MissedCommandHandler : CommandHandlerBase
     {
-        private List<string> commands = new List<string> { "help", "exit", "stat", "create", "list", "find", "export", "import", "purge", "insert", "delete", "update" };
+        private List<string> commands = new List<string> { "help", "exit", "stat", "create", "export", "import", "purge", "insert", "delete", "update", "select" };
 
         /// <summary>
         /// Handle missed command.

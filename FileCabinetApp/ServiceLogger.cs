@@ -295,6 +295,24 @@ namespace FileCabinetApp
             return toReturn;
         }
 
+        /// <summary>
+        /// Select records by criteries.
+        /// </summary>
+        /// <param name="fildsToFind">filds to find by.</param>
+        /// <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
+        /// <returns>selected records.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> SelectCommand(string[] fildsToFind, bool andKeyword)
+        {
+            DateTime now = DateTime.Now;
+            string startLog = $"{now:MM/dd/yyyy HH:mm} - Calling Select()";
+            Write(startLog);
+            var toReturn = this.service.SelectCommand(fildsToFind, andKeyword);
+            now = DateTime.Now;
+            string endLog = $"{now:MM/dd/yyyy HH:mm} - Select() returned {FromRecordsToString(toReturn)}";
+            Write(endLog);
+            return toReturn;
+        }
+
         private static void Write(string logToWrite)
         {
             string path = "C:\\EPAM-project\\logs.txt";

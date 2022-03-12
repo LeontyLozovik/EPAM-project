@@ -113,5 +113,13 @@ namespace FileCabinetApp
         /// <param name="records">list of new records.</param>
         /// <returns>true - updated successfuly, false - not successfuly.</returns>
         public bool Update(ReadOnlyCollection<FileCabinetRecord> records);
+
+        /// <summary>
+        /// Select records by criteries.
+        /// </summary>
+        /// <param name="fildsToFind">filds to find by.</param>
+        /// <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
+        /// <returns>selected records.</returns>
+        public ReadOnlyCollection<FileCabinetRecord> SelectCommand(string[] fildsToFind, bool andKeyword);
     }
 }
