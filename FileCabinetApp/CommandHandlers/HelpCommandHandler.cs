@@ -14,8 +14,6 @@
             new string[] { "exit", "exits the application", "The 'exit' command exits the application." },
             new string[] { "stat", "prints records statistics", "The 'stat' command prints records statistics." },
             new string[] { "create", "create record with information about you", "The 'create' command create record with information about you." },
-            new string[] { "list", "prints all existing records", "The 'list' command prints all existing records" },
-            new string[] { "find", "find records by one parameter", "The 'find' command find records by one parameter" },
             new string[] { "export", "exporting service records to files of a certain type", "The 'export' command exporting service records to files of a certain type" },
             new string[] { "import", "importing service records from files of a certain type", "The 'import' command importing service records from files of a certain type" },
             new string[] { "purge", "defragments the data file", "The 'purge' command defragments the data file" },

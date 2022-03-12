@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Text;
 using FileCabinetApp.Iterators;
 using FileCabinetApp.RecordValidators;
 
@@ -16,6 +17,7 @@ namespace FileCabinetApp
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateofbirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
         private IRecordValidator validator;
+        private Dictionary<string, ReadOnlyCollection<FileCabinetRecord>> cache = new Dictionary<string, ReadOnlyCollection<FileCabinetRecord>>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileCabinetMemoryService"/> class.
@@ -317,6 +319,8 @@ namespace FileCabinetApp
             {
                 this.CreateRecord(record);
             }
+
+            this.cache.Clear();
         }
 
         /// <summary>
@@ -345,6 +349,7 @@ namespace FileCabinetApp
                 }
             }
 
+            this.cache.Clear();
             return new ReadOnlyCollection<int>(idofDeletedRecords);
         }
 
@@ -374,6 +379,7 @@ namespace FileCabinetApp
                 }
             }
 
+            this.cache.Clear();
             return allUpdeted;
         }
 
@@ -388,6 +394,18 @@ namespace FileCabinetApp
             if (fildsToFind is null)
             {
                 throw new ArgumentNullException(nameof(fildsToFind), "Filds to select can't be null.");
+            }
+
+            StringBuilder stringBuilderKey = new StringBuilder(andKeyword.ToString());
+            foreach (var fild in fildsToFind)
+            {
+                stringBuilderKey.Append(fild.ToUpperInvariant());
+            }
+
+            string key = stringBuilderKey.ToString();
+            if (this.cache.ContainsKey(key))
+            {
+                return this.cache[key];
             }
 
             int id = 0;
@@ -488,7 +506,9 @@ namespace FileCabinetApp
                 {
                     return x.Id.CompareTo(y.Id);
                 });
-                return GetRecordsToSelect(new ReadOnlyCollection<FileCabinetRecord>(listOfRecords), id, count);
+                var result = GetRecordsToSelect(new ReadOnlyCollection<FileCabinetRecord>(listOfRecords), id, count);
+                this.cache.Add(key, result);
+                return result;
             }
             else
             {
@@ -501,7 +521,9 @@ namespace FileCabinetApp
                     }
                 }
 
-                return new ReadOnlyCollection<FileCabinetRecord>(uniqueList);
+                var result = new ReadOnlyCollection<FileCabinetRecord>(uniqueList);
+                this.cache.Add(key, result);
+                return result;
             }
         }
 
