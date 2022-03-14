@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-namespace FileCabinetApp
+namespace FileCabinetApp.Services
 {
     /// <summary>
     /// Wrapper for FileCabinet services for measuring run time.
@@ -55,11 +55,7 @@ namespace FileCabinetApp
         /// <param name="newRecord">New record that replace old record.</param>
         public void EditRecord(FileCabinetRecord newRecord)
         {
-            var watches = new Stopwatch();
-            watches.Start();
             this.service.EditRecord(newRecord);
-            watches.Stop();
-            Console.WriteLine($"Edit method execution duration is {watches.ElapsedTicks} ticks.");
         }
 
         /// <summary>
@@ -69,12 +65,7 @@ namespace FileCabinetApp
         /// <returns>all records with entered dateofbirth.</returns>
         public IEnumerable FindByBirthday(string birthday)
         {
-            var watches = new Stopwatch();
-            watches.Start();
-            var toReturn = this.service.FindByBirthday(birthday);
-            watches.Stop();
-            Console.WriteLine($"Find method execution duration is {watches.ElapsedTicks} ticks.");
-            return toReturn;
+            return this.service.FindByBirthday(birthday);
         }
 
         /// <summary>
@@ -84,12 +75,7 @@ namespace FileCabinetApp
         /// <returns>all records with entered firstname.</returns>
         public IEnumerable FindByFirstName(string firstName)
         {
-            var watches = new Stopwatch();
-            watches.Start();
-            var toReturn = this.service.FindByFirstName(firstName);
-            watches.Stop();
-            Console.WriteLine($"Find method execution duration is {watches.ElapsedTicks} ticks.");
-            return toReturn;
+            return this.service.FindByFirstName(firstName);
         }
 
         /// <summary>
@@ -99,12 +85,7 @@ namespace FileCabinetApp
         /// <returns>all records with entered lastname.</returns>
         public IEnumerable FindByLastName(string lastName)
         {
-            var watches = new Stopwatch();
-            watches.Start();
-            var toReturn = this.service.FindByLastName(lastName);
-            watches.Stop();
-            Console.WriteLine($"Find method execution duration is {watches.ElapsedTicks} ticks.");
-            return toReturn;
+            return this.service.FindByLastName(lastName);
         }
 
         /// <summary>
@@ -113,12 +94,7 @@ namespace FileCabinetApp
         /// <returns>all existing records.</returns>
         public ReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            var watches = new Stopwatch();
-            watches.Start();
-            var toReturn = this.service.GetRecords();
-            watches.Stop();
-            Console.WriteLine($"List method execution duration is {watches.ElapsedTicks} ticks.");
-            return toReturn;
+            return this.service.GetRecords();
         }
 
         /// <summary>
@@ -140,13 +116,15 @@ namespace FileCabinetApp
         /// Insert records with given filds and values.
         /// </summary>
         /// <param name="record">record to insert.</param>
-        public void Insert(FileCabinetRecord record)
+        /// <returns>true - inserted successfuly, false - not successfuly.</returns>
+        public bool Insert(FileCabinetRecord record)
         {
             var watches = new Stopwatch();
             watches.Start();
-            this.service.Insert(record);
+            var toReturn = this.service.Insert(record);
             watches.Stop();
             Console.WriteLine($"Insert method execution duration is {watches.ElapsedTicks} ticks");
+            return toReturn;
         }
 
         /// <summary>
@@ -202,7 +180,7 @@ namespace FileCabinetApp
             watches.Start();
             var toReturn = this.service.Restore(snapshot);
             watches.Stop();
-            Console.WriteLine($"Restore method execution duration is {watches.ElapsedTicks} ticks.");
+            Console.WriteLine($"Import method execution duration is {watches.ElapsedTicks} ticks.");
             return toReturn;
         }
 
@@ -248,7 +226,7 @@ namespace FileCabinetApp
             watches.Start();
             var toReturn = this.service.SelectCommand(fildsToFind, andKeyword);
             watches.Stop();
-            Console.WriteLine($"List method execution duration is {watches.ElapsedTicks} ticks.");
+            Console.WriteLine($"Select method execution duration is {watches.ElapsedTicks} ticks.");
             return toReturn;
         }
     }

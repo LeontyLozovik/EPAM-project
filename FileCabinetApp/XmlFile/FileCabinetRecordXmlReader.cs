@@ -1,7 +1,7 @@
 ﻿using System.Xml;
 using System.Xml.Serialization;
 
-namespace FileCabinetApp
+namespace FileCabinetApp.XmlFile
 {
     /// <summary>
     /// Read records from xml file.

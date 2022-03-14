@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Xml;
+using FileCabinetApp.CsvFile;
+using FileCabinetApp.XmlFile;
 
-namespace FileCabinetApp
+namespace FileCabinetApp.Services
 {
     /// <summary>
     /// Service class for crating snapshots.

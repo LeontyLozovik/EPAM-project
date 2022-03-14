@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Text;
 
-namespace FileCabinetApp
+namespace FileCabinetApp.Services
 {
     /// <summary>
     /// Wrapper for FileCabinet services ещ save logs.
@@ -66,16 +66,6 @@ namespace FileCabinetApp
         /// <param name="newRecord">New record that replace old record.</param>
         public void EditRecord(FileCabinetRecord newRecord)
         {
-            if (newRecord is null)
-            {
-                throw new ArgumentNullException(nameof(newRecord), "Instance doesn't exist.");
-            }
-
-            DateTime now = DateTime.Now;
-            string startLog = $"{now:MM/dd/yyyy HH:mm} - Calling Edit() with FirstName = '{newRecord.FirstName}'," +
-                $" LastName = '{newRecord.LastName}', DateOfBirth = '{newRecord.DateOfBirth:MM/dd/yyyy}'," +
-                $" Children = '{newRecord.Children}', Salary = '{newRecord.AverageSalary}, Sex = '{newRecord.Sex}'";
-            Write(startLog);
             this.service.EditRecord(newRecord);
         }
 
@@ -86,19 +76,7 @@ namespace FileCabinetApp
         /// <returns>all records with entered dateofbirth.</returns>
         public IEnumerable FindByBirthday(string birthday)
         {
-            if (birthday is null)
-            {
-                throw new ArgumentNullException(nameof(birthday), "Instance doesn't exist.");
-            }
-
-            DateTime now = DateTime.Now;
-            string startLog = $"{now:MM/dd/yyyy HH:mm} - Calling Find() with DateOfBirth to find = '{birthday}'";
-            Write(startLog);
-            var toReturn = this.service.FindByBirthday(birthday);
-            now = DateTime.Now;
-            string endLog = $"{now:MM/dd/yyyy HH:mm} - Create() returned {FromRecordsToString(toReturn)}";
-            Write(endLog);
-            return toReturn;
+            return this.service.FindByBirthday(birthday);
         }
 
         /// <summary>
@@ -108,19 +86,7 @@ namespace FileCabinetApp
         /// <returns>all records with entered firstname.</returns>
         public IEnumerable FindByFirstName(string firstName)
         {
-            if (firstName is null)
-            {
-                throw new ArgumentNullException(nameof(firstName), "Instance doesn't exist.");
-            }
-
-            DateTime now = DateTime.Now;
-            string startLog = $"{now:MM/dd/yyyy HH:mm} - Calling Find() with FirstName to find = '{firstName}'";
-            Write(startLog);
-            var toReturn = this.service.FindByFirstName(firstName);
-            now = DateTime.Now;
-            string endLog = $"{now:MM/dd/yyyy HH:mm} - Find() returned {FromRecordsToString(toReturn)}";
-            Write(endLog);
-            return toReturn;
+            return this.service.FindByFirstName(firstName);
         }
 
         /// <summary>
@@ -130,19 +96,7 @@ namespace FileCabinetApp
         /// <returns>all records with entered lastname.</returns>
         public IEnumerable FindByLastName(string lastName)
         {
-            if (lastName is null)
-            {
-                throw new ArgumentNullException(nameof(lastName), "Instance doesn't exist.");
-            }
-
-            DateTime now = DateTime.Now;
-            string startLog = $"{now:MM/dd/yyyy HH:mm} - Calling Find() with FirstName to find = '{lastName}'";
-            Write(startLog);
-            var toReturn = this.service.FindByLastName(lastName);
-            now = DateTime.Now;
-            string endLog = $"{now:MM/dd/yyyy HH:mm} - Find() returned {FromRecordsToString(toReturn)}";
-            Write(endLog);
-            return toReturn;
+            return this.service.FindByLastName(lastName);
         }
 
         /// <summary>
@@ -151,14 +105,7 @@ namespace FileCabinetApp
         /// <returns>all existing records.</returns>
         public ReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            DateTime now = DateTime.Now;
-            string startLog = $"{now:MM/dd/yyyy HH:mm} - Calling List()";
-            Write(startLog);
-            var toReturn = this.service.GetRecords();
-            now = DateTime.Now;
-            string endLog = $"{now:MM/dd/yyyy HH:mm} - List() returned {FromRecordsToString(toReturn)}";
-            Write(endLog);
-            return toReturn;
+            return this.service.GetRecords();
         }
 
         /// <summary>
@@ -213,9 +160,6 @@ namespace FileCabinetApp
         /// <param name="recordId">Id of record to remove.</param>
         public void Remove(int recordId)
         {
-            DateTime now = DateTime.Now;
-            string startLog = $"{now:MM/dd/yyyy HH:mm} - Calling Remove() with recordId = '{recordId}'";
-            Write(startLog);
             this.service.Remove(recordId);
         }
 
@@ -227,11 +171,11 @@ namespace FileCabinetApp
         public int Restore(FileCabinetServiceSnapshot snapshot)
         {
             DateTime now = DateTime.Now;
-            string startLog = $"{now:MM/dd/yyyy HH:mm} - Calling Restore()";
+            string startLog = $"{now:MM/dd/yyyy HH:mm} - Calling Import()";
             Write(startLog);
             var toReturn = this.service.Restore(snapshot);
             now = DateTime.Now;
-            string endLog = $"{now:MM/dd/yyyy HH:mm} - Restore() returned '{toReturn}'";
+            string endLog = $"{now:MM/dd/yyyy HH:mm} - Import() returned '{toReturn}'";
             Write(endLog);
             return toReturn;
         }
@@ -240,7 +184,8 @@ namespace FileCabinetApp
         /// Insert records with given filds and values.
         /// </summary>
         /// <param name="record">record to insert.</param>
-        public void Insert(FileCabinetRecord record)
+        /// <returns>true - inserted successfuly, false - not successfuly.</returns>
+        public bool Insert(FileCabinetRecord record)
         {
             if (record is null)
             {
@@ -252,7 +197,11 @@ namespace FileCabinetApp
                 $" LastName = '{record.LastName}', DateOfBirth = '{record.DateOfBirth:MM/dd/yyyy}'," +
                 $" Children = '{record.Children}', Salary = '{record.AverageSalary}, Sex = '{record.Sex}'";
             Write(startLog);
-            this.service.Insert(record);
+            var toReturn = this.service.Insert(record);
+            now = DateTime.Now;
+            string endLog = $"{now:MM/dd/yyyy HH:mm} - Insert() returned '{toReturn}'";
+            Write(endLog);
+            return toReturn;
         }
 
         /// <summary>
@@ -335,19 +284,6 @@ namespace FileCabinetApp
         {
             StringBuilder recordLogs = new StringBuilder();
             foreach (FileCabinetRecord record in records)
-            {
-                recordLogs.AppendLine($"FirstName = '{record.FirstName}', LastName = '{record.LastName}', " +
-                    $"DateOfBirth = '{record.DateOfBirth:MM/dd/yyyy}', Children = '{record.Children}'," +
-                    $" Salary = '{record.AverageSalary}, Sex = '{record.Sex}'");
-            }
-
-            return recordLogs.ToString();
-        }
-
-        private static string FromRecordsToString(IEnumerable iterator)
-        {
-            StringBuilder recordLogs = new StringBuilder();
-            foreach (FileCabinetRecord record in iterator)
             {
                 recordLogs.AppendLine($"FirstName = '{record.FirstName}', LastName = '{record.LastName}', " +
                     $"DateOfBirth = '{record.DateOfBirth:MM/dd/yyyy}', Children = '{record.Children}'," +

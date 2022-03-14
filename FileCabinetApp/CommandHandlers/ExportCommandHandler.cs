@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using FileCabinetApp.Services;
 
 namespace FileCabinetApp.CommandHandlers
 {
@@ -38,7 +39,7 @@ namespace FileCabinetApp.CommandHandlers
                     string[] input = request.Parameters.Split(' ', 2);
                     if (input.Length != 2)
                     {
-                        Console.WriteLine("Please check you input.");
+                        Console.WriteLine("Please check you input. Parameters of export command should contain type of file (xml or csv) and file path.");
                     }
                     else
                     {
@@ -137,6 +138,10 @@ namespace FileCabinetApp.CommandHandlers
                                 catch (FileNotFoundException)
                                 {
                                     Console.WriteLine($"Export failed: can't open file {filePath}");
+                                }
+                                catch (DirectoryNotFoundException)
+                                {
+                                    Console.WriteLine("Directory not found.");
                                 }
 
                                 break;

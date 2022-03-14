@@ -1,4 +1,6 @@
-﻿namespace FileCabinetApp.CommandHandlers
+﻿using FileCabinetApp.Services;
+
+namespace FileCabinetApp.CommandHandlers
 {
     /// <summary>
     /// Handle create command.
@@ -27,6 +29,14 @@
 
             if (string.Equals(request.Command, "create", StringComparison.OrdinalIgnoreCase))
             {
+                if (!(request.Parameters is null))
+                {
+                    if (request.Parameters.Length != 0)
+                    {
+                        throw new ArgumentException("Create command should not contain any parameters.");
+                    }
+                }
+
                 bool flagNotEnd = true;
                 while (flagNotEnd)
                 {

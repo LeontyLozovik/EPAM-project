@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using FileCabinetApp.Services;
 
 namespace FileCabinetApp.CommandHandlers
 {
@@ -38,7 +39,7 @@ namespace FileCabinetApp.CommandHandlers
                     string[] input = request.Parameters.Split(' ', 2);
                     if (input.Length != 2)
                     {
-                        Console.WriteLine("Please check you input.");
+                        Console.WriteLine("Please check you input. Parameters of import command should contain type of file (xml or csv) and file path.");
                     }
                     else
                     {

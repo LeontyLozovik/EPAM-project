@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace FileCabinetApp
+namespace FileCabinetApp.CsvFile
 {
     /// <summary>
     /// Read records from csv file.

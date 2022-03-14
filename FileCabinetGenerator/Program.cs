@@ -20,19 +20,22 @@ namespace FileCabinetGenerator
                     generatedRecords.Add(record);
                     generator.Id += 1;
                 }
-                Export(generatedRecords);
-                Console.WriteLine($"{generator.RecordsAmount} records were written to {generator.Filename}.");
+                if (Export(generatedRecords))
+                {
+                    Console.WriteLine($"{generator.RecordsAmount} records were written to {generator.Filename}.");
+                }
             }
             catch (ArgumentException ex)
             {
                 Console.WriteLine(ex.Message);
-            }          
+            }
         }
 
-        private static void Export(List<FileCabinetRecord> records)
+        private static bool Export(List<FileCabinetRecord> records)
         {
             string typeOfFile = generator.OutputType;
             string filePath = generator.Filename;
+            bool succsses = true;
             switch (typeOfFile)
             {
                 case "csv":
@@ -61,6 +64,7 @@ namespace FileCabinetGenerator
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
+                        succsses = false;
                     }
 
                     break;
@@ -91,6 +95,7 @@ namespace FileCabinetGenerator
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
+                        succsses = false;
                     }
 
                     break;
@@ -98,6 +103,8 @@ namespace FileCabinetGenerator
                     Console.WriteLine($"Unknown or unsupported type of file - {typeOfFile}");
                     break;
             }
+
+            return succsses;
         }
         private static void SaveToCsv(StreamWriter streamWriter, List<FileCabinetRecord> records)
         {

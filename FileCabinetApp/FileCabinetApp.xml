@@ -48,7 +48,7 @@
             Handle create command.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.CreateCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.CreateCommandHandler.#ctor(FileCabinetApp.Services.IFileCabinetService)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.CreateCommandHandler"/> class.
             </summary>
@@ -65,7 +65,7 @@
             Handle delete command.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.DeleteCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.DeleteCommandHandler.#ctor(FileCabinetApp.Services.IFileCabinetService)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.DeleteCommandHandler"/> class.
             </summary>
@@ -99,7 +99,7 @@
             Handle export command.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ExportCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.ExportCommandHandler.#ctor(FileCabinetApp.Services.IFileCabinetService)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ExportCommandHandler"/> class.
             </summary>
@@ -127,7 +127,7 @@
             Handle import command.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ImportCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.ImportCommandHandler.#ctor(FileCabinetApp.Services.IFileCabinetService)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ImportCommandHandler"/> class.
             </summary>
@@ -144,7 +144,7 @@
             Handle insert command.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.InsertCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.InsertCommandHandler.#ctor(FileCabinetApp.Services.IFileCabinetService)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.InsertCommandHandler"/> class.
             </summary>
@@ -172,7 +172,7 @@
             Handle purge command.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.PurgeCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.PurgeCommandHandler.#ctor(FileCabinetApp.Services.IFileCabinetService)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.PurgeCommandHandler"/> class.
             </summary>
@@ -189,7 +189,7 @@
             Handle select command.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.SelectCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.SelectCommandHandler.#ctor(FileCabinetApp.Services.IFileCabinetService)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.SelectCommandHandler"/> class.
             </summary>
@@ -211,7 +211,7 @@
             Instance of service.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase.#ctor(FileCabinetApp.Services.IFileCabinetService)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.ServiceCommandHandlerBase"/> class.
             </summary>
@@ -308,7 +308,7 @@
             Handle stat command.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.StatCommandHandle.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.StatCommandHandle.#ctor(FileCabinetApp.Services.IFileCabinetService)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.StatCommandHandle"/> class.
             </summary>
@@ -325,7 +325,7 @@
             Handle update command.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.CommandHandlers.UpdateCommandHandler.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.CommandHandlers.UpdateCommandHandler.#ctor(FileCabinetApp.Services.IFileCabinetService)">
             <summary>
             Initializes a new instance of the <see cref="T:FileCabinetApp.CommandHandlers.UpdateCommandHandler"/> class.
             </summary>
@@ -354,348 +354,49 @@
             </summary>
             <param name="request">request to handle.</param>
         </member>
-        <member name="T:FileCabinetApp.FileCabinetFilesystemService">
+        <member name="T:FileCabinetApp.CsvFile.FileCabinetRecordCsvReader">
             <summary>
-            Do manipulations with records in file.
+            Read records from csv file.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.#ctor(System.IO.FileStream,FileCabinetApp.RecordValidators.IRecordValidator)">
+        <member name="M:FileCabinetApp.CsvFile.FileCabinetRecordCsvReader.#ctor(System.IO.StreamReader)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetFilesystemService"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CsvFile.FileCabinetRecordCsvReader"/> class.
             </summary>
-            <param name="fileStream">param to initialization fileStream fild.</param>
-            <param name="validator">param to initialization validator fild.</param>
+            <param name="reader">indent to inicializ this StramReader.</param>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.IsIdExist(System.Int32)">
+        <member name="M:FileCabinetApp.CsvFile.FileCabinetRecordCsvReader.ReadAll">
             <summary>
-            Check if currient Id exist.
+            Read records from csv file.
             </summary>
-            /// <param name="id">Id to check.</param>
-            <returns>True if record with this id exist, false if not exist.</returns>
+            <returns>list of readed records.</returns>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetRecordById(System.Int32)">
+        <member name="T:FileCabinetApp.CsvFile.FileCabinetRecordCsvWriter">
             <summary>
-            Return record with current id if it exist.
-            </summary>
-            <param name="id">id to find.</param>
-            <returns>Record with current id.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Create a new record with inputed parameters.
-            </summary>
-            <param name="record">Record to create.</param>
-            <returns>Id of created record.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetRecords">
-            <summary>
-            Return all existing records.
-            </summary>
-            <returns>all existing records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetStat(System.Boolean)">
-            <summary>
-            Return number of existing records.
-            </summary>
-            <returns>number of existing records.</returns>
-            <param name="writeNumberRemoverRecords">Write or don't write number of removedrecords.</param>>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.EditRecord(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Edit record by entered Id.
-            </summary>
-            <param name="newRecord">New record that replace old record.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.FindByFirstName(System.String)">
-            <summary>
-            Find all records with entered firstname.
-            </summary>
-            <param name="firstName">firstname to find.</param>
-            <returns>all records with entered firstname.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.FindByLastName(System.String)">
-            <summary>
-            Find all records with entered lastname.
-            </summary>
-            <param name="lastName">lastname to find.</param>
-            <returns>all records with entered lastname.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.FindByBirthday(System.String)">
-            <summary>
-            Find all records with entered dateofbirth.
-            </summary>
-            <param name="birthday">dateofbirth to find.</param>
-            <returns>all records with entered dateofbirth.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.MakeSnapshot">
-            <summary>
-            Make a snapshot of current state.
-            </summary>
-            <returns>instance of FileCabinetServiceSnapshot class.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.Restore(FileCabinetApp.FileCabinetServiceSnapshot)">
-            <summary>
-            Add records to service.
-            </summary>
-            <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
-            <returns>number of imported records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.Remove(System.Int32)">
-            <summary>
-            Remove record from service.
-            </summary>
-            <param name="recordId">Id of record to remove.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.Defragment">
-            <summary>
-            Difragment file with records in FileCabinetFilesystemService.
-            </summary>
-            <returns>Number of difragmented records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.Dispose">
-            <summary>
-            Implement method of IDispose.
+            Write record to file in csv format.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.Insert(FileCabinetApp.FileCabinetRecord)">
+        <member name="F:FileCabinetApp.CsvFile.FileCabinetRecordCsvWriter.writer">
             <summary>
-            Insert records with given filds and values.
-            </summary>
-            <param name="record">record to insert.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.Delete(System.Collections.ObjectModel.ReadOnlyCollection{System.Int32})">
-            <summary>
-            Delete records.
-            </summary>
-            <param name="ids">Ids of records to delete.</param>
-            <returns>Ids of deleted records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.Update(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
-            <summary>
-            Update record.
-            </summary>
-            <param name="records">list of new records.</param>
-            <returns>true - updated successfuly, false - not successfuly.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.SelectCommand(System.String[],System.Boolean)">
-            <summary>
-            Select records by criteries.
-            </summary>
-            <param name="fildsToFind">filds to find by.</param>
-            <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
-            <returns>selected records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.Dispose(System.Boolean)">
-            <summary>
-            Implement method of IDispose.
-            </summary>
-            <param name="disposing">dispose or not dispose.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.AddNamesToDictionary(System.String,System.Int64,System.Collections.Generic.SortedDictionary{System.String,System.Collections.Generic.List{System.Int64}})">
-            <summary>
-            Add records with firstname or lastname key to the dictionary.
-            </summary>
-            <param name="name">firstname or lastname key.</param>
-            <param name="offset">offset to add.</param>
-            <param name="dictionary">dictionary to add.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.AddDateToDictionary(System.DateTime,System.Int64,System.Collections.Generic.SortedDictionary{System.DateTime,System.Collections.Generic.List{System.Int64}})">
-            <summary>
-            Add records with dateofbirth key to the dictionary.
-            </summary>
-            <param name="date">dateofbirth key.</param>
-            <param name="offset">offset to add.</param>
-            <param name="dictionary">dictionary to add.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.RemoveFromDictionaries(FileCabinetApp.FileCabinetRecord,System.Int64)">
-            <summary>
-            Edit values in all dictionaries after user edited record.
-            </summary>
-            <param name="incorrectRecord">Record with incorrect params.</param>
-            <param name="offset">offset to remove from dictionaries.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.WriteOneRecord(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Write one record to file from currient position.
-            </summary>
-            <param name="record">recort to write.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetOneRecord">
-            <summary>
-            Get one record from the file starting from currient position.
-            </summary>
-            <returns>One record from file.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.FirstFreeId">
-            <summary>
-            Check if there is any free Id of records which were removed.
-            </summary>
-            <returns>Next id to use.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetOffsetOfRecord(System.Int32)">
-            <summary>
-            Returned offset of record with given Id.
-            </summary>
-            <param name="id">Id of record.</param>
-            <returns>Offset of record with this Id.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.SetCorrectOrder">
-            <summary>
-            Set correct oder of records before difragmentation.
+            Writer - write record to the file.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetFilesystemService.GetNumberOfRemovedRecords">
+        <member name="M:FileCabinetApp.CsvFile.FileCabinetRecordCsvWriter.#ctor(System.IO.TextWriter)">
             <summary>
-            Get number of removed records in file.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.CsvFile.FileCabinetRecordCsvWriter"/> class.
             </summary>
-            <returns>number of removed records.</returns>
+            <param name="textWriter">param to initialize fild writer.</param>
         </member>
-        <member name="T:FileCabinetApp.FileCabinetMemoryService">
+        <member name="M:FileCabinetApp.CsvFile.FileCabinetRecordCsvWriter.Write(FileCabinetApp.FileCabinetRecord)">
             <summary>
-            Do manipulations with records in memory.
+            Write record to csv file.
             </summary>
+            <param name="record">record to write.</param>
         </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.#ctor(FileCabinetApp.RecordValidators.IRecordValidator)">
+        <member name="M:FileCabinetApp.CsvFile.FileCabinetRecordCsvWriter.WriteTemplate">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetMemoryService"/> class.
+            Write name of all filds of record.
             </summary>
-            <param name="validator">required validator.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.IsIdExist(System.Int32)">
-            <summary>
-            Check if currient Id exist.
-            </summary>
-            /// <param name="id">Id to check.</param>
-            <returns>True if record with this id exist, false if not exist.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.GetRecordById(System.Int32)">
-            <summary>
-            Return record with current id if it exist.
-            </summary>
-            <param name="id">id to find.</param>
-            <returns>Record with current id.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Create a new record with inputed parameters.
-            </summary>
-            <param name="record">Record to create.</param>
-            <returns>Id of created record.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.GetRecords">
-            <summary>
-            Return all existing records.
-            </summary>
-            <returns>all existing records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.GetStat(System.Boolean)">
-            <summary>
-            Return number of existing records.
-            </summary>
-            <returns>number of existing records.</returns>
-            <param name="writeNumberRemoverRecords">Write or don't write number of removedrecords.</param>>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.EditRecord(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Edit record by entered Id.
-            </summary>
-            <param name="newRecord">New record that replace old record.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByFirstName(System.String)">
-            <summary>
-            Find all records with entered firstname.
-            </summary>
-            <param name="firstName">firstname to find.</param>
-            <returns>all records with entered firstname.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByLastName(System.String)">
-            <summary>
-            Find all records with entered lastname.
-            </summary>
-            <param name="lastName">lastname to find.</param>
-            <returns>all records with entered lastname.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.FindByBirthday(System.String)">
-            <summary>
-            Find all records with entered dateofbirth.
-            </summary>
-            <param name="birthday">dateofbirth to find.</param>
-            <returns>all records with entered dateofbirth.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.MakeSnapshot">
-            <summary>
-            Make a snapshot of current state.
-            </summary>
-            <returns>instance of FileCabinetServiceSnapshot class.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.Restore(FileCabinetApp.FileCabinetServiceSnapshot)">
-            <summary>
-            Add records to service.
-            </summary>
-            <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
-            <returns>number of imported records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.Remove(System.Int32)">
-            <summary>
-            Remove record from service.
-            </summary>
-            <param name="recordId">Id of record to remove.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.Defragment">
-            <summary>
-            Difragment file with records in FileCabinetFilesystemService.
-            </summary>
-            <returns>0 - because there is nothing to defragment.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.Insert(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Insert records with given filds and values.
-            </summary>
-            <param name="record">record to insert.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.Delete(System.Collections.ObjectModel.ReadOnlyCollection{System.Int32})">
-            <summary>
-            Delete records.
-            </summary>
-            <param name="ids">Ids of records to delete.</param>
-            <returns>Ids of deleted records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.Update(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
-            <summary>
-            Update record.
-            </summary>
-            <param name="records">list of new records.</param>
-            <returns>true - updated successfuly, false - not successfuly.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.SelectCommand(System.String[],System.Boolean)">
-            <summary>
-            Select records by criteries.
-            </summary>
-            <param name="fildsToFind">filds to find by.</param>
-            <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
-            <returns>selected records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
-            <summary>
-            Add records with firstname or lastname key to the dictionary.
-            </summary>
-            <param name="name">firstname or lastname key.</param>
-            <param name="record">record to add.</param>
-            <param name="dictionary">dictionary to add.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.AddDateToDictionary(System.DateTime,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.DateTime,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
-            <summary>
-            Add records with dateofbirth key to the dictionary.
-            </summary>
-            <param name="date">dateofbirth key.</param>
-            <param name="record">record to add.</param>
-            <param name="dictionary">dictionary to add.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetMemoryService.RemoveFromDictionaries(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Edit values in all dictionaries after user edited record.
-            </summary>
-            <param name="incorrectRecord">Record to remove from dictionaries.</param>
         </member>
         <member name="T:FileCabinetApp.FileCabinetRecord">
             <summary>
@@ -754,259 +455,6 @@
             Return copy of object.
             </summary>
             <returns>Copy of record.</returns>
-        </member>
-        <member name="T:FileCabinetApp.FileCabinetRecordCsvReader">
-            <summary>
-            Read records from csv file.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetRecordCsvReader.#ctor(System.IO.StreamReader)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetRecordCsvReader"/> class.
-            </summary>
-            <param name="reader">indent to inicializ this StramReader.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetRecordCsvReader.ReadAll">
-            <summary>
-            Read records from csv file.
-            </summary>
-            <returns>list of readed records.</returns>
-        </member>
-        <member name="T:FileCabinetApp.FileCabinetRecordCsvWriter">
-            <summary>
-            Write record to file in csv format.
-            </summary>
-        </member>
-        <member name="F:FileCabinetApp.FileCabinetRecordCsvWriter.writer">
-            <summary>
-            Writer - write record to the file.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetRecordCsvWriter.#ctor(System.IO.TextWriter)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetRecordCsvWriter"/> class.
-            </summary>
-            <param name="textWriter">param to initialize fild writer.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetRecordCsvWriter.Write(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Write record to csv file.
-            </summary>
-            <param name="record">record to write.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetRecordCsvWriter.WriteTemplate">
-            <summary>
-            Write name of all filds of record.
-            </summary>
-        </member>
-        <member name="T:FileCabinetApp.FileCabinetRecordXmlReader">
-            <summary>
-            Read records from xml file.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetRecordXmlReader.#ctor(System.IO.StreamReader)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetRecordXmlReader"/> class.
-            </summary>
-            <param name="reader">indent to inicializ this StramReader.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetRecordXmlReader.ReadAll">
-            <summary>
-            Read records from csv file.
-            </summary>
-            <returns>list of readed records.</returns>
-        </member>
-        <member name="T:FileCabinetApp.FileCabinetRecordXmlWriter">
-            <summary>
-            Write record to file in xml format.
-            </summary>
-        </member>
-        <member name="F:FileCabinetApp.FileCabinetRecordXmlWriter.writer">
-            <summary>
-            Writer - write record to the file.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetRecordXmlWriter.#ctor(System.Xml.XmlWriter)">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetRecordXmlWriter"/> class.
-            </summary>
-            <param name="xmlWriter">param to initialize fild writer.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetRecordXmlWriter.Write(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Write record to csv file.
-            </summary>
-            <param name="record">record to write.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetRecordXmlWriter.Start">
-            <summary>
-            Print start of the xml file.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetRecordXmlWriter.End">
-            <summary>
-            Close XmlWriter and due to settings write end of xml file.
-            </summary>
-        </member>
-        <member name="T:FileCabinetApp.FileCabinetServiceSnapshot">
-            <summary>
-            Service class for crating snapshots.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetServiceSnapshot.#ctor(FileCabinetApp.FileCabinetRecord[])">
-            <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.FileCabinetServiceSnapshot"/> class.
-            </summary>
-            <param name="records">records to initialize new istance of this class.</param>
-        </member>
-        <member name="P:FileCabinetApp.FileCabinetServiceSnapshot.Records">
-            <summary>
-            Gets readOnlyColection of records.
-            </summary>
-            <value>Collection of records readed from file.</value>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetServiceSnapshot.SaveToCsv(System.IO.StreamWriter)">
-            <summary>
-            Save all records to csv file.
-            </summary>
-            <param name="streamWriter">Stream Writer to write records to file.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetServiceSnapshot.SaveToXml(System.IO.StreamWriter)">
-            <summary>
-            Save all records to xml file.
-            </summary>
-            <param name="streamWriter">Stream Writer to write records to file.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetServiceSnapshot.LoadFromCsv(System.IO.StreamReader)">
-            <summary>
-            Loads from records from csv file.
-            </summary>
-            <param name="streamReader">stream to read.</param>
-        </member>
-        <member name="M:FileCabinetApp.FileCabinetServiceSnapshot.LoadFromXml(System.IO.StreamReader)">
-            <summary>
-            Loads from records from xml file.
-            </summary>
-            <param name="streamReader">stream to read.</param>
-        </member>
-        <member name="T:FileCabinetApp.IFileCabinetService">
-            <summary>
-            Represent rules for working with FileCabinetRecord.
-            </summary>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.IsIdExist(System.Int32)">
-            <summary>
-            Check if currient Id exist.
-            </summary>
-            <param name="id">Id to check.</param>
-            <returns>True if record with this id exist, false if not exist.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.GetRecordById(System.Int32)">
-            <summary>
-            Return record with current id if it exist.
-            </summary>
-            <param name="id">id to find.</param>
-            <returns>Record with current id.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Create a new record with inputed parameters.
-            </summary>
-            <param name="record">Record to create.</param>
-            <returns>Id of created record.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.GetRecords">
-            <summary>
-            Return all existing records.
-            </summary>
-            <returns>all existing records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.GetStat(System.Boolean)">
-            <summary>
-            Return number of existing records.
-            </summary>
-            <returns>number of existing records.</returns>
-            <param name="writeNumberRemoverRecords">Write or don't write number of removedrecords.</param>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.EditRecord(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Edit record by entered Id.
-            </summary>
-            <param name="newRecord">New record that replace old record.</param>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.FindByFirstName(System.String)">
-            <summary>
-            Find all records with entered firstname.
-            </summary>
-            <param name="firstName">firstname to find.</param>
-            <returns>all records with entered firstname.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.FindByLastName(System.String)">
-            <summary>
-            Find all records with entered lastname.
-            </summary>
-            <param name="lastName">lastname to find.</param>
-            <returns>all records with entered lastname.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.FindByBirthday(System.String)">
-            <summary>
-            Find all records with entered dateofbirth.
-            </summary>
-            <param name="birthday">dateofbirth to find.</param>
-            <returns>all records with entered dateofbirth.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.MakeSnapshot">
-            <summary>
-            Make a snapshot of current state.
-            </summary>
-            <returns>instance of FileCabinetServiceSnapshot class.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.Restore(FileCabinetApp.FileCabinetServiceSnapshot)">
-            <summary>
-            Add records from to service.
-            </summary>
-            <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
-            <returns>number of imported records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.Remove(System.Int32)">
-            <summary>
-            Remove record from service.
-            </summary>
-            <param name="recordId">Id of record to remove.</param>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.Defragment">
-            <summary>
-            Difragment file with records in FileCabinetFilesystemService.
-            </summary>
-            <returns>Number of difragmented records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.Insert(FileCabinetApp.FileCabinetRecord)">
-            <summary>
-            Insert records with given filds and values.
-            </summary>
-            <param name="record">record to insert.</param>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.Delete(System.Collections.ObjectModel.ReadOnlyCollection{System.Int32})">
-            <summary>
-            Delete record with given values.
-            </summary>
-            <param name="ids">Ids of records to delete.</param>
-            <returns>Ids of deleted records.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.Update(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
-            <summary>
-            Update record.
-            </summary>
-            <param name="records">list of new records.</param>
-            <returns>true - updated successfuly, false - not successfuly.</returns>
-        </member>
-        <member name="M:FileCabinetApp.IFileCabinetService.SelectCommand(System.String[],System.Boolean)">
-            <summary>
-            Select records by criteries.
-            </summary>
-            <param name="fildsToFind">filds to find by.</param>
-            <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
-            <returns>selected records.</returns>
         </member>
         <member name="T:FileCabinetApp.Iterators.FilesystemIterator">
             <summary>
@@ -1380,124 +828,631 @@
             </summary>
             <returns>validator.</returns>
         </member>
-        <member name="T:FileCabinetApp.ServiceLogger">
+        <member name="T:FileCabinetApp.Services.FileCabinetFilesystemService">
+            <summary>
+            Do manipulations with records in file.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.#ctor(System.IO.FileStream,FileCabinetApp.RecordValidators.IRecordValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.FileCabinetFilesystemService"/> class.
+            </summary>
+            <param name="fileStream">param to initialization fileStream fild.</param>
+            <param name="validator">param to initialization validator fild.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.IsIdExist(System.Int32)">
+            <summary>
+            Check if currient Id exist.
+            </summary>
+            /// <param name="id">Id to check.</param>
+            <returns>True if record with this id exist, false if not exist.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.GetRecordById(System.Int32)">
+            <summary>
+            Return record with current id if it exist.
+            </summary>
+            <param name="id">id to find.</param>
+            <returns>Record with current id.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Create a new record with inputed parameters.
+            </summary>
+            <param name="record">Record to create.</param>
+            <returns>Id of created record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.GetRecords">
+            <summary>
+            Return all existing records.
+            </summary>
+            <returns>all existing records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.GetStat(System.Boolean)">
+            <summary>
+            Return number of existing records.
+            </summary>
+            <returns>number of existing records.</returns>
+            <param name="writeNumberRemoverRecords">Write or don't write number of removedrecords.</param>>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.EditRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Edit record by entered Id.
+            </summary>
+            <param name="newRecord">New record that replace old record.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.FindByFirstName(System.String)">
+            <summary>
+            Find all records with entered firstname.
+            </summary>
+            <param name="firstName">firstname to find.</param>
+            <returns>all records with entered firstname.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.FindByLastName(System.String)">
+            <summary>
+            Find all records with entered lastname.
+            </summary>
+            <param name="lastName">lastname to find.</param>
+            <returns>all records with entered lastname.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.FindByBirthday(System.String)">
+            <summary>
+            Find all records with entered dateofbirth.
+            </summary>
+            <param name="birthday">dateofbirth to find.</param>
+            <returns>all records with entered dateofbirth.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.MakeSnapshot">
+            <summary>
+            Make a snapshot of current state.
+            </summary>
+            <returns>instance of FileCabinetServiceSnapshot class.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.Restore(FileCabinetApp.Services.FileCabinetServiceSnapshot)">
+            <summary>
+            Add records to service.
+            </summary>
+            <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
+            <returns>number of imported records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.Remove(System.Int32)">
+            <summary>
+            Remove record from service.
+            </summary>
+            <param name="recordId">Id of record to remove.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.Defragment">
+            <summary>
+            Difragment file with records in FileCabinetFilesystemService.
+            </summary>
+            <returns>Number of difragmented records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.Dispose">
+            <summary>
+            Implement method of IDispose.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.Insert(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Insert records with given filds and values.
+            </summary>
+            <param name="record">record to insert.</param>
+            <returns>true - inserted successfuly, false - not successfuly.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.Delete(System.Collections.ObjectModel.ReadOnlyCollection{System.Int32})">
+            <summary>
+            Delete records.
+            </summary>
+            <param name="ids">Ids of records to delete.</param>
+            <returns>Ids of deleted records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.Update(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Update record.
+            </summary>
+            <param name="records">list of new records.</param>
+            <returns>true - updated successfuly, false - not successfuly.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.SelectCommand(System.String[],System.Boolean)">
+            <summary>
+            Select records by criteries.
+            </summary>
+            <param name="fildsToFind">filds to find by.</param>
+            <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
+            <returns>selected records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.Dispose(System.Boolean)">
+            <summary>
+            Implement method of IDispose.
+            </summary>
+            <param name="disposing">dispose or not dispose.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.AddNamesToDictionary(System.String,System.Int64,System.Collections.Generic.SortedDictionary{System.String,System.Collections.Generic.List{System.Int64}})">
+            <summary>
+            Add records with firstname or lastname key to the dictionary.
+            </summary>
+            <param name="name">firstname or lastname key.</param>
+            <param name="offset">offset to add.</param>
+            <param name="dictionary">dictionary to add.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.AddDateToDictionary(System.DateTime,System.Int64,System.Collections.Generic.SortedDictionary{System.DateTime,System.Collections.Generic.List{System.Int64}})">
+            <summary>
+            Add records with dateofbirth key to the dictionary.
+            </summary>
+            <param name="date">dateofbirth key.</param>
+            <param name="offset">offset to add.</param>
+            <param name="dictionary">dictionary to add.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.RemoveFromDictionaries(FileCabinetApp.FileCabinetRecord,System.Int64)">
+            <summary>
+            Edit values in all dictionaries after user edited record.
+            </summary>
+            <param name="incorrectRecord">Record with incorrect params.</param>
+            <param name="offset">offset to remove from dictionaries.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.WriteOneRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Write one record to file from currient position.
+            </summary>
+            <param name="record">recort to write.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.GetOneRecord">
+            <summary>
+            Get one record from the file starting from currient position.
+            </summary>
+            <returns>One record from file.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.FirstFreeId">
+            <summary>
+            Check if there is any free Id of records which were removed.
+            </summary>
+            <returns>Next id to use.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.GetOffsetOfRecord(System.Int32)">
+            <summary>
+            Returned offset of record with given Id.
+            </summary>
+            <param name="id">Id of record.</param>
+            <returns>Offset of record with this Id.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.SetCorrectOrder">
+            <summary>
+            Set correct oder of records before difragmentation.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetFilesystemService.GetNumberOfRemovedRecords">
+            <summary>
+            Get number of removed records in file.
+            </summary>
+            <returns>number of removed records.</returns>
+        </member>
+        <member name="T:FileCabinetApp.Services.FileCabinetMemoryService">
+            <summary>
+            Do manipulations with records in memory.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.#ctor(FileCabinetApp.RecordValidators.IRecordValidator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.FileCabinetMemoryService"/> class.
+            </summary>
+            <param name="validator">required validator.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.IsIdExist(System.Int32)">
+            <summary>
+            Check if currient Id exist.
+            </summary>
+            /// <param name="id">Id to check.</param>
+            <returns>True if record with this id exist, false if not exist.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.GetRecordById(System.Int32)">
+            <summary>
+            Return record with current id if it exist.
+            </summary>
+            <param name="id">id to find.</param>
+            <returns>Record with current id.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Create a new record with inputed parameters.
+            </summary>
+            <param name="record">Record to create.</param>
+            <returns>Id of created record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.GetRecords">
+            <summary>
+            Return all existing records.
+            </summary>
+            <returns>all existing records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.GetStat(System.Boolean)">
+            <summary>
+            Return number of existing records.
+            </summary>
+            <returns>number of existing records.</returns>
+            <param name="writeNumberRemoverRecords">Write or don't write number of removedrecords.</param>>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.EditRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Edit record by entered Id.
+            </summary>
+            <param name="newRecord">New record that replace old record.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.FindByFirstName(System.String)">
+            <summary>
+            Find all records with entered firstname.
+            </summary>
+            <param name="firstName">firstname to find.</param>
+            <returns>all records with entered firstname.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.FindByLastName(System.String)">
+            <summary>
+            Find all records with entered lastname.
+            </summary>
+            <param name="lastName">lastname to find.</param>
+            <returns>all records with entered lastname.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.FindByBirthday(System.String)">
+            <summary>
+            Find all records with entered dateofbirth.
+            </summary>
+            <param name="birthday">dateofbirth to find.</param>
+            <returns>all records with entered dateofbirth.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.MakeSnapshot">
+            <summary>
+            Make a snapshot of current state.
+            </summary>
+            <returns>instance of FileCabinetServiceSnapshot class.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.Restore(FileCabinetApp.Services.FileCabinetServiceSnapshot)">
+            <summary>
+            Add records to service.
+            </summary>
+            <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
+            <returns>number of imported records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.Remove(System.Int32)">
+            <summary>
+            Remove record from service.
+            </summary>
+            <param name="recordId">Id of record to remove.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.Defragment">
+            <summary>
+            Difragment file with records in FileCabinetFilesystemService.
+            </summary>
+            <returns>0 - because there is nothing to defragment.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.Insert(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Insert records with given filds and values.
+            </summary>
+            <param name="record">record to insert.</param>
+            <returns>true - inserted successfuly, false - not successfuly.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.Delete(System.Collections.ObjectModel.ReadOnlyCollection{System.Int32})">
+            <summary>
+            Delete records.
+            </summary>
+            <param name="ids">Ids of records to delete.</param>
+            <returns>Ids of deleted records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.Update(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Update record.
+            </summary>
+            <param name="records">list of new records.</param>
+            <returns>true - updated successfuly, false - not successfuly.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.SelectCommand(System.String[],System.Boolean)">
+            <summary>
+            Select records by criteries.
+            </summary>
+            <param name="fildsToFind">filds to find by.</param>
+            <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
+            <returns>selected records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.AddNamesToDictionary(System.String,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
+            <summary>
+            Add records with firstname or lastname key to the dictionary.
+            </summary>
+            <param name="name">firstname or lastname key.</param>
+            <param name="record">record to add.</param>
+            <param name="dictionary">dictionary to add.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.AddDateToDictionary(System.DateTime,FileCabinetApp.FileCabinetRecord,System.Collections.Generic.Dictionary{System.DateTime,System.Collections.Generic.List{FileCabinetApp.FileCabinetRecord}})">
+            <summary>
+            Add records with dateofbirth key to the dictionary.
+            </summary>
+            <param name="date">dateofbirth key.</param>
+            <param name="record">record to add.</param>
+            <param name="dictionary">dictionary to add.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetMemoryService.RemoveFromDictionaries(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Edit values in all dictionaries after user edited record.
+            </summary>
+            <param name="incorrectRecord">Record to remove from dictionaries.</param>
+        </member>
+        <member name="T:FileCabinetApp.Services.FileCabinetServiceSnapshot">
+            <summary>
+            Service class for crating snapshots.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetServiceSnapshot.#ctor(FileCabinetApp.FileCabinetRecord[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.FileCabinetServiceSnapshot"/> class.
+            </summary>
+            <param name="records">records to initialize new istance of this class.</param>
+        </member>
+        <member name="P:FileCabinetApp.Services.FileCabinetServiceSnapshot.Records">
+            <summary>
+            Gets readOnlyColection of records.
+            </summary>
+            <value>Collection of records readed from file.</value>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetServiceSnapshot.SaveToCsv(System.IO.StreamWriter)">
+            <summary>
+            Save all records to csv file.
+            </summary>
+            <param name="streamWriter">Stream Writer to write records to file.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetServiceSnapshot.SaveToXml(System.IO.StreamWriter)">
+            <summary>
+            Save all records to xml file.
+            </summary>
+            <param name="streamWriter">Stream Writer to write records to file.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetServiceSnapshot.LoadFromCsv(System.IO.StreamReader)">
+            <summary>
+            Loads from records from csv file.
+            </summary>
+            <param name="streamReader">stream to read.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.FileCabinetServiceSnapshot.LoadFromXml(System.IO.StreamReader)">
+            <summary>
+            Loads from records from xml file.
+            </summary>
+            <param name="streamReader">stream to read.</param>
+        </member>
+        <member name="T:FileCabinetApp.Services.IFileCabinetService">
+            <summary>
+            Represent rules for working with FileCabinetRecord.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.IsIdExist(System.Int32)">
+            <summary>
+            Check if currient Id exist.
+            </summary>
+            <param name="id">Id to check.</param>
+            <returns>True if record with this id exist, false if not exist.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.GetRecordById(System.Int32)">
+            <summary>
+            Return record with current id if it exist.
+            </summary>
+            <param name="id">id to find.</param>
+            <returns>Record with current id.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.CreateRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Create a new record with inputed parameters.
+            </summary>
+            <param name="record">Record to create.</param>
+            <returns>Id of created record.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.GetRecords">
+            <summary>
+            Return all existing records.
+            </summary>
+            <returns>all existing records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.GetStat(System.Boolean)">
+            <summary>
+            Return number of existing records.
+            </summary>
+            <returns>number of existing records.</returns>
+            <param name="writeNumberRemoverRecords">Write or don't write number of removedrecords.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.EditRecord(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Edit record by entered Id.
+            </summary>
+            <param name="newRecord">New record that replace old record.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.FindByFirstName(System.String)">
+            <summary>
+            Find all records with entered firstname.
+            </summary>
+            <param name="firstName">firstname to find.</param>
+            <returns>all records with entered firstname.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.FindByLastName(System.String)">
+            <summary>
+            Find all records with entered lastname.
+            </summary>
+            <param name="lastName">lastname to find.</param>
+            <returns>all records with entered lastname.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.FindByBirthday(System.String)">
+            <summary>
+            Find all records with entered dateofbirth.
+            </summary>
+            <param name="birthday">dateofbirth to find.</param>
+            <returns>all records with entered dateofbirth.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.MakeSnapshot">
+            <summary>
+            Make a snapshot of current state.
+            </summary>
+            <returns>instance of FileCabinetServiceSnapshot class.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.Restore(FileCabinetApp.Services.FileCabinetServiceSnapshot)">
+            <summary>
+            Add records from to service.
+            </summary>
+            <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
+            <returns>number of imported records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.Remove(System.Int32)">
+            <summary>
+            Remove record from service.
+            </summary>
+            <param name="recordId">Id of record to remove.</param>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.Defragment">
+            <summary>
+            Difragment file with records in FileCabinetFilesystemService.
+            </summary>
+            <returns>Number of difragmented records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.Insert(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Insert records with given filds and values.
+            </summary>
+            <param name="record">record to insert.</param>
+            <returns>true - inserted successfuly, false - not successfuly.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.Delete(System.Collections.ObjectModel.ReadOnlyCollection{System.Int32})">
+            <summary>
+            Delete record with given values.
+            </summary>
+            <param name="ids">Ids of records to delete.</param>
+            <returns>Ids of deleted records.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.Update(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
+            <summary>
+            Update record.
+            </summary>
+            <param name="records">list of new records.</param>
+            <returns>true - updated successfuly, false - not successfuly.</returns>
+        </member>
+        <member name="M:FileCabinetApp.Services.IFileCabinetService.SelectCommand(System.String[],System.Boolean)">
+            <summary>
+            Select records by criteries.
+            </summary>
+            <param name="fildsToFind">filds to find by.</param>
+            <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
+            <returns>selected records.</returns>
+        </member>
+        <member name="T:FileCabinetApp.Services.ServiceLogger">
             <summary>
             Wrapper for FileCabinet services ещ save logs.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.#ctor(FileCabinetApp.Services.IFileCabinetService)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.ServiceLogger"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.ServiceLogger"/> class.
             </summary>
             <param name="cabinetService">one of the FileCabinet services.</param>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.CreateRecord(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Create a new record with inputed parameters.
             </summary>
             <param name="record">Record to create.</param>
             <returns>Id of created record.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.Defragment">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.Defragment">
             <summary>
             Difragment file with records in FileCabinetFilesystemService.
             </summary>
             <returns>Number of difragmented records.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.EditRecord(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.EditRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Edit record by entered Id.
             </summary>
             <param name="newRecord">New record that replace old record.</param>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.FindByBirthday(System.String)">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.FindByBirthday(System.String)">
             <summary>
             Find all records with entered dateofbirth.
             </summary>
             <param name="birthday">dateofbirth to find.</param>
             <returns>all records with entered dateofbirth.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.FindByFirstName(System.String)">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.FindByFirstName(System.String)">
             <summary>
             Find all records with entered firstname.
             </summary>
             <param name="firstName">firstname to find.</param>
             <returns>all records with entered firstname.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.FindByLastName(System.String)">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.FindByLastName(System.String)">
             <summary>
             Find all records with entered lastname.
             </summary>
             <param name="lastName">lastname to find.</param>
             <returns>all records with entered lastname.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.GetRecords">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.GetRecords">
             <summary>
             Return all existing records.
             </summary>
             <returns>all existing records.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.GetStat(System.Boolean)">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.GetStat(System.Boolean)">
             <summary>
             Return number of existing records.
             </summary>
             <returns>number of existing records.</returns>
             <param name="writeNumberRemoverRecords">Write or don't write number of removed records.</param>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.IsIdExist(System.Int32)">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.IsIdExist(System.Int32)">
             <summary>
             Check if currient Id exist.
             </summary>
             <param name="id">Id to check.</param>
             <returns>True if record with this id exist, false if not exist.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.GetRecordById(System.Int32)">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.GetRecordById(System.Int32)">
             <summary>
             Return record with current id if it exist.
             </summary>
             <param name="id">id to find.</param>
             <returns>Record with current id.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.MakeSnapshot">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.MakeSnapshot">
             <summary>
             Make a snapshot of current state.
             </summary>
             <returns>instance of FileCabinetServiceSnapshot class.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.Remove(System.Int32)">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.Remove(System.Int32)">
             <summary>
             Remove record from service.
             </summary>
             <param name="recordId">Id of record to remove.</param>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.Restore(FileCabinetApp.FileCabinetServiceSnapshot)">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.Restore(FileCabinetApp.Services.FileCabinetServiceSnapshot)">
             <summary>
             Add records from to service.
             </summary>
             <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
             <returns>number of imported records.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.Insert(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.Insert(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Insert records with given filds and values.
             </summary>
             <param name="record">record to insert.</param>
+            <returns>true - inserted successfuly, false - not successfuly.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.Delete(System.Collections.ObjectModel.ReadOnlyCollection{System.Int32})">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.Delete(System.Collections.ObjectModel.ReadOnlyCollection{System.Int32})">
             <summary>
             Delete records.
             </summary>
             <param name="ids">Ids of records to delete.</param>
             <returns>Ids of deleted records.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.Update(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.Update(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
             <summary>
             Update record.
             </summary>
             <param name="records">list of new records.</param>
             <returns>true - updated successfuly, false - not successfuly.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceLogger.SelectCommand(System.String[],System.Boolean)">
+        <member name="M:FileCabinetApp.Services.ServiceLogger.SelectCommand(System.String[],System.Boolean)">
             <summary>
             Select records by criteries.
             </summary>
@@ -1505,130 +1460,180 @@
             <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
             <returns>selected records.</returns>
         </member>
-        <member name="T:FileCabinetApp.ServiceMeter">
+        <member name="T:FileCabinetApp.Services.ServiceMeter">
             <summary>
             Wrapper for FileCabinet services for measuring run time.
             </summary>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.#ctor(FileCabinetApp.IFileCabinetService)">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.#ctor(FileCabinetApp.Services.IFileCabinetService)">
             <summary>
-            Initializes a new instance of the <see cref="T:FileCabinetApp.ServiceMeter"/> class.
+            Initializes a new instance of the <see cref="T:FileCabinetApp.Services.ServiceMeter"/> class.
             </summary>
             <param name="service">one of the FileCabinet services.</param>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.CreateRecord(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.CreateRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Create a new record with inputed parameters.
             </summary>
             <param name="record">Record to create.</param>
             <returns>Id of created record.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.Defragment">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.Defragment">
             <summary>
             Difragment file with records in FileCabinetFilesystemService.
             </summary>
             <returns>Number of difragmented records.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.EditRecord(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.EditRecord(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Edit record by entered Id.
             </summary>
             <param name="newRecord">New record that replace old record.</param>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.FindByBirthday(System.String)">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.FindByBirthday(System.String)">
             <summary>
             Find all records with entered dateofbirth.
             </summary>
             <param name="birthday">dateofbirth to find.</param>
             <returns>all records with entered dateofbirth.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.FindByFirstName(System.String)">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.FindByFirstName(System.String)">
             <summary>
             Find all records with entered firstname.
             </summary>
             <param name="firstName">firstname to find.</param>
             <returns>all records with entered firstname.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.FindByLastName(System.String)">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.FindByLastName(System.String)">
             <summary>
             Find all records with entered lastname.
             </summary>
             <param name="lastName">lastname to find.</param>
             <returns>all records with entered lastname.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.GetRecords">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.GetRecords">
             <summary>
             Return all existing records.
             </summary>
             <returns>all existing records.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.GetStat(System.Boolean)">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.GetStat(System.Boolean)">
             <summary>
             Return number of existing records.
             </summary>
             <returns>number of existing records.</returns>
             <param name="writeNumberRemoverRecords">Write or don't write number of removed records.</param>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.Insert(FileCabinetApp.FileCabinetRecord)">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.Insert(FileCabinetApp.FileCabinetRecord)">
             <summary>
             Insert records with given filds and values.
             </summary>
             <param name="record">record to insert.</param>
+            <returns>true - inserted successfuly, false - not successfuly.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.IsIdExist(System.Int32)">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.IsIdExist(System.Int32)">
             <summary>
             Check if currient Id exist.
             </summary>
             <param name="id">Id to check.</param>
             <returns>True if record with this id exist, false if not exist.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.GetRecordById(System.Int32)">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.GetRecordById(System.Int32)">
             <summary>
             Return record with current id if it exist.
             </summary>
             <param name="id">id to find.</param>
             <returns>Record with current id.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.MakeSnapshot">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.MakeSnapshot">
             <summary>
             Make a snapshot of current state.
             </summary>
             <returns>instance of FileCabinetServiceSnapshot class.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.Remove(System.Int32)">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.Remove(System.Int32)">
             <summary>
             Remove record from service.
             </summary>
             <param name="recordId">Id of record to remove.</param>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.Restore(FileCabinetApp.FileCabinetServiceSnapshot)">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.Restore(FileCabinetApp.Services.FileCabinetServiceSnapshot)">
             <summary>
             Add records from to service.
             </summary>
             <param name="snapshot">item of FileCabinetServiceSnapshot were records read.</param>
             <returns>number of imported records.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.Delete(System.Collections.ObjectModel.ReadOnlyCollection{System.Int32})">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.Delete(System.Collections.ObjectModel.ReadOnlyCollection{System.Int32})">
             <summary>
             Delete records.
             </summary>
             <param name="ids">Ids of records to delete.</param>
             <returns>Ids of deleted records.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.Update(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.Update(System.Collections.ObjectModel.ReadOnlyCollection{FileCabinetApp.FileCabinetRecord})">
             <summary>
             Update record.
             </summary>
             <param name="records">list of new records.</param>
             <returns>true - updated successfuly, false - not successfuly.</returns>
         </member>
-        <member name="M:FileCabinetApp.ServiceMeter.SelectCommand(System.String[],System.Boolean)">
+        <member name="M:FileCabinetApp.Services.ServiceMeter.SelectCommand(System.String[],System.Boolean)">
             <summary>
             Select records by criteries.
             </summary>
             <param name="fildsToFind">filds to find by.</param>
             <param name="andKeyword">true - use 'and' keyword, false - use 'or' keyword.</param>
             <returns>selected records.</returns>
+        </member>
+        <member name="T:FileCabinetApp.XmlFile.FileCabinetRecordXmlReader">
+            <summary>
+            Read records from xml file.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.XmlFile.FileCabinetRecordXmlReader.#ctor(System.IO.StreamReader)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.XmlFile.FileCabinetRecordXmlReader"/> class.
+            </summary>
+            <param name="reader">indent to inicializ this StramReader.</param>
+        </member>
+        <member name="M:FileCabinetApp.XmlFile.FileCabinetRecordXmlReader.ReadAll">
+            <summary>
+            Read records from csv file.
+            </summary>
+            <returns>list of readed records.</returns>
+        </member>
+        <member name="T:FileCabinetApp.XmlFile.FileCabinetRecordXmlWriter">
+            <summary>
+            Write record to file in xml format.
+            </summary>
+        </member>
+        <member name="F:FileCabinetApp.XmlFile.FileCabinetRecordXmlWriter.writer">
+            <summary>
+            Writer - write record to the file.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.XmlFile.FileCabinetRecordXmlWriter.#ctor(System.Xml.XmlWriter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FileCabinetApp.XmlFile.FileCabinetRecordXmlWriter"/> class.
+            </summary>
+            <param name="xmlWriter">param to initialize fild writer.</param>
+        </member>
+        <member name="M:FileCabinetApp.XmlFile.FileCabinetRecordXmlWriter.Write(FileCabinetApp.FileCabinetRecord)">
+            <summary>
+            Write record to csv file.
+            </summary>
+            <param name="record">record to write.</param>
+        </member>
+        <member name="M:FileCabinetApp.XmlFile.FileCabinetRecordXmlWriter.Start">
+            <summary>
+            Print start of the xml file.
+            </summary>
+        </member>
+        <member name="M:FileCabinetApp.XmlFile.FileCabinetRecordXmlWriter.End">
+            <summary>
+            Close XmlWriter and due to settings write end of xml file.
+            </summary>
         </member>
     </members>
 </doc>
