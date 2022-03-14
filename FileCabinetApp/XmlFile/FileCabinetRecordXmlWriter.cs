@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Xml;
 
-namespace FileCabinetApp
+namespace FileCabinetApp.XmlFile
 {
     /// <summary>
     /// Write record to file in xml format.

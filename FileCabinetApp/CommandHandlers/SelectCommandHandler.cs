@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
+using FileCabinetApp.Services;
 
 namespace FileCabinetApp.CommandHandlers
 {
@@ -82,7 +83,8 @@ namespace FileCabinetApp.CommandHandlers
             int index = request.Parameters.IndexOf("where", StringComparison.OrdinalIgnoreCase);
             if (index == -1)
             {
-                throw new ArgumentException("Select command arguments should contain 'fild'='value' parm after keyword 'where'.");
+                throw new ArgumentException("Select command arguments should contain 'fild'='value' parm after " +
+                    "keyword 'where' or don't contain parameters at all.\nExample: select id, firstname, lastname where firstname = 'John' and lastname = 'Doe'");
             }
 
             StringBuilder filds = new StringBuilder();
@@ -198,7 +200,7 @@ namespace FileCabinetApp.CommandHandlers
 
             if (filds.Contains("LASTNAME"))
             {
-                int maxLenghts = 0;
+                int maxLenghts = "lastname".Length;
                 foreach (var item in records)
                 {
                     int lenght = item.LastName.Length;

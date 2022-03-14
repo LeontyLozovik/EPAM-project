@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text;
 
-namespace FileCabinetApp
+namespace FileCabinetApp.CsvFile
 {
     /// <summary>
     /// Write record to file in csv format.

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 
-namespace FileCabinetApp
+namespace FileCabinetApp.Services
 {
     /// <summary>
     /// Represent rules for working with FileCabinetRecord.
@@ -98,7 +98,8 @@ namespace FileCabinetApp
         /// Insert records with given filds and values.
         /// </summary>
         /// <param name="record">record to insert.</param>
-        public void Insert(FileCabinetRecord record);
+        /// <returns>true - inserted successfuly, false - not successfuly.</returns>
+        public bool Insert(FileCabinetRecord record);
 
         /// <summary>
         /// Delete record with given values.

@@ -5,14 +5,14 @@ using System.Text;
 using FileCabinetApp.Iterators;
 using FileCabinetApp.RecordValidators;
 
-namespace FileCabinetApp
+namespace FileCabinetApp.Services
 {
     /// <summary>
     /// Do manipulations with records in memory.
     /// </summary>
     public class FileCabinetMemoryService : IFileCabinetService
     {
-        private readonly List<FileCabinetRecord> list = new List<FileCabinetRecord>();
+        private readonly List<FileCabinetRecord> listOfRecords = new List<FileCabinetRecord>();
         private readonly Dictionary<string, List<FileCabinetRecord>> firstNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<string, List<FileCabinetRecord>> lastNameDictionary = new Dictionary<string, List<FileCabinetRecord>>();
         private readonly Dictionary<DateTime, List<FileCabinetRecord>> dateofbirthDictionary = new Dictionary<DateTime, List<FileCabinetRecord>>();
@@ -35,7 +35,7 @@ namespace FileCabinetApp
         /// <returns>True if record with this id exist, false if not exist.</returns>
         public bool IsIdExist(int id)
         {
-            return this.list.Exists(record => record.Id == id);
+            return this.listOfRecords.Exists(record => record.Id == id);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace FileCabinetApp
         /// <returns>Record with current id.</returns>
         public FileCabinetRecord? GetRecordById(int id)
         {
-            return this.list.Find(record => record.Id == id);
+            return this.listOfRecords.Find(record => record.Id == id);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace FileCabinetApp
                 record.Id = this.FirstFreeId();
             }
 
-            this.list.Add(record);
+            this.listOfRecords.Add(record);
             AddNamesToDictionary(record.FirstName, record, this.firstNameDictionary);
             AddNamesToDictionary(record.LastName, record, this.lastNameDictionary);
             AddDateToDictionary(record.DateOfBirth, record, this.dateofbirthDictionary);
@@ -79,7 +79,7 @@ namespace FileCabinetApp
         /// <returns>all existing records.</returns>
         public ReadOnlyCollection<FileCabinetRecord> GetRecords()
         {
-            ReadOnlyCollection<FileCabinetRecord> allRecords = new ReadOnlyCollection<FileCabinetRecord>(this.list);
+            ReadOnlyCollection<FileCabinetRecord> allRecords = new ReadOnlyCollection<FileCabinetRecord>(this.listOfRecords);
             return allRecords;
         }
 
@@ -95,7 +95,7 @@ namespace FileCabinetApp
                 Console.WriteLine("0 records removed.");
             }
 
-            return this.list.Count;
+            return this.listOfRecords.Count;
         }
 
         /// <summary>
@@ -110,15 +110,15 @@ namespace FileCabinetApp
             }
 
             this.validator.ValidateParameters(newRecord);
-            FileCabinetRecord? incorrectRecord = this.list.Find(record => record.Id == newRecord.Id);
+            FileCabinetRecord? incorrectRecord = this.listOfRecords.Find(record => record.Id == newRecord.Id);
             if (incorrectRecord is null)
             {
                 throw new ArgumentException($"There is no record with id = {newRecord.Id}.");
             }
 
-            int index = this.list.IndexOf(incorrectRecord);
-            this.list.RemoveAt(index);
-            this.list.Insert(index, newRecord);
+            int index = this.listOfRecords.IndexOf(incorrectRecord);
+            this.listOfRecords.RemoveAt(index);
+            this.listOfRecords.Insert(index, newRecord);
             this.RemoveFromDictionaries(incorrectRecord);
             AddNamesToDictionary(newRecord.FirstName, newRecord, this.firstNameDictionary);
             AddNamesToDictionary(newRecord.LastName, newRecord, this.lastNameDictionary);
@@ -200,7 +200,7 @@ namespace FileCabinetApp
         /// <returns>instance of FileCabinetServiceSnapshot class.</returns>
         public FileCabinetServiceSnapshot MakeSnapshot()
         {
-            return new FileCabinetServiceSnapshot(this.list.ToArray());
+            return new FileCabinetServiceSnapshot(this.listOfRecords.ToArray());
         }
 
         /// <summary>
@@ -265,13 +265,13 @@ namespace FileCabinetApp
         /// <param name="recordId">Id of record to remove.</param>
         public void Remove(int recordId)
         {
-            FileCabinetRecord? incorrectRecord = this.list.Find(record => record.Id == recordId);
+            FileCabinetRecord? incorrectRecord = this.listOfRecords.Find(record => record.Id == recordId);
             if (incorrectRecord is null)
             {
                 throw new ArgumentNullException($"Record #{recordId} doesn't exists");
             }
 
-            this.list.Remove(incorrectRecord);
+            this.listOfRecords.Remove(incorrectRecord);
             this.RemoveFromDictionaries(incorrectRecord);
         }
 
@@ -289,13 +289,15 @@ namespace FileCabinetApp
         /// Insert records with given filds and values.
         /// </summary>
         /// <param name="record">record to insert.</param>
-        public void Insert(FileCabinetRecord record)
+        /// <returns>true - inserted successfuly, false - not successfuly.</returns>
+        public bool Insert(FileCabinetRecord record)
         {
             if (record is null)
             {
                 throw new ArgumentNullException(nameof(record), "Instance doesn't exist.");
             }
 
+            bool succsses = true;
             if (this.IsIdExist(record.Id))
             {
                 Console.WriteLine("Record with this Id already exists. Rewrite? [y/n]");
@@ -305,7 +307,16 @@ namespace FileCabinetApp
                     switch (Console.ReadLine())
                     {
                         case "y":
-                            this.EditRecord(record);
+                            try
+                            {
+                                this.EditRecord(record);
+                            }
+                            catch (ArgumentException ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                                succsses = false;
+                            }
+
                             notEnd = false;
                             break;
                         case "n":
@@ -321,6 +332,7 @@ namespace FileCabinetApp
             }
 
             this.cache.Clear();
+            return succsses;
         }
 
         /// <summary>
@@ -677,7 +689,7 @@ namespace FileCabinetApp
         {
             List<int> freeId = new List<int>() { 1 };
             int nextExpectedId = 1;
-            foreach (var record in this.list)
+            foreach (var record in this.listOfRecords)
             {
                 if (freeId.Contains(record.Id))
                 {

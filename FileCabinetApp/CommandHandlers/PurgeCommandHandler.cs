@@ -1,4 +1,6 @@
-﻿namespace FileCabinetApp.CommandHandlers
+﻿using FileCabinetApp.Services;
+
+namespace FileCabinetApp.CommandHandlers
 {
     /// <summary>
     /// Handle purge command.
@@ -27,6 +29,14 @@
 
             if (string.Equals(request.Command, "purge", StringComparison.OrdinalIgnoreCase))
             {
+                if (!(request.Parameters is null))
+                {
+                    if (request.Parameters.Length != 0)
+                    {
+                        throw new ArgumentException("Purge command should not contain any parameters.");
+                    }
+                }
+
                 int numberOfDefragmentedRecords = service.Defragment();
                 Console.WriteLine($"Data file processing is completed: {numberOfDefragmentedRecords} of {service.GetStat(false) + numberOfDefragmentedRecords} records were purged.");
             }

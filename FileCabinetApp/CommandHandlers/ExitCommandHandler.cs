@@ -29,6 +29,14 @@
 
             if (string.Equals(request.Command, "exit", StringComparison.OrdinalIgnoreCase))
             {
+                if (!(request.Parameters is null))
+                {
+                    if (request.Parameters.Length != 0)
+                    {
+                        throw new ArgumentException("Exit command should not contain any parameters.");
+                    }
+                }
+
                 Console.WriteLine("Exiting an application...");
                 this.exit.Invoke(false);
             }

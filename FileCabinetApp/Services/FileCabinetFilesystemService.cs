@@ -5,7 +5,7 @@ using System.Text;
 using FileCabinetApp.Iterators;
 using FileCabinetApp.RecordValidators;
 
-namespace FileCabinetApp
+namespace FileCabinetApp.Services
 {
     /// <summary>
     /// Do manipulations with records in file.
@@ -37,7 +37,7 @@ namespace FileCabinetApp
         /// <returns>True if record with this id exist, false if not exist.</returns>
         public bool IsIdExist(int id)
         {
-            if (this.GetOffsetOfRecord(id) > 0)
+            if (this.GetOffsetOfRecord(id) >= 0)
             {
                 return true;
             }
@@ -68,9 +68,12 @@ namespace FileCabinetApp
                             this.fileStream.Seek(-sizeof(short) - sizeof(int), SeekOrigin.Current);
                             return this.GetOneRecord();
                         }
+
+                        this.fileStream.Seek(-sizeof(int), SeekOrigin.Current);
                     }
 
-                    currentOffset += RECORDSIZE - sizeof(short) - sizeof(int);
+                    this.fileStream.Seek(RECORDSIZE - sizeof(short), SeekOrigin.Current);
+                    currentOffset += RECORDSIZE;
                 }
                 while (info.Length > currentOffset);
                 return null;
@@ -376,13 +379,15 @@ namespace FileCabinetApp
         /// Insert records with given filds and values.
         /// </summary>
         /// <param name="record">record to insert.</param>
-        public void Insert(FileCabinetRecord record)
+        /// <returns>true - inserted successfuly, false - not successfuly.</returns>
+        public bool Insert(FileCabinetRecord record)
         {
             if (record is null)
             {
                 throw new ArgumentNullException(nameof(record), "Instance doesn't exist.");
             }
 
+            bool succsses = true;
             if (this.IsIdExist(record.Id))
             {
                 Console.WriteLine("Record with this Id already exists. Rewrite? [y/n]");
@@ -392,7 +397,16 @@ namespace FileCabinetApp
                     switch (Console.ReadLine())
                     {
                         case "y":
-                            this.EditRecord(record);
+                            try
+                            {
+                                this.EditRecord(record);
+                            }
+                            catch (ArgumentException ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                                succsses = false;
+                            }
+
                             notEnd = false;
                             break;
                         case "n":
@@ -406,6 +420,8 @@ namespace FileCabinetApp
             {
                 this.CreateRecord(record);
             }
+
+            return succsses;
         }
 
         /// <summary>

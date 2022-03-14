@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
+using FileCabinetApp.Services;
 
 namespace FileCabinetApp.CommandHandlers
 {
@@ -37,7 +38,18 @@ namespace FileCabinetApp.CommandHandlers
                 }
 
                 var parametersOfBothRecords = GetFildsAndValues(request);
-                ReadOnlyCollection<FileCabinetRecord> listOfOldRecords = FindOldRecord(parametersOfBothRecords.Item1);
+                if (parametersOfBothRecords.Item2.Length % 2 != 0)
+                {
+                    Console.WriteLine("Number of filds not equal number of values. Please check you input.\nIf you want set fractional salary please use '.' Example : salary='1111.11'");
+                }
+
+                bool andKeyword = false;
+                if (parametersOfBothRecords.Item1.Contains<string>("and"))
+                {
+                    andKeyword = true;
+                }
+
+                ReadOnlyCollection<FileCabinetRecord> listOfOldRecords = service.SelectCommand(parametersOfBothRecords.Item1, andKeyword);
                 if (listOfOldRecords.Count == 0)
                 {
                     Console.WriteLine("There isn't any records with this values.");
@@ -56,7 +68,7 @@ namespace FileCabinetApp.CommandHandlers
                 }
                 else
                 {
-                    Console.WriteLine("Something went wrong!");
+                    Console.WriteLine("Updating error!");
                 }
             }
             else if (this.nextHandler != null)
@@ -75,13 +87,15 @@ namespace FileCabinetApp.CommandHandlers
             int setIndex = request.Parameters.IndexOf("set", StringComparison.OrdinalIgnoreCase);
             if (setIndex == -1)
             {
-                throw new ArgumentException("Update command arguments should begine with 'set' keyword.");
+                throw new ArgumentException("Update command arguments should begine with 'set' keyword.\n" +
+                    "Example: update set DateOfBirth = '5/18/1986' where FirstName='Stan' and LastName='Smith'");
             }
 
             int whereIndex = request.Parameters.IndexOf("where", StringComparison.OrdinalIgnoreCase);
             if (whereIndex == -1)
             {
-                throw new ArgumentException("Update command arguments should contain 'fild'='value' parm after keyword 'where'.");
+                throw new ArgumentException("Update command arguments should contain 'fild'='value' parm after keyword 'where'\n" +
+                    "Example: update set DateOfBirth = '5/18/1986' where FirstName='Stan' and LastName='Smith'");
             }
 
             StringBuilder newValues = new StringBuilder();
@@ -92,7 +106,7 @@ namespace FileCabinetApp.CommandHandlers
             List<string> newRecord = new List<string>(newValues.ToString().Split(separators));
             for (int i = 0; i < newRecord.Count; i++)
             {
-                newRecord[i] = newRecord[i].Trim().Trim('\'');
+                newRecord[i] = newRecord[i].Trim().Trim('\'').Replace('.', ',');
                 if (newRecord[i].Length == 0)
                 {
                     newRecord.Remove(newRecord[i]);
@@ -122,20 +136,7 @@ namespace FileCabinetApp.CommandHandlers
                 switch (fildsAndValues[i].ToUpperInvariant())
                 {
                     case "ID":
-                        int id;
-                        if (!int.TryParse(fildsAndValues[i + 1], out id))
-                        {
-                            throw new ArgumentException("Invalid id");
-                        }
-
-                        if (id <= 0)
-                        {
-                            throw new ArgumentException("Id can't be less then 1");
-                        }
-
-                        record.Id = id;
-                        i++;
-                        break;
+                        throw new ArgumentException("You can't update Id fild.");
                     case "FIRSTNAME":
                         record.FirstName = fildsAndValues[i + 1];
                         i++;
@@ -186,208 +187,6 @@ namespace FileCabinetApp.CommandHandlers
             }
 
             return record;
-        }
-
-        private static ReadOnlyCollection<FileCabinetRecord> FindOldRecord(string[] oldValues)
-        {
-            int id = 0;
-            int count = 1;
-            var listOfRecords = new List<FileCabinetRecord>();
-            for (int i = 0; i < oldValues.Length; i++)
-            {
-                if (!string.Equals("and", oldValues[i], StringComparison.OrdinalIgnoreCase))
-                {
-                    switch (oldValues[i].ToUpperInvariant())
-                    {
-                        case "ID":
-                            if (!int.TryParse(oldValues[i + 1], out id))
-                            {
-                                throw new ArgumentException("Incorrect Id.");
-                            }
-
-                            FileCabinetRecord? recordById = service.GetRecordById(id);
-                            if (!(recordById is null))
-                            {
-                                listOfRecords.Add(recordById);
-                            }
-
-                            i++;
-                            break;
-                        case "FIRSTNAME":
-                            try
-                            {
-                                var withFirstnameRecords = service.FindByFirstName(oldValues[i + 1]);
-                                foreach (FileCabinetRecord record in withFirstnameRecords)
-                                {
-                                    listOfRecords.Add(record);
-                                }
-                            }
-                            catch (ArgumentNullException exeption)
-                            {
-                                Console.WriteLine(exeption.Message);
-                            }
-                            catch (ArgumentException)
-                            {
-                            }
-
-                            i++;
-                            break;
-                        case "LASTNAME":
-                            try
-                            {
-                                var withLastnameRecords = service.FindByLastName(oldValues[i + 1]);
-                                foreach (FileCabinetRecord record in withLastnameRecords)
-                                {
-                                    listOfRecords.Add(record);
-                                }
-                            }
-                            catch (ArgumentNullException exeption)
-                            {
-                                Console.WriteLine(exeption.Message);
-                            }
-                            catch (ArgumentException)
-                            {
-                            }
-
-                            i++;
-                            break;
-                        case "DATEOFBIRTH":
-                            try
-                            {
-                                var withDateOfBirthRecords = service.FindByBirthday(oldValues[i + 1]);
-                                foreach (FileCabinetRecord record in withDateOfBirthRecords)
-                                {
-                                    listOfRecords.Add(record);
-                                }
-                            }
-                            catch (ArgumentNullException exeption)
-                            {
-                                Console.WriteLine(exeption.Message);
-                            }
-                            catch (ArgumentException)
-                            {
-                            }
-
-                            i++;
-                            break;
-                        default:
-                            Console.WriteLine($"Incorrect name of field: {oldValues[i]}");
-                            i++;
-                            break;
-                    }
-                }
-                else
-                {
-                    count++;
-                }
-            }
-
-            listOfRecords.Sort((x, y) =>
-            {
-                return x.Id.CompareTo(y.Id);
-            });
-            return GetRecordsToUpdate(new ReadOnlyCollection<FileCabinetRecord>(listOfRecords), id, count);
-        }
-
-        private static ReadOnlyCollection<FileCabinetRecord> GetRecordsToUpdate(ReadOnlyCollection<FileCabinetRecord> listOfRecords, int id, int minCount)
-        {
-            var result = new List<FileCabinetRecord>();
-            if (listOfRecords.Count < minCount)
-            {
-                return new ReadOnlyCollection<FileCabinetRecord>(result);
-            }
-
-            if (listOfRecords.Count == 1)
-            {
-                return listOfRecords;
-            }
-
-            int counter = 1;
-            int maxCount = 0;
-            for (int i = 0; i < listOfRecords.Count; i++)
-            {
-                if (i + 1 == listOfRecords.Count)
-                {
-                    if (listOfRecords[i].Id == listOfRecords[i - 1].Id)
-                    {
-                        if (counter == maxCount)
-                        {
-                            if (counter >= minCount)
-                            {
-                                result.Add(listOfRecords[i]);
-                            }
-
-                            counter = 1;
-                        }
-                        else if (counter > maxCount)
-                        {
-                            if (counter >= minCount)
-                            {
-                                result.Clear();
-                                result.Add(listOfRecords[i]);
-                            }
-
-                            maxCount = counter;
-                            counter = 1;
-                        }
-                    }
-                    else
-                    {
-                        if (counter == maxCount)
-                        {
-                            if (counter >= minCount)
-                            {
-                                result.Add(listOfRecords[i]);
-                            }
-
-                            counter = 1;
-                        }
-                        else if (counter > maxCount)
-                        {
-                            if (counter >= minCount)
-                            {
-                                result.Clear();
-                                result.Add(listOfRecords[i]);
-                            }
-
-                            maxCount = counter;
-                            counter = 1;
-                        }
-                    }
-
-                    return new ReadOnlyCollection<FileCabinetRecord>(result);
-                }
-
-                if (listOfRecords[i].Id == listOfRecords[i + 1].Id)
-                {
-                    counter++;
-                }
-                else
-                {
-                    if (counter == maxCount)
-                    {
-                        if (counter >= minCount)
-                        {
-                            result.Add(listOfRecords[i]);
-                        }
-
-                        counter = 1;
-                    }
-                    else if (counter > maxCount)
-                    {
-                        if (counter >= minCount)
-                        {
-                            result.Clear();
-                            result.Add(listOfRecords[i]);
-                        }
-
-                        maxCount = counter;
-                        counter = 1;
-                    }
-                }
-            }
-
-            return new ReadOnlyCollection<FileCabinetRecord>(result);
         }
     }
 }

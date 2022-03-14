@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Text;
+using FileCabinetApp.Services;
 
 namespace FileCabinetApp.CommandHandlers
 {
@@ -30,12 +31,24 @@ namespace FileCabinetApp.CommandHandlers
 
             if (string.Equals(request.Command, "insert", StringComparison.OrdinalIgnoreCase))
             {
-                string[] fildsArr, valuesArr;
                 try
                 {
-                    GetFildsAndValues(request, out fildsArr, out valuesArr);
-                    FileCabinetRecord record = CreateRecordToInsert(fildsArr, valuesArr);
-                    service.Insert(record);
+                    var fildsAndValues = GetFildsAndValues(request);
+                    if (fildsAndValues.Item1.Length != fildsAndValues.Item2.Length)
+                    {
+                        Console.WriteLine("Number of filds not equal number of values. Please check you input.\nIf you want set fractional salary please use '.' Example : salary='1111.11'");
+                        return;
+                    }
+
+                    FileCabinetRecord record = CreateRecordToInsert(fildsAndValues.Item1, fildsAndValues.Item2);
+                    if (service.Insert(record))
+                    {
+                        Console.WriteLine("Successfuly inserted!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Inserting error!");
+                    }
                 }
                 catch (ArgumentNullException ex)
                 {
@@ -45,8 +58,6 @@ namespace FileCabinetApp.CommandHandlers
                 {
                     Console.WriteLine(ex.Message);
                 }
-
-                Console.WriteLine("Successfuly inserted!");
             }
             else if (this.nextHandler != null)
             {
@@ -54,7 +65,7 @@ namespace FileCabinetApp.CommandHandlers
             }
         }
 
-        private static void GetFildsAndValues(AppCommandRequest request, out string[] fildsArr, out string[] valuesArr)
+        private static Tuple<string[], string[]> GetFildsAndValues(AppCommandRequest request)
         {
             if (string.IsNullOrEmpty(request.Parameters))
             {
@@ -64,37 +75,54 @@ namespace FileCabinetApp.CommandHandlers
             int index = request.Parameters.IndexOf("values", StringComparison.OrdinalIgnoreCase);
             if (index == -1)
             {
-                throw new ArgumentException("Insert command arguments should contain sequence of filds and" +
-                    " after keyword 'values' sequence of values of it's filds.");
+                throw new ArgumentException(
+                    "Insert command arguments should contain sequence of filds and after keyword 'values' " +
+                    "sequence of values of it's filds.\nExample: insert(id, firstname, lastname, dateofbirth) values('1', 'John', 'Doe', '5/18/1986')");
             }
 
             StringBuilder filds = new StringBuilder();
             filds.Append(request.Parameters, 0, index);
             StringBuilder values = new StringBuilder();
             values.Append(request.Parameters, index + 6, request.Parameters.Length - index - 6);
-            string stringFilds = filds.ToString().Trim().TrimStart('(').TrimEnd(')');
-            string stringValues = values.ToString().Trim().TrimStart('(').TrimEnd(')');
-            fildsArr = stringFilds.Split(',');
-            for (int i = 0; i < fildsArr.Length; i++)
+            char[] separators = { '=', ',', ' ' };
+            List<string> fildsList = new List<string>(filds.ToString().Trim().TrimStart('(').TrimEnd(')').Split(separators));
+            for (int i = 0; i < fildsList.Count; i++)
             {
-                fildsArr[i] = fildsArr[i].Trim();
+                fildsList[i] = fildsList[i].Trim().Trim('\'').ToUpperInvariant();
+                if (fildsList[i].Length == 0)
+                {
+                    fildsList.Remove(fildsList[i]);
+                    i--;
+                }
             }
 
-            valuesArr = stringValues.Split(',');
-            for (int i = 0; i < valuesArr.Length; i++)
+            List<string> valuesList = new List<string>(values.ToString().Trim().TrimStart('(').TrimEnd(')').Split(separators));
+            for (int i = 0; i < valuesList.Count; i++)
             {
-                valuesArr[i] = valuesArr[i].Trim().TrimStart('\'').TrimEnd('\'');
+                valuesList[i] = valuesList[i].Trim().Trim('\'').Replace('.', ',');
+                if (valuesList[i].Length == 0)
+                {
+                    valuesList.Remove(valuesList[i]);
+                    i--;
+                }
             }
+
+            return new Tuple<string[], string[]>(fildsList.ToArray(), valuesList.ToArray());
         }
 
         private static FileCabinetRecord CreateRecordToInsert(string[] fildsArr, string[] valuesArr)
         {
+            if (!(fildsArr.ToList().Contains("FIRSTNAME") && fildsArr.ToList().Contains("LASTNAME") && fildsArr.ToList().Contains("DATEOFBIRTH")))
+            {
+                throw new ArgumentException("Insert command should contain firstname, lastname and dateofbirth to insert at least.");
+            }
+
             FileCabinetRecord record = new FileCabinetRecord();
             for (int i = 0; i < valuesArr.Length; i++)
             {
                 switch (fildsArr[i])
                 {
-                    case "id":
+                    case "ID":
                         int id;
                         if (!int.TryParse(valuesArr[i], out id))
                         {
@@ -108,13 +136,13 @@ namespace FileCabinetApp.CommandHandlers
 
                         record.Id = id;
                         break;
-                    case "firstname":
+                    case "FIRSTNAME":
                         record.FirstName = valuesArr[i];
                         break;
-                    case "lastname":
+                    case "LASTNAME":
                         record.LastName = valuesArr[i];
                         break;
-                    case "dateofbirth":
+                    case "DATEOFBIRTH":
                         DateTime birthday;
                         if (!DateTime.TryParse(valuesArr[i], CultureInfo.CreateSpecificCulture("en-US"), DateTimeStyles.None, out birthday))
                         {
@@ -123,7 +151,7 @@ namespace FileCabinetApp.CommandHandlers
 
                         record.DateOfBirth = birthday;
                         break;
-                    case "children":
+                    case "CHILDREN":
                         short children;
                         if (!short.TryParse(valuesArr[i], out children))
                         {
@@ -132,7 +160,7 @@ namespace FileCabinetApp.CommandHandlers
 
                         record.Children = children;
                         break;
-                    case "salary":
+                    case "SALARY":
                         decimal salary;
                         if (!decimal.TryParse(valuesArr[i], out salary))
                         {
@@ -141,7 +169,7 @@ namespace FileCabinetApp.CommandHandlers
 
                         record.AverageSalary = salary;
                         break;
-                    case "sex":
+                    case "SEX":
                         record.Sex = valuesArr[i][0];
                         break;
                     default:

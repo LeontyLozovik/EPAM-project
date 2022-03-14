@@ -1,4 +1,6 @@
-﻿namespace FileCabinetApp.CommandHandlers
+﻿using FileCabinetApp.Services;
+
+namespace FileCabinetApp.CommandHandlers
 {
     /// <summary>
     /// Handle stat command.
@@ -27,6 +29,14 @@
 
             if (string.Equals(request.Command, "stat", StringComparison.OrdinalIgnoreCase))
             {
+                if (!(request.Parameters is null))
+                {
+                    if (request.Parameters.Length != 0)
+                    {
+                        throw new ArgumentException("Stat command should not contain any parameters.");
+                    }
+                }
+
                 var recordsCount = service.GetStat();
                 Console.WriteLine($"{recordsCount} record(s).");
             }

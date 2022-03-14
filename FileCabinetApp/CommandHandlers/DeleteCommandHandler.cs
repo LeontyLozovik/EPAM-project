@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Text;
+using FileCabinetApp.Services;
 
 namespace FileCabinetApp.CommandHandlers
 {
@@ -8,8 +9,6 @@ namespace FileCabinetApp.CommandHandlers
     /// </summary>
     public class DeleteCommandHandler : ServiceCommandHandlerBase
     {
-        private static string[] keyWords = { "where", "and" };
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DeleteCommandHandler"/> class.
         /// </summary>
@@ -38,105 +37,30 @@ namespace FileCabinetApp.CommandHandlers
                 }
 
                 string[] commandArgs = request.Parameters.Split(" ");
-                if (!string.Equals(commandArgs[0], keyWords[0], StringComparison.OrdinalIgnoreCase))
+                if (!string.Equals(commandArgs[0], "where", StringComparison.OrdinalIgnoreCase))
                 {
-                    throw new ArgumentException("Request should starts with keyword 'where'");
+                    throw new ArgumentException("Request should starts with keyword 'where'\nExample: delete where id = '1'");
                 }
 
-                string[] splitedArguments = SplitArguments(commandArgs);
-                int id = 0;
-                int count = 1;
-                var listOfIds = new List<int>();
-                for (int i = 1; i < splitedArguments.Length; i++)
+                string[] splitedArguments = SplitArguments(commandArgs[1..]);
+                bool andKeyword = false;
+                foreach (var argument in splitedArguments.ToList())
                 {
-                    if (!string.Equals(keyWords[1], splitedArguments[i], StringComparison.OrdinalIgnoreCase))
+                    if (string.Equals(argument, "and", StringComparison.OrdinalIgnoreCase))
                     {
-                        switch (splitedArguments[i])
-                        {
-                            case "ID":
-                                if (!int.TryParse(splitedArguments[i + 1], out id))
-                                {
-                                    throw new ArgumentException("Incorrect Id.");
-                                }
-
-                                listOfIds.Add(id);
-                                i++;
-                                break;
-                            case "FIRSTNAME":
-                                try
-                                {
-                                    var withFirstnameRecords = service.FindByFirstName(splitedArguments[i + 1]);
-                                    foreach (FileCabinetRecord record in withFirstnameRecords)
-                                    {
-                                        listOfIds.Add(record.Id);
-                                    }
-
-                                    i++;
-                                }
-                                catch (ArgumentNullException exeption)
-                                {
-                                    Console.WriteLine(exeption.Message);
-                                }
-                                catch (ArgumentException)
-                                {
-                                }
-
-                                break;
-                            case "LASTNAME":
-                                try
-                                {
-                                    var withLastnameRecords = service.FindByLastName(splitedArguments[i + 1]);
-                                    foreach (FileCabinetRecord record in withLastnameRecords)
-                                    {
-                                        listOfIds.Add(record.Id);
-                                    }
-
-                                    i++;
-                                }
-                                catch (ArgumentNullException exeption)
-                                {
-                                    Console.WriteLine(exeption.Message);
-                                }
-                                catch (ArgumentException)
-                                {
-                                }
-
-                                break;
-                            case "DATEOFBIRTH":
-                                try
-                                {
-                                    var withDateOfBirthRecords = service.FindByBirthday(splitedArguments[i + 1]);
-                                    foreach (FileCabinetRecord record in withDateOfBirthRecords)
-                                    {
-                                        listOfIds.Add(record.Id);
-                                    }
-
-                                    i++;
-                                }
-                                catch (ArgumentNullException exeption)
-                                {
-                                    Console.WriteLine(exeption.Message);
-                                }
-                                catch (ArgumentException)
-                                {
-                                }
-
-                                break;
-                            default:
-                                Console.WriteLine($"Incorrect name of field: {splitedArguments[i]}");
-                                return;
-                        }
-                    }
-                    else
-                    {
-                        count++;
+                        andKeyword = true;
                     }
                 }
 
-                listOfIds.Sort();
-                ReadOnlyCollection<int> result = GetIdOfRecordsToDelete(listOfIds, count);
-                ReadOnlyCollection<int> collection = service.Delete(result);
-                StringBuilder stringBuilder = new StringBuilder();
+                ReadOnlyCollection<FileCabinetRecord> recordsToDelete = service.SelectCommand(splitedArguments, andKeyword);
+                List<int> idsOfRecordsToDelete = new List<int>();
+                foreach (var record in recordsToDelete)
+                {
+                    idsOfRecordsToDelete.Add(record.Id);
+                }
+
+                ReadOnlyCollection<int> collection = service.Delete(new ReadOnlyCollection<int>(idsOfRecordsToDelete));
+                StringBuilder stringBuilder = new ();
                 if (collection.Count > 0)
                 {
                     stringBuilder.Append("Record(s) ");
@@ -163,7 +87,7 @@ namespace FileCabinetApp.CommandHandlers
 
         private static string[] SplitArguments(string[] arguments)
         {
-            List<string> result = new List<string>();
+            List<string> result = new ();
             foreach (var arg in arguments)
             {
                 if (!string.Equals(arg, "=", StringComparison.OrdinalIgnoreCase))
@@ -171,113 +95,15 @@ namespace FileCabinetApp.CommandHandlers
                     string[] splitedArgs = arg.Split("=", 2);
                     foreach (var splitedArg in splitedArgs)
                     {
-                        result.Add(splitedArg.Trim('\'').Trim().ToUpperInvariant());
+                        if (splitedArg.Length != 0)
+                        {
+                            result.Add(splitedArg.Trim('\'').Trim().ToUpperInvariant());
+                        }
                     }
                 }
             }
 
             return result.ToArray();
-        }
-
-        private static ReadOnlyCollection<int> GetIdOfRecordsToDelete(List<int> listOfIds, int minCount)
-        {
-            var result = new List<int>();
-            if (listOfIds.Count < minCount)
-            {
-                return new ReadOnlyCollection<int>(result);
-            }
-
-            if (listOfIds.Count == 1)
-            {
-                return new ReadOnlyCollection<int>(listOfIds);
-            }
-
-            int counter = 1;
-            int maxCount = 0;
-            for (int i = 0; i < listOfIds.Count; i++)
-            {
-                if (i + 1 == listOfIds.Count)
-                {
-                    if (listOfIds[i] == listOfIds[i - 1])
-                    {
-                        if (counter == maxCount)
-                        {
-                            if (counter >= minCount)
-                            {
-                                result.Add(listOfIds[i]);
-                            }
-
-                            counter = 1;
-                        }
-                        else if (counter > maxCount)
-                        {
-                            if (counter >= minCount)
-                            {
-                                result.Clear();
-                                result.Add(listOfIds[i]);
-                            }
-
-                            maxCount = counter;
-                            counter = 1;
-                        }
-                    }
-                    else
-                    {
-                        if (counter == maxCount)
-                        {
-                            if (counter >= minCount)
-                            {
-                                result.Add(listOfIds[i]);
-                            }
-
-                            counter = 1;
-                        }
-                        else if (counter > maxCount)
-                        {
-                            if (counter >= minCount)
-                            {
-                                result.Clear();
-                                result.Add(listOfIds[i]);
-                            }
-
-                            maxCount = counter;
-                            counter = 1;
-                        }
-                    }
-
-                    return new ReadOnlyCollection<int>(result);
-                }
-
-                if (listOfIds[i] == listOfIds[i + 1])
-                {
-                    counter++;
-                }
-                else
-                {
-                    if (counter == maxCount)
-                    {
-                        if (counter >= minCount)
-                        {
-                            result.Add(listOfIds[i]);
-                        }
-
-                        counter = 1;
-                    }
-                    else if (counter > maxCount)
-                    {
-                        if (counter >= minCount)
-                        {
-                            result.Clear();
-                            result.Add(listOfIds[i]);
-                        }
-
-                        maxCount = counter;
-                        counter = 1;
-                    }
-                }
-            }
-
-            return new ReadOnlyCollection<int>(result);
         }
     }
 }
